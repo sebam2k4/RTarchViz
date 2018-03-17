@@ -1,0 +1,13 @@
+.nav-underline .nav-link {
+  border-bottom: .25rem solid transparent;
+}
+
+.nav-underline .active .nav-link {
+  border-bottom-color: rgba(255, 255, 255, 1);
+  color: #fff;
+}
+
+.nav-underline .nav-link:hover,
+.nav-underline .nav-link:focus {
+  border-bottom-color: rgba(255, 255, 255, .25);
+}
