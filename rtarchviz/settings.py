@@ -32,6 +32,11 @@ ALLOWED_HOSTS = ['localhost']
 
 # Use custom User class for accounts
 AUTH_USER_MODEL = 'accounts.User'
+# Use custom Authentication Backends
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.EmailAuth',
+)
 
 # Application definition
 
