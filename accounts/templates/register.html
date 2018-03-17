@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Registration{% endblock %}
+{% block page_heading %}Registration{% endblock %}
+
+{% block content %}
+<section id="register">
+  <div class="container">
+    <h2>Create a new account</h2>
+    <form role="form" method="post" action="{% url 'register' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="form-group">
+        <button type="submit">Create account</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

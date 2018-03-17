@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Profile{% endblock %}
+{% block page_heading %}Profile{% endblock %}
+
+
+{% block content %}
+<section id="profile">
+	<div class="container">
+		<h2>Your Profile</h2>
+		<p>Welcome to your user profile page</p>
+		<div class="row">
+			<div class="one-half column">
+				<h5>Profile Details:</h5>
+				<p>You are logged in as {{ user.email }}</p>
+				<p>Your last login was: {{ user.last_login }}</p>
+			</div>
+			<div class="one-half column">
+				<h5>Blog Posts:</h5>
+				{% for post in posts %}
+				{% if user.id == post.author_id %}
+				<p>
+					<a href="{% if post.status == 'published' %}{{ post.get_post_detail_url }}{% else %}{{ post.get_post_edit_url }}{% endif %}">{{ post.title }}</a> - {% if post.status == 'published' %}{{ post.published_date }} - views: {{post.views}}{% else %}DRAFT{% endif %}
+				</p>
+				{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

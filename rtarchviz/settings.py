@@ -30,6 +30,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
+# Use custom User class for accounts
+AUTH_USER_MODEL = 'accounts.User'
 
 # Application definition
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'pages',
+    'accounts',
 ]
 
 MIDDLEWARE = [

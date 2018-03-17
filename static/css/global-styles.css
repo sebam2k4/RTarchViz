@@ -2,9 +2,9 @@
   border-bottom: .25rem solid transparent;
 }
 
-.nav-underline .active .nav-link {
+.nav-underline .active .nav-link,
+.nav-underline .active .nav-link:hover {
   border-bottom-color: rgba(255, 255, 255, 1);
-  color: #fff;
 }
 
 .nav-underline .nav-link:hover,

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_js %}
+<script src="{% static 'accounts/js/accounts.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Login{% endblock %}
+{% block page_heading %}Login{% endblock %}
+
+{% block content %}
+<section id="login">
+	<div class="container">
+		<h2>Login to your account</h2>
+		<form role="form" method="POST" action="{% url 'login' %}">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<button type="submit">Login</button>
+			<div>
+				<a href="{% url 'password_reset' %}">Reset password</a>
+			</div>
+		</form>
+	</div>
+</section>
+{% endblock %}
