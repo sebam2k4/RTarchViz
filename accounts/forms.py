@@ -11,6 +11,10 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(UserCreationForm):
+  """
+  Extending UserCreationForm
+  Unique Fields: Email, Username
+  """
   password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 
   password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
@@ -25,11 +29,11 @@ class UserRegistrationForm(UserCreationForm):
     fields = ['email', 'username', 'password1', 'password2', 'first_name'] #only display these input fields
 
   def clean_password2(self):
-    '''
+    """
     Custom method to do data cleaning on passwords and
     basic validation to check if passwords match -
     May add min length, special chars, etc.
-    '''
+    """
     password1 = self.cleaned_data.get('password1')
     password2 = self.cleaned_data.get('password2')
     
@@ -44,28 +48,26 @@ class UserRegistrationForm(UserCreationForm):
     return password2
 
   def clean_email(self):
-    '''
-    Check if email already registered
-    '''
+    """
+    Check if email already registered (case insensitive check)
+    """
     # get the email
     email = self.cleaned_data.get('email')
-    # username = self.cleaned_data.get('username') # no need to clean as assigned email when form submit
-    # check to see if any users already exist with this email
-    if User.objects.filter(email=email):
+    if User.objects.filter(email__iexact=email):
       message = "Email already registered!"
       raise ValidationError(message)
-
     return email
-    # try:
-    #   email = User.objects.get(email=email)
-    #   message = "Email already registered!"
-    # except User.DoesNotExist:
-    #   # Unable to find a user, register the new user
-    #   return email
 
-    # found registered email so raise an error
-    # print "hello"
-    # raise ValidationError(message)
+  def clean_username(self):
+    """
+    Check if username already registered (case insensitive check)
+    """
+    username = self.cleaned_data.get('username')
+    if User.objects.filter(username__iexact=username):
+      message = "Username already registered!"
+      raise ValidationError(message)
+    return username
+
 
 
 
