@@ -57,7 +57,7 @@ def login(request):
     form = UserLoginForm(request.POST)
     if form.is_valid():
       # validate the input before using the auth object
-      user = auth.authenticate(email=request.POST.get('email'),
+      user = auth.authenticate(email=request.POST.get('email').lower(), # lowercase user input
                                 password=request.POST.get('password'))
 
       if user is not None:
