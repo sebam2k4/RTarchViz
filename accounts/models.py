@@ -23,7 +23,6 @@ class AccountUserManager(UserManager):  # inherit from Django's UserManager clas
     
 
     email = self.normalize_email(email)
-    username = self.normalize_username(username)
     user = self.model(username=username, email=email,
                       is_staff=is_staff, is_active=True,
                       is_superuser=is_superuser,
@@ -45,7 +44,7 @@ class AccountUserManager(UserManager):  # inherit from Django's UserManager clas
     except ValueError:
         pass
     else:
-        email = '@'.join([email_name.lower(), domain_part])
+        email = '@'.join([email_name.lower(), domain_part.lower()])
     return email
 
 
@@ -62,9 +61,6 @@ class User(AbstractUser): # inherit from Django's AbstractUser class
     unique=True,
     help_text=_('some help text for email input'),
     # validators=[email_validator],
-    error_messages={
-        'unique': _("A user with that email already exists."),
-    },
   )
   objects = AccountUserManager()
 
