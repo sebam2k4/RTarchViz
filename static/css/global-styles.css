@@ -11,3 +11,16 @@
 .nav-underline .nav-link:focus {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
+
+
+/* SERVER MESSAGES */
+.auth-messages {
+  background-color: lightgray;
+  display: inline-block;
+  padding: 2rem;
+  border-radius: 3px;
+  z-index: 100;
+  position: fixed;
+  left: 2rem;
+  bottom: 2rem;
+}
