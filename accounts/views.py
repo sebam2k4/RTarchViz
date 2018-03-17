@@ -82,7 +82,6 @@ def profile(request):
   User profile page view
   '''
   user = User.objects.get(email=request.user.email)
-  posts = Post.objects.order_by('-created_date')
   
   return render(request, 'profile.html', {"profile": user})
 
