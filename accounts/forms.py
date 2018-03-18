@@ -6,8 +6,8 @@ from .models import User
 from django.core.exceptions import ValidationError
 
 class UserLoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+  email = forms.EmailField()
+  password = forms.CharField(widget=forms.PasswordInput)
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -26,7 +26,7 @@ class UserRegistrationForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ['email', 'username', 'password1', 'password2', 'first_name'] #only display these input fields
+    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'post_code', 'country'] #only display these input fields
 
   def clean_password2(self):
     """
