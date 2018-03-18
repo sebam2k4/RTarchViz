@@ -8,16 +8,21 @@
 {% block page_title %}Login{% endblock %}
 {% block page_heading %}Login{% endblock %}
 
+{% load bootstrap4 %}
+
 {% block content %}
 <section id="login">
 	<div class="container">
 		<h2>Login to your account</h2>
 		<form role="form" method="POST" action="{% url 'login' %}">
 			{% csrf_token %}
-			{{ form.as_p }}
-			<button type="submit">Login</button>
+			{% bootstrap_form form %}
+
+			{% buttons %}
+			<button type="submit" class="btn btn-primary">Submit</button>
+			{% endbuttons %}
 			<div>
-				<a href="{% url 'password_reset' %}">Reset password</a>
+				<a href="{% url 'password_reset' %}">Forgot password</a>
 			</div>
 		</form>
 	</div>

@@ -8,16 +8,20 @@
 {% block page_title %}Registration{% endblock %}
 {% block page_heading %}Registration{% endblock %}
 
+{# Load the tag library #}
+{% load bootstrap4 %}
+
+{# Display a form #}
 {% block content %}
 <section id="register">
   <div class="container">
     <h2>Create a new account</h2>
     <form role="form" method="post" action="{% url 'register' %}">
       {% csrf_token %}
-      {{ form.as_p }}
-      <div class="form-group">
-        <button type="submit">Create account</button>
-      </div>
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      {% endbuttons %}
     </form>
   </div>
 </section>
