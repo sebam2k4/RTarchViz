@@ -133,3 +133,15 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Settings for User Password Recovery
+if "EMAIL_HOST_USER" and "EMAIL_HOST_PASSWORD" in os.environ:
+    # Email setup for sending password recovery emails to users from a gmail account
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com' # need to 'Allow less secure apps' in gmail account settings
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER') # email address
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD') # password
+    EMAIL_PORT = 587
+else:
+    # Print password reset email to the console
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
