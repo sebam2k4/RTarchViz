@@ -17,10 +17,19 @@
 		<div class="row">
 			<div class="one-half column">
 				<h5>Profile Details:</h5>
-				<p>You are logged in as {{ user.email }}</p>
-				<p>Your last login was: {{ user.last_login }}</p>
-			</div>
+				<p>You are logged in as username: {{user.username}} </p>
+				<p>Email: {{user.email}} </p>
+				<p>Full name: {{user.first_name}} {{user.last_name}} </p>
+				<p>DOB: {{user.birth_date}} </p>
+				<p>address1: {{user.address1}} </p>
+				<p>address2: {{user.address2}} </p>
+				<p>City or Town: {{user.city_town}} </p>
+				<p>County: {{user.county_state}} </p>
+				<p>Post Code: {{user.post_code}} </p>
+				<p>Country: {{ user.country }}</p>
 
+				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+			</div>
 		</div>
 	</div>
 </section>

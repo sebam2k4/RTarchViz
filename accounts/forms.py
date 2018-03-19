@@ -9,6 +9,11 @@ class UserLoginForm(forms.Form):
   email = forms.EmailField()
   password = forms.CharField(widget=forms.PasswordInput)
 
+# class UserUpdateForm(forms.Form):
+
+#   class Meta:
+#     model = User
+#     fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country']
 
 class UserRegistrationForm(UserCreationForm):
   """
@@ -19,14 +24,9 @@ class UserRegistrationForm(UserCreationForm):
 
   password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
 
-  # require email field
-  # def __init__(self, *args, **kwargs):
-  #   super(UserRegistrationForm, self).__init__(*args, **kwargs)
-  #   self.fields['email'].required = True
-
   class Meta:
     model = User
-    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'post_code', 'country'] #only display these input fields
+    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country'] #only display these input fields
 
   def clean_password2(self):
     """

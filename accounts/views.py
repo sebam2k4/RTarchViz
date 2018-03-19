@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
 from .forms import UserRegistrationForm, UserLoginForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
 
@@ -90,3 +92,33 @@ def logout(request):
   auth.logout(request) # destroy user session with .logout method
   messages.success(request, 'You have successfully logged out')
   return redirect(reverse('index'))
+
+@login_required
+def change_password(request):
+  """
+  Change password for the authenticated user
+  """
+  if request.method == 'POST':
+    form = PasswordChangeForm(request.user, request.POST)
+    if form.is_valid():
+      user = form.save()
+      # update session auth hash otherwise user will be logged out after password change
+      update_session_auth_hash(request, user)
+      messages.success(request, 'Your password was successfully updated!')
+      return redirect('change_password')
+    else:
+      messages.error(request, 'Please correct the error below.')
+  else:
+    form = PasswordChangeForm(request.user)
+  return render(request, 'change_password.html', {'form': form})
+
+
+
+# Could use something like this for extra security for profile edit and password change views?:
+# from django.core.exceptions import PermissionDenied
+#   # querying the User object with pk from url
+#   user = User.objects.get(pk=pk)
+#   if request.user.is_authenticated() and request.user.id == user.id:
+#     ...
+#   else:
+#     raise PermissionDenied
