@@ -6,14 +6,17 @@ from .models import User
 from django.core.exceptions import ValidationError
 
 class UserLoginForm(forms.Form):
-  email = forms.EmailField()
+  email = forms.EmailField(widget=forms.EmailInput(attrs={'autofocus': True}),)
   password = forms.CharField(widget=forms.PasswordInput)
 
-# class UserUpdateForm(forms.Form):
+class UserEditForm(forms.ModelForm):
+  """
+  A form to handle editing of user details
+  """
 
-#   class Meta:
-#     model = User
-#     fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country']
+  class Meta:
+    model = User
+    fields = ['email', 'username', 'first_name', 'last_name', 'bio', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country']
 
 class UserRegistrationForm(UserCreationForm):
   """
@@ -51,7 +54,6 @@ class UserRegistrationForm(UserCreationForm):
     """
     Check if email already registered (case insensitive check)
     """
-    # get the email
     email = self.cleaned_data.get('email')
     if User.objects.filter(email__iexact=email):
       message = "Email already registered!"

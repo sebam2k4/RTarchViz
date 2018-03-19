@@ -5,11 +5,12 @@ from django.contrib import messages, auth
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.template.context_processors import csrf
-from .forms import UserRegistrationForm, UserLoginForm
+from .forms import UserRegistrationForm, UserLoginForm, UserEditForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
+# from django.http import HttpResponseRedirect
 
 # Create your views here.
 def register(request):
@@ -84,7 +85,6 @@ def profile(request):
   User profile page view
   '''
   user = User.objects.get(email=request.user.email)
-  
   return render(request, 'profile.html', {"profile": user})
 
 @login_required
@@ -92,6 +92,22 @@ def logout(request):
   auth.logout(request) # destroy user session with .logout method
   messages.success(request, 'You have successfully logged out')
   return redirect(reverse('index'))
+
+@login_required
+def update(request):
+  """
+  Update User profile details. Uses an instance of user data to fill in
+  the form fields with current data.
+  """
+  if request.method == 'POST':
+    form = UserEditForm(data=request.POST, instance=request.user)
+    if form.is_valid():
+      form.save()
+      return redirect('update')
+  else:
+    form = UserEditForm(instance=request.user)
+  args = {'form': form}
+  return render(request, 'update.html', args)
 
 @login_required
 def change_password(request):

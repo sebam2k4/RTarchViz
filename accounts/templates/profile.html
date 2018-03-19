@@ -27,7 +27,7 @@
 				<p>County: {{user.county_state}} </p>
 				<p>Post Code: {{user.post_code}} </p>
 				<p>Country: {{ user.country }}</p>
-
+				<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
 				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
 			</div>
 		</div>

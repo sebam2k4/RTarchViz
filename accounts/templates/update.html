@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+
+{% block page_title %}Update User Details{% endblock %}
+{% block page_heading %}Update User Details{% endblock %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+<section id="login">
+	<div class="container">
+		<h2>Update your account details</h2>
+		<form role="form" method="POST" action="{% url 'update' %}">
+			{% csrf_token %}
+			{% bootstrap_form form %}
+
+			{% buttons %}
+			<button type="submit" class="btn btn-primary">Submit</button>
+			{% endbuttons %}
+		</form>
+	</div>
+</section>
+{% endblock %}
