@@ -112,20 +112,20 @@ def update(request):
 @login_required
 def change_password(request):
   """
-  Change password for the authenticated user
+  change password for authenticated user
   """
   if request.method == 'POST':
-    form = PasswordChangeForm(request.user, request.POST)
+    form = PasswordChangeForm(user=request.user, data=request.POST)
     if form.is_valid():
       user = form.save()
       # update session auth hash otherwise user will be logged out after password change
-      update_session_auth_hash(request, user)
+      update_session_auth_hash(request, user=request.user)
       messages.success(request, 'Your password was successfully updated!')
-      return redirect('change_password')
+      return redirect(reverse('profile'))
     else:
       messages.error(request, 'Please correct the error below.')
   else:
-    form = PasswordChangeForm(request.user)
+    form = PasswordChangeForm(user=request.user)
   return render(request, 'change_password.html', {'form': form})
 
 
