@@ -18,12 +18,12 @@ import views
 from . import url_reset
 
 
-
 urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^profile/$', views.profile, name='profile'),
+    url(r'^profile/update/$', views.update, name='update'),
+    url(r'^profile/password_change/$', views.change_password, name='change_password'),
     url(r'^login/$', views.login, name='login'),
     url(r'^logout/$', views.logout, name='logout'),
-    url(r'^password/$', views.change_password, name='change_password'),
-    url(r'password-reset/', include(url_reset)),
+    url(r'password/', include(url_reset)),
 ]
