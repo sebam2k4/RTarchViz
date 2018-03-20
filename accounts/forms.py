@@ -31,25 +31,6 @@ class UserRegistrationForm(UserCreationForm):
     model = User
     fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country'] #only display these input fields
 
-  def clean_password2(self):
-    """
-    Custom method to do data cleaning on passwords and
-    basic validation to check if passwords match -
-    May add min length, special chars, etc.
-    """
-    password1 = self.cleaned_data.get('password1')
-    password2 = self.cleaned_data.get('password2')
-    
-    if not password1 or not password2:
-      message = "Please confirm your password"
-      raise ValidationError(message)
-
-    if password1 != password2:
-      message = "Passwords do not match"
-      raise ValidationError(message)
-
-    return password2
-
   def clean_email(self):
     """
     Check if email already registered (case insensitive check)
