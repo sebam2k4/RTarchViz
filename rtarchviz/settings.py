@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import dj_database_url
 # import environmental variables set locally
 if os.path.exists('env.py'):
     import env
@@ -24,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['rtarchviz.herokuapp.com, localhost']
 
 # Use custom User class for accounts
 AUTH_USER_MODEL = 'accounts.User'
@@ -166,7 +167,17 @@ try:
         '''
 
         DEBUG = False
-        print "production settings are not complete, switch to ENV=development"
+        
+        # Add whitenoise for deploying app with static files to Heroku 
+        MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
+
+        # Use production Postgres database provisioned on Heroku
+        if "DATABASE_URL" in os.environ:
+            DATABASES = {
+            'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+        }
+        else:
+            print "***no production database found. Provision one in Heroku and link to it using env variable 'DATABASE_URL'"
 
 except KeyError:
     print "***ENV variable not set. Please set the environment variable 'ENV' to 'development' or 'production'"
