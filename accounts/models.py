@@ -63,14 +63,16 @@ class User(AbstractUser): # inherit from Django's AbstractUser class
   )
   # extend AbstractUser wiht extra fields
   bio = models.TextField(max_length=500, blank=True)
-  birth_date = models.DateField('Date of Birth', null=True, blank=True, help_text='DD-MM-YYYY format')
-  objects = AccountUserManager()
+  birth_date = models.DateField('Date of Birth', null=True, blank=True,
+                                 help_text='DD-MM-YYYY format')
   address1 = models.CharField(max_length=100, blank=True)
   address2 = models.CharField(max_length=100, blank=True)
   city_town = models.CharField('City or Town', max_length=100, blank=True)
   county_state = models.CharField('County or State', max_length=100, blank=True)
   post_code = models.CharField('Post Code', max_length=20, blank=True)
   country = models.CharField(max_length=100, blank=True)
+
+  objects = AccountUserManager()
 
   def __str__(self):
     return self.email
