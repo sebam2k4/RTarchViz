@@ -12,9 +12,7 @@ Users can register and then both buy and sell assets using the application
 
 
 ## Apps
-
 ### Account App
-#### Overview
 Reused accounts app created in one of the Lessons
 It included a custom Email Authentication Backend for authenticating users based on email address instead of django's default username. Also, it contained views and templates for login, registration, profile, and logout as well as forms for registration and login.
 
@@ -36,13 +34,11 @@ Using Django's Built in Password validation:
 - Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
 
 ### Pages App
-#### Overview
 Static pages like the homepage and about
 
 ## Production Deployment
 
 ### Heroku
-#### Overview
 Project is deployed to Heroku and uses a free trier of Postgres add-on for the database.
 
 The project's settings.py contains production specific settings...
