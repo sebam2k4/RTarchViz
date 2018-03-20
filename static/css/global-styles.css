@@ -24,3 +24,8 @@
   left: 2rem;
   bottom: 2rem;
 }
+
+section {
+  margin-top: 5em;
+  margin-bottom: 5em;
+}

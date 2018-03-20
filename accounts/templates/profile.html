@@ -1,36 +1,39 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
 {% endblock %}
 
+{# set page info #}
 {% block page_title %}Profile{% endblock %}
-{% block page_heading %}Profile{% endblock %}
 
-
+{# Profile content #}
 {% block content %}
-<section id="profile">
-	<div class="container">
-		<h2>Your Profile</h2>
-		<p>Welcome to your user profile page</p>
-		<div class="row">
-			<div class="one-half column">
-				<h5>Profile Details:</h5>
-				<p>You are logged in as username: {{user.username}} </p>
-				<p>Email: {{user.email}} </p>
-				<p>Full name: {{user.first_name}} {{user.last_name}} </p>
-				<p>DOB: {{user.birth_date}} </p>
-				<p>address1: {{user.address1}} </p>
-				<p>address2: {{user.address2}} </p>
-				<p>City or Town: {{user.city_town}} </p>
-				<p>County: {{user.county_state}} </p>
-				<p>Post Code: {{user.post_code}} </p>
-				<p>Country: {{ user.country }}</p>
-				<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
-				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+<main>
+	<section id="profile">
+		<div class="container">
+			<h2>Your Profile</h2>
+			<p>Welcome to your user profile page</p>
+			<div class="row">
+				<div class="one-half column">
+					<h5>Profile Details:</h5>
+					<p>You are logged in as username: {{user.username}} </p>
+					<p>Email: {{user.email}} </p>
+					<p>Full name: {{user.first_name}} {{user.last_name}} </p>
+					<p>DOB: {{user.birth_date}} </p>
+					<p>address1: {{user.address1}} </p>
+					<p>address2: {{user.address2}} </p>
+					<p>City or Town: {{user.city_town}} </p>
+					<p>County: {{user.county_state}} </p>
+					<p>Post Code: {{user.post_code}} </p>
+					<p>Country: {{ user.country }}</p>
+					<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
+					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+				</div>
 			</div>
 		</div>
-	</div>
-</section>
+	</section>
+</main>
 {% endblock %}
