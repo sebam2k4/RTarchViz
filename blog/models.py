@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
-# Create your models here.
+
 
 class Post(models.Model):
   """
@@ -37,6 +38,23 @@ class Post(models.Model):
     ('published', 'Published')
   )
   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
+
+  def get_slug(self):
+    """
+    create a slug from post's title
+    """
+    slug = slugify(self.title)
+    return slug
+ 
+  
+  def save(self, *args, **kwargs):
+    """
+    overwrite Model save method to have a slug created automatically
+    once post is saved.
+    Note: may want to set published_date and edited_date here as well?
+    """
+    self.slug = self.get_slug()
+    super(Post, self).save()
 
   def __str__(self):
     """ identify blog entries by their title for admin page """
