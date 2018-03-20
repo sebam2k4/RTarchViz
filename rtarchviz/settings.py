@@ -153,11 +153,20 @@ try:
         MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
         INTERNAL_IPS = ('127.0.0.1',)
 
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        if "DATABASE_URL" in os.environ:
+            # Use for testing using production db
+            print "***Using production PostgreSQL dtabase providion on Heroku for development"
+            DATABASES = {
+                'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
             }
+        else:
+            # using the default local sqlite db
+            print "***Using Django's local sqlite db for development"
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.sqlite3',
+                    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+                }
         }
 
     elif os.environ["ENV"] == 'production':
