@@ -1,13 +1,15 @@
 # RTarchViz
 
+## Introduction
+
 (Real-Time Architectural Visualizations)
 
 Market for 3d assets in Unreal Engine for arch viz
 
 Users can register and then both buy and sell assets using the application
 
-## 3rd Party Apps Used:
-- django-bootstrap4: [docs](http://django-bootstrap4.readthedocs.io/en/latest/index.html)
+### Target Audience
+
 
 ## Apps
 
@@ -37,7 +39,47 @@ Using Django's Built in Password validation:
 #### Overview
 Static pages like the homepage and about
 
+## Production Deployment
+
+### Heroku
+#### Overview
+Project is deployed to Heroku and uses a free trier of Postgres add-on for the database.
+
+The project's settings.py contains production specific settings...
+
+#### Live Demo
+[https://rtarchviz.herokuapp.com/](https://rtarchviz.herokuapp.com/)
+
+#### Environment Variables
+requires setting the following ENVIRONMENT VARIABLES in Heroku Settings:
+```
+DATABASE_URL=<link to your provisioned Heroku Postgres db or other>
+ENV=production
+SECRET_KEY=<your django secret key>
+
+```
+
+optional ENVIRONMENT VARIABLES:
+```
+EMAIL_HOST_USER=<email address>
+EMAIL_HOST_PASSWORD=<email password>
+```
+The above is needed for emailing password recovery links to users. May require changing security settings in your email client. If not set, the password recovery links will be printed to console instead.
+
+#### Packages
+Some packages that needed to be inmplemented for Production:
+- dj-database-url for Postgresql db connection on Heroku
+- gunicorn for serving the app on Heroku
+- whitenoise to allow the web app to serve its own static
+files
+
+### Travis CI
+Travis Continous Integrations is used to test builds before they're deployed to Heroku. Automated test will be implemented to run on builds to make sure app's code is performing as expected to minimize the risk of a broken production app.
+
+## 3rd Party Apps/Packages Used:
+- django-bootstrap4: [docs](http://django-bootstrap4.readthedocs.io/en/latest/index.html)
 
 ## Other Todo
 #### Bootstrap Forms
 - disable error message on top of form or change erros to only indicate the form fields that are invalid  (same error messages appear under appropriate form fields)
+
