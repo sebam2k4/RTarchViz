@@ -18,15 +18,11 @@ if os.path.exists('env.py'):
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['localhost']
 
@@ -82,18 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'rtarchviz.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -133,6 +117,43 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+try:
+    if os.environ["ENV"] == 'development':
+        '''
+        DEVELOPMENT environment
+        settings
+        '''
+        print "***You are in development mode"
+
+        # Turn on django debug mode
+        print "***debug mode is ON"
+        DEBUG = True
+
+        # Add debug toolbar
+        print "***Debug Toolbar is ON"
+        INSTALLED_APPS.append('debug_toolbar')
+        MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+        INTERNAL_IPS = ('127.0.0.1',)
+
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
+
+    elif os.environ["ENV"] == 'production':
+        ''' 
+        PRODUCTION environment
+        settings
+        '''
+
+        DEBUG = False
+        print "production settings are not complete, switch to ENV=development"
+
+except KeyError:
+    print "***ENV variable not set. Please set the environment variable 'ENV' to 'development' or 'production'"
 
 # Settings for User Password Recovery
 if "EMAIL_HOST_USER" and "EMAIL_HOST_PASSWORD" in os.environ:
