@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-ALLOWED_HOSTS = ['rtarchviz.herokuapp.com, localhost']
+ALLOWED_HOSTS = ['rtarchviz.herokuapp.com', 'localhost']
 
 # Use custom User class for accounts
 AUTH_USER_MODEL = 'accounts.User'
@@ -167,7 +167,7 @@ try:
         '''
 
         DEBUG = False
-        
+
         # Add whitenoise for deploying app with static files to Heroku 
         MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
 
