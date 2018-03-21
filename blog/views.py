@@ -25,6 +25,9 @@ def post_detail(request, year, month, slug):
   Or return a 404 error if the post is not found.
   '''
   post = get_object_or_404(Post, published_date__year=year, published_date__month=month, slug=slug)
-  post.views_count += 1 # clock up the number of post views
-  post.save()
+
+  # remove the page view counter to prevent other logic from running on post.save
+  # need to implement the counter in a different way - session based?
+  #post.view_count += 1 # clock up the number of post views
+  #post.save()
   return render(request, "post_detail.html", {'post': post})
