@@ -7,29 +7,26 @@
 {% endblock %}
 
 {# set page info #}
-{% block page_title %}Blog{% endblock %}
+{% block page_title %}Blog - {{ post.title }}{% endblock %}
 
 {# Profile content #}
 {% block content %}
 <main>
-	<section id="blog">
+	<section id="postDetail">
 		<div class="container">
       <div class="row">
         <div>
-          <h2>Blog List</h2>
-          <p>News and Tutorials</p>
+          <h2>Blog Post</h2>
         </div>
       </div>
-      {% for post in posts %}
 			<div class="row">
         <div>
-          <h5><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h5>
+          <h5>{{ post.title }}</a></h5>
+          <p>CONTENT: {{ post.content}}</p>
           <p>published: {{ post.published_date }}</p>
           <p>author: {{ post.get_author }} </p>
-          <p>status: {{ post.status }} </p>
         </div>
       </div>
-      {% endfor %}
 		</div>
 	</section>
 </main>

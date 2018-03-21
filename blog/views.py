@@ -13,6 +13,17 @@ def posts_list(request):
   and render them to the 'blogposts.html' template
   '''
   # Get all published posts
-  published_posts = Post.objects.published().all()
+  published_posts = Post.objects.published()
     
   return render(request, 'posts_list.html', {'posts': published_posts})
+
+def post_detail(request, id):
+  '''
+  Create a view that returns a single Post object based
+  on the post ID (pk) and render it to the 'postdetail.html'
+  template. Or return a 404 error if the post is not found.
+  '''
+  post = get_object_or_404(Post, pk=id)
+  post.views_count += 1 # clock up the number of post views
+  post.save()
+  return render(request, "post_detail.html", {'post': post})
