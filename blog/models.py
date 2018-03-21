@@ -50,11 +50,17 @@ class Post(models.Model):
   
   def save(self, *args, **kwargs):
     """
-    overwrite Model save method to have a slug created automatically
-    once post is saved.
-    Note: may want to set published_date and edited_date here as well?
+    overwrite Model save method to 
+    1. automatically generate a slug from post's title
+    2. set published_date with current date & time when post's status is initially
+       changed from 'draft' to 'published'
+    3. set updated_date with current date & time if published_date already set
     """
     self.slug = self.get_slug()
+    if self.status == 'published' and self.published_date is None or '':
+      self.published_date = timezone.now()
+    elif self.status == 'published' and self.published_date is not None or '':
+      self.updated_date = timezone.now()
     super(Post, self).save()
 
   def __str__(self):
