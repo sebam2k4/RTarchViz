@@ -6,7 +6,14 @@ from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
 
+class PostManager(models.Manager):
+  """
+  Defining custom Manager methods
+  """
 
+  def published(self):
+    """ select only published posts """
+    return self.get_queryset().filter(status="published")
 
 class Post(models.Model):
   """
@@ -40,6 +47,8 @@ class Post(models.Model):
   )
   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
+  objects = PostManager()
+  
   def get_slug(self):
     """
     create a slug from post's title
@@ -47,7 +56,6 @@ class Post(models.Model):
     slug = slugify(self.title)
     return slug
  
-  
   def save(self, *args, **kwargs):
     """
     overwrite Model save method to 
@@ -62,6 +70,11 @@ class Post(models.Model):
     elif self.status == 'published' and self.published_date is not None or '':
       self.updated_date = timezone.now()
     super(Post, self).save()
+
+
+  class Meta:
+    """ define metadata options for the Post model """
+    ordering = ('-published_date',) # set default ordering of the objects
 
   def __str__(self):
     """ identify blog entries by their title for admin page """

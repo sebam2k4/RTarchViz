@@ -13,6 +13,6 @@ def posts_list(request):
   and render them to the 'blogposts.html' template
   '''
   # Get all published posts
-  posts = Post.objects.filter()
+  published_posts = Post.objects.published().all()
     
-  return render(request, 'posts_list.html', {'posts': posts})
+  return render(request, 'posts_list.html', {'posts': published_posts})
