@@ -72,6 +72,16 @@ class Post(models.Model):
     super(Post, self).save()
 
 
+  def get_author(self):
+    """
+    get user's full name or username
+    """
+    if self.author.first_name and self.author.last_name:
+      return "%s %s" % (self.author.first_name, self.author.last_name)
+    else: 
+      return self.author.username
+
+
   class Meta:
     """ define metadata options for the Post model """
     ordering = ('-published_date',) # set default ordering of the objects
