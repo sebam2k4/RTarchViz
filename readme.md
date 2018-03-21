@@ -33,8 +33,21 @@ Using Django's Built in Password validation:
 - prevent password_reset access to logged in users. Currently using django's built in password reset views and not sure how to do this without rewriting the views using `is_authenticated`
 - Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
 
+#### Issues/Bugs
+
 ### Pages App
 Static pages like the homepage and about
+
+### Blog
+Blog app for latest news and tutorials. Managed only by is_staff (company staff) who can add, edit, and delete posts.
+
+Super User needs to designate the user a staff member in the django admin as well add the user to the STAFF group to have add/edit/delete blog post permissions.
+
+#### ToDo:
+- Add link to admin from STAFF member profile page.
+
+#### Issues/Bugs
+- title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
 
 ## Production Deployment
 
@@ -79,3 +92,5 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 #### Bootstrap Forms
 - disable error message on top of form or change erros to only indicate the form fields that are invalid  (same error messages appear under appropriate form fields)
 
+#### Other
+- Create 404 page
