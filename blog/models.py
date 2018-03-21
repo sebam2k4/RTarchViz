@@ -34,7 +34,7 @@ class Post(models.Model):
   # record when a published post is last edited
   updated_date = models.DateTimeField(editable=False, blank=True, null=True)
   # record how often a post is seen
-  views_count = models.IntegerField(editable=False, default=0)
+  view_count = models.IntegerField('views', editable=False, default=0)
   # blog post's category
   CATEGORY_CHOICES = (
     ('news', 'News'),

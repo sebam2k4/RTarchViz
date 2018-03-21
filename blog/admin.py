@@ -6,18 +6,18 @@ from .models import Post
 from django.utils.translation import gettext, gettext_lazy as _
 
 class PostAdmin(admin.ModelAdmin):
-  list_display = ("title", "author", "published_date", "updated_date", "status", "category", "views_count")
+  list_display = ("title", "author", "published_date", "updated_date", "status", "category", "view_count")
   list_filter = ("status", "category", "created_date", "published_date", "updated_date")
   search_fields = ("title", "author")
   date_hierarchy = "published_date"
   ordering = ["status", "-published_date"]
 
-  readonly_fields=("created_date", "published_date", "updated_date", "views_count", "slug",)
+  readonly_fields=("created_date", "published_date", "updated_date", "view_count", "slug",)
   fieldsets = (
                 (None,          {'fields': ('title', 'slug', 'content', 'category')}),
                 (_('Status'),   {'fields': ('status',)}),
                 (_('History'),  {'fields': ('created_date', 'published_date', 'updated_date')}),
-                (_('Views'),  {'fields': ('views_count',)}),
+                (_('Views'),  {'fields': ('view_count',)}),
               )
     
 # Register your models here.
