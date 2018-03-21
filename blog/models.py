@@ -48,6 +48,9 @@ class Post(models.Model):
   )
   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
+  # add images to a post (stores relative path to image)
+  image = models.ImageField(upload_to="images", blank=True, null=True)
+
   objects = PostManager()
   
   def get_slug(self):

@@ -15,6 +15,7 @@ class PostAdmin(admin.ModelAdmin):
   readonly_fields=("created_date", "published_date", "updated_date", "view_count", "slug",)
   fieldsets = (
                 (None,          {'fields': ('title', 'slug', 'content', 'category')}),
+                (_('Image'),   {'fields': ('image',)}),
                 (_('Status'),   {'fields': ('status',)}),
                 (_('History'),  {'fields': ('created_date', 'published_date', 'updated_date')}),
                 (_('Views'),  {'fields': ('view_count',)}),
