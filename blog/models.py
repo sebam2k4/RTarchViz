@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
+from django.db.models import permalink
 
 class PostManager(models.Manager):
   """
@@ -21,7 +22,7 @@ class Post(models.Model):
   """
   # author is linked to a registered staff user, via the User model in the accounts app.
   author = models.ForeignKey(settings.AUTH_USER_MODEL)
-  title = models.CharField(max_length=200)
+  title = models.CharField(max_length=200, unique=True)
   # slug is generated from the title
   slug = models.SlugField(editable=False, max_length=200, unique=True)
   content = models.TextField()
@@ -89,3 +90,10 @@ class Post(models.Model):
   def __str__(self):
     """ identify blog entries by their title for admin page """
     return self.title
+
+
+  @permalink
+  def get_post_detail_url(self):
+    return ('post_detail', [self.published_date.year,
+                            self.published_date.strftime('%m'),
+                            self.slug])

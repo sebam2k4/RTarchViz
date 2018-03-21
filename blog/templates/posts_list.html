@@ -23,7 +23,7 @@
       {% for post in posts %}
 			<div class="row">
         <div>
-          <h5><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h5>
+          <h5><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
           <p>published: {{ post.published_date }}</p>
           <p>author: {{ post.get_author }} </p>
           <p>status: {{ post.status }} </p>

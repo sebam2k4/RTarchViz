@@ -3,5 +3,5 @@ import views
 
 urlpatterns = [
     url(r'^$', views.posts_list, name="posts_list"),
-    url(r'^(?P<id>\d+)/$', views.post_detail, name='post_detail'),
+    url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<slug>[-\w]+)/?$', views.post_detail, name='post_detail'),
 ]
