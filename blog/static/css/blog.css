@@ -9,10 +9,16 @@
   font-weight: 700;
 }
 
-
 .next-post-title {
   vertical-align: bottom;
 }
+.card-img-top {
+  height: 22em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 
 @media (min-width: 576px) {
   .post-image {

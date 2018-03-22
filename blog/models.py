@@ -6,6 +6,7 @@ from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
 from django.db.models import permalink
+from django.template.defaultfilters import truncatechars
 
 class PostManager(models.Manager):
   """
@@ -118,6 +119,10 @@ class Post(models.Model):
     """ identify blog entries by their title for admin page """
     return self.title
 
+
+  def get_short_content(self):
+    '''get a truncated version of a post's content'''
+    return truncatechars(self.content, 200)
 
   @permalink
   def get_post_detail_url(self):

@@ -5,33 +5,68 @@
 {% block body_js %}
 <script src="{% static 'js/blog.js' %}"></script>
 {% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
 
 {# set page info #}
-{% block page_title %}Blog{% endblock %}
+{% block page_title %}Latest News{% endblock %}
 
 {# post_list content #}
 {% block content %}
-<main>
-	<section id="blog">
-		<div class="container">
+<main id="postList">
+
+  <header class="post-list-header">
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Latest News</h1>
+          <p class="lead">News and Tutorials</p>
+          <hr class="my-4">
+          <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        </div>
+      </div>
+  </header>
+
+  <section class="post-list container">
+
+    <!-- placeholder for filtering news -->
+    <div class="post-list-filter mb-5">
+      <form>
+        <div class="form-group">
+          <label for="filterSelect">Filter Blog by</label>
+          <select id="filterSelect" class="form-control">
+            <option>Most Recent</option>
+            <option>Oldest</option>
+            <option>Turorials</option>
+            <option>News</option>
+            <option>Most Popular</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="post-list-cards">
       <div class="row">
-        <div>
-          <h2>Blog List</h2>
-          <p>News and Tutorials</p>
+        {% for post in posts %}
+        <div class="col-lg-6">
+          <div class="card mb-5">
+            <a href="{{ post.get_post_detail_url }}">
+              <div class="card-img-top" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+            </a>
+            <div class="card-body">
+              <h5 class="card-title"><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
+              <p class="card-text">{{ post.get_short_content }}</p>
+              <p class="card-text"><small class="text-muted">{{ post.published_date }}</small></p>
+            </div>
+          </div>
         </div>
+        {% endfor %}
       </div>
-      {% for post in posts %}
-			<div class="row">
-        <div>
-          <h5><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
-          <p>published: {{ post.published_date }}</p>
-          <p>author: {{ post.get_author }} </p>
-          <p>status: {{ post.status }} </p>
-        </div>
-      </div>
-      {% endfor %}
-		</div>
-	</section>
+    </div>
+
+  </section>
 </main>
 {% endblock %}
-
