@@ -31,15 +31,15 @@
 
     <!-- placeholder for filtering news -->
     <div class="post-list-filter mb-5">
-      <form>
+      <form action="{% url 'filter' %}" method="GET">
         <div class="form-group">
           <label for="filterSelect">Filter Blog by</label>
-          <select id="filterSelect" class="form-control">
-            <option>Most Recent</option>
-            <option>Oldest</option>
-            <option>Turorials</option>
-            <option>News</option>
-            <option>Most Popular</option>
+          <select id="filterSelect" class="custom-select" name="filter-select">
+            <option>newest</option>
+            <option>oldest</option>
+            <option>tutorials</option>
+            <option>news</option>
+            <option>most popular</option>
           </select>
         </div>
         <div class="form-group">
@@ -47,7 +47,7 @@
         </div>
       </form>
     </div>
-
+    
     <div class="post-list-cards">
       <div class="row">
         {% for post in posts %}
