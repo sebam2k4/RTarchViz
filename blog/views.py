@@ -2,20 +2,33 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from .models import Post
 
 def posts_list(request):
   print request
   '''
-  Create a view that will return a list of Posts
-  that were published prior to 'now'
-  and render them to the 'blogposts.html' template
+  Create a view that will return a list of all published posts
+  and render them to the 'blogposts.html' template.
+
   '''
   # Get all published posts
-  published_posts = Post.objects.published()
-  print published_posts[0].id
-  return render(request, 'posts_list.html', {'posts': published_posts})
+  published_posts = Post.objects.published().all()
+  
+  # set up pagination (4 posts per page)
+  paginator = Paginator(published_posts, 4)
+  blog_page= request.GET.get('blog_page')
+  try:
+    posts = paginator.page(blog_page)
+  except PageNotAnInteger:
+    # if page is not an integer, deliver the 1st page
+    posts = paginator.page(1)
+  except EmptyPage:
+    # deliver last page of results if page is out of range
+    posts = paginator.page(paginator.num_pages)
+
+  return render(request, 'posts_list.html', {'posts': posts, 'blog_page': blog_page})
 
 def post_detail(request, year, month, slug):
   '''

@@ -67,6 +67,30 @@
       </div>
     </div>
 
+    <nav class="post-list-pagination">
+      <ul class="pagination justify-content-center">
+        {% if posts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?blog_page={{ posts.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span>Previous</span>
+          </a>
+        </li>
+        {% endif %}
+        {% if posts.has_previous or posts.has_next %}
+        <li class="page-item page-link">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</li>
+        {% endif %}
+        {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?blog_page={{ posts.next_page_number }}" aria-label="Next">
+              <span>Next</span>
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
   </section>
 </main>
 {% endblock %}
