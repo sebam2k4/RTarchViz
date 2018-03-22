@@ -16,6 +16,30 @@ class PostManager(models.Manager):
     """ select only published posts """
     return self.get_queryset().filter(status="published")
 
+  # note: find a more elegant way get next/prev post objects
+  #       for post_detail navigation
+  def get_next_post(self, published_date):
+    """
+    get a queryset of post objects that were published after current
+    post, arrange in ascending order, and then select the next post.
+    Or select latest post when no next post available. (select current post)
+    """
+    try:
+      return self.get_queryset().filter(published_date__gt=published_date).order_by('published_date')[:1][0]
+    except IndexError:
+      return self.get_queryset().latest('published_date')
+
+  def get_prev_post(self, published_date):
+    """
+    get a queryset of post objects that were published before current
+    post, arrange in descending order, and then select the next post.
+    Or select oldest post when no previous post available. (select current post)
+    """
+    try:
+      return self.get_queryset().filter(published_date__lt=published_date).order_by('-published_date')[:1][0]
+    except IndexError:
+      return self.get_queryset().earliest('published_date')
+
 class Post(models.Model):
   """
   Defining Blog's Post models
@@ -98,5 +122,5 @@ class Post(models.Model):
   @permalink
   def get_post_detail_url(self):
     return ('post_detail', [self.published_date.year,
-                            self.published_date.strftime('%m'),
+                            self.published_date.month,
                             self.slug])
