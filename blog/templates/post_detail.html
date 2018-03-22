@@ -5,30 +5,63 @@
 {% block body_js %}
 <script src="{% static 'js/blog.js' %}"></script>
 {% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
 
 {# set page info #}
 {% block page_title %}Blog - {{ post.title }}{% endblock %}
 
-{# Profile content #}
+{# post_detail content #}
 {% block content %}
-<main>
-	<section id="postDetail">
-		<div class="container">
-      <div class="row">
-        <div>
-          <h2>Blog Post</h2>
-        </div>
-      </div>
-			<div class="row">
-        <div>
-          <h5>{{ post.title }}</a></h5>
-          <p>CONTENT: {{ post.content}}</p>
-          <p>published: {{ post.published_date }}</p>
-          <p>author: {{ post.get_author }} </p>
-        </div>
-      </div>
-		</div>
-	</section>
+<main id="postDetail">
+    <div class="post-detail-image jumbotron jumbotron-fluid" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');">
+    </div>
+
+	<article class="post-detail container rounded-top pr-md-4 pl-md-4">
+    
+    <header class="post-header">
+      <p class="font-italic mb-0 pt-4">{{ post.published_date |date:"N d, Y" }}</p>
+      <h1>{{ post.title }}</h1>
+      <p class="font-italic mt-4 mb-5">by: {{ post.get_author }}</p>
+    </header>
+
+    <div class="post-detail-content">
+      {{ post.content|linebreaks }}
+    </div>
+
+    <div class="post-detail-social">
+      <!-- placeholder for social share actions -->
+    </div>
+
+    {% if post.updated_date %}
+    <div class="post-detail-updated">
+      <p class="font-italic pt-5">Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
+    </div>
+    {% endif %}
+
+    <nav class="post-detail-nav">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link" href="{% url 'post_detail' prev_post.published_date.year prev_post.published_date.month prev_post.slug %}">
+            <span class="font-italic">{{prev_post.title}}</span>
+          </a>
+        </li>
+        <li class="text-center" class=page-item>
+          <a class="page-link" href="{% url 'posts_list' %}">
+            Back To Blog
+          </a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="{% url 'post_detail' next_post.published_date.year next_post.published_date.month next_post.slug %}">
+            <span class="font-italic">{{next_post.title}}</span>
+          </a>
+        </li>
+      </ul>
+      
+    </nav>
+
+	</article>
 </main>
 {% endblock %}
-

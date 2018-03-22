@@ -1,0 +1,33 @@
+.post-detail-image {
+  height: 30em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.post-detail-content p:first-child::first-letter {
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+
+.next-post-title {
+  vertical-align: bottom;
+}
+
+@media (min-width: 576px) {
+  .post-image {
+    height: 35em;
+    margin-bottom: 0;
+  }
+  .post-detail {
+    position: relative;
+    top: -8em;
+    background-color: white;
+  }
+}
+
+@media (min-width: 768px) {
+  .post-detail-content{
+    font-size: 1.25em;
+  }
+}
