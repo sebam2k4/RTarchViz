@@ -43,11 +43,13 @@ Blog app for latest news and tutorials. Managed only by is_staff (company staff)
 
 Super User needs to designate the user a staff member in the django admin as well add the user to the STAFF group to have add/edit/delete blog post permissions.
 
+Blog posts use Disqus for comments
 #### ToDo:
 - Add link to admin from STAFF member profile page.
 
 #### Issues/Bugs
 - title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
+- Disqus doesn't seem to be configured correctly or does not work well on localhost. It loads the comments, but doesn't connect with my Disqus API. Try to investigate this once deployed to heroku server. Make sure to change site name in admin.
 
 ## Production Deployment
 

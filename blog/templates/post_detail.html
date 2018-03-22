@@ -41,7 +41,7 @@
     </div>
     {% endif %}
 
-    <nav class="post-detail-nav">
+    <nav class="post-detail-nav mt-5">
       <ul class="pagination justify-content-center">
         <li class="page-item">
           <a class="page-link" href="{% url 'post_detail' prev_post.published_date.year prev_post.published_date.month prev_post.slug %}">
@@ -62,6 +62,11 @@
       
     </nav>
 
-	</article>
+  </article>
+  <div class="post-detail-comments container">
+    {% load disqus_tags %}
+    {% set_disqus_title post.title %}
+    {% disqus_show_comments %}
+  </div>
 </main>
 {% endblock %}

@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'accounts',
     'blog',
     'bootstrap4',
+    'disqus',
+    # required by disqus:
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +116,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_SHORTNAME')
+DISQUS_API_KEY = os.environ.get('DISQUS_API_KEY')
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
