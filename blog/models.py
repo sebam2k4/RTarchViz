@@ -17,7 +17,7 @@ class PostManager(models.Manager):
     """ select only published posts """
     return self.get_queryset().filter(status="published")
 
-  # note: find a more elegant way get next/prev post objects
+  # note: find a more elegant way to get next/prev post objects
   #       for post_detail navigation
   def get_next_post(self, published_date):
     """
@@ -112,7 +112,7 @@ class Post(models.Model):
 
 
   class Meta:
-    """ define metadata options for the Post model """
+    """ specify global meta options for Post model"""
     ordering = ('-published_date',) # set default ordering of the objects
 
   def __str__(self):

@@ -17,29 +17,27 @@
 <main id="postList">
 
   <header class="post-list-header">
-      <div class="jumbotron jumbotron-fluid">
-        <div class="container">
-          <h1 class="display-4">Latest News</h1>
-          <p class="lead">News and Tutorials</p>
-          <hr class="my-4">
-          <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-        </div>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Latest News</h1>
+        <p class="lead">News and Tutorials</p>
+        <hr class="my-4">
+        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
       </div>
+    </div>
   </header>
 
   <section class="post-list container">
 
-    <!-- placeholder for filtering news -->
     <div class="post-list-filter mb-5">
-      <form action="{% url 'filter' %}" method="GET">
+      <form action="{% url 'posts_list' %}" method="GET">
         <div class="form-group">
           <label for="filterSelect">Filter Blog by</label>
-          <select id="filterSelect" class="custom-select" name="filter-select">
-            <option>newest</option>
-            <option>oldest</option>
-            <option>tutorials</option>
-            <option>news</option>
-            <option>most popular</option>
+          <select id="filterSelect" class="custom-select" name="post-filter-select">
+            {# match user choice with available select options to set 'selected' #}
+            {% for choice in filter_choices %}
+            <option {% if chosen_filter == choice %} selected {% endif %}>{{choice}}</option>
+            {% endfor %}
           </select>
         </div>
         <div class="form-group">
@@ -82,13 +80,13 @@
             {% if posts.number == num %}
             <li class="page-item active page-link">{{ num }} <span class="sr-only">(current)</span></li>
             {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}&amp;post-filter-select={{ chosen_filter }}">{{ num }}</a></li>
             {% endif %}
           {% endfor %}
         {% endif %}
         {% if posts.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
+          <a class="page-link" href="?page={{ posts.next_page_number }}&amp;post-filter-select={{ chosen_filter }}" aria-label="Next">
               <span>Next</span>
             <span aria-hidden="true">&raquo;</span>
           </a>
