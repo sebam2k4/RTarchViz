@@ -33,16 +33,16 @@ def posts_list(request):
 
   # set up pagination (4 posts per page)
   paginator = Paginator(published_posts, 4)
-  blog_page= request.GET.get('blog_page')
+  blog_page= request.GET.get('page')
   try:
     posts = paginator.page(blog_page)
   except PageNotAnInteger:
-    # if page is not an integer, deliver the 1st page
+    # if page is not an integer, deliver first page
     posts = paginator.page(1)
   except EmptyPage:
     # deliver last page of results if page is out of range
     posts = paginator.page(paginator.num_pages)
-  return render(request, 'posts_list.html', {'posts': posts, 'blog_page': blog_page})
+  return render(request, 'posts_list.html', {'posts': posts, 'paginator': paginator})
 
 def post_detail(request, year, month, slug):
   '''
