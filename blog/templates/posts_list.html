@@ -58,7 +58,7 @@
             </a>
             <div class="card-body">
               <h5 class="card-title"><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
-              <p class="card-text">{{ post.get_short_content }}</p>
+              <p class="card-text">{{ post.get_short_content|striptags }}</p>
               <p class="card-text"><small class="text-muted">{{ post.published_date }}</small></p>
             </div>
           </div>

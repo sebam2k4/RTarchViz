@@ -28,7 +28,7 @@
     </header>
 
     <div class="post-detail-content">
-      {{ post.content|linebreaks }}
+        {% autoescape off %}{{ post.content }}{% endautoescape %}
     </div>
 
     <div class="post-detail-social">
