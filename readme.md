@@ -63,7 +63,7 @@ Custom model save method - Overriding the save method to generate datetime stamp
 #### Issues/Bugs
 - title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
 - Disqus doesn't seem to be configured correctly or does not work well on localhost. It loads the comments, but doesn't connect with my Disqus API. Try to investigate this once deployed to heroku server. Make sure to change site name in admin.
-- Improve get_next_post and get_prev_post methods or come up with alternative implementations
+- getting 2 duplicated sql queries in post_detail view for selecting "accounts_user"."id" = "id" ??? - investigate
 
 ## Local Development
 
