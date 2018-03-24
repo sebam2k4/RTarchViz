@@ -45,12 +45,24 @@ class Post(models.Model):
   """
   Defining Blog's Post models
   """
+
+  # CHOICES:
+  CATEGORY_CHOICES = (
+    ('news', 'News'),
+    ('tutorial', 'Tutorial')
+  )
+  STATUS_CHOICES = (
+    ('draft', 'Draft'),
+    ('published', 'Published')
+  )
+
+  # DATABASE FIELDS:
   # author is linked to a registered staff user, via the User model in the accounts app.
   author = models.ForeignKey(settings.AUTH_USER_MODEL)
   title = models.CharField(max_length=200, unique=True)
   # slug is generated from the title
   slug = models.SlugField(editable=False, max_length=200, unique=True)
-  content = models.TextField()
+  content = models.TextField(max_length=3000)
   # identify when post was created
   created_date = models.DateTimeField(editable=False, default=timezone.now)
   # set publish date initially to blank and null as drafts are allowed
@@ -60,31 +72,27 @@ class Post(models.Model):
   updated_date = models.DateTimeField(editable=False, blank=True, null=True)
   # record how often a post is seen
   view_count = models.IntegerField('views', editable=False, default=0)
-  # blog post's category
-  CATEGORY_CHOICES = (
-    ('news', 'News'),
-    ('tutorial', 'Tutorial')
-  )
+  # set post's category
   category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='news')
-  # blog post's status
-  STATUS_CHOICES = (
-    ('draft', 'Draft'),
-    ('published', 'Published')
-  )
+  # set post's status (draft or published)
   status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
-
   # add images to a post (stores relative path to image)
   image = models.ImageField(upload_to="images", blank=True, null=True)
 
+  # MANAGERS:
   objects = PostManager()
   
-  def get_slug(self):
-    """
-    create a slug from post's title
-    """
-    slug = slugify(self.title)
-    return slug
- 
+  # META CLASS:
+  class Meta:
+    """specify global meta options for model"""
+    ordering = ('-published_date',) # set default ordering of the objects
+
+  # TO STRING METHOD:
+  def __unicode__(self):
+    """identify blog entries by their title for admin page """
+    return self.title
+
+  # SAVE METHOD:
   def save(self, *args, **kwargs):
     """
     overwrite Model save method to 
@@ -100,7 +108,21 @@ class Post(models.Model):
       self.updated_date = timezone.now()
     super(Post, self).save()
 
+  # ABSOLUTE URL METHODS:
+  @permalink
+  def get_post_detail_url(self):
+    return ('post_detail', [self.published_date.year,
+                            self.published_date.month,
+                            self.slug])
 
+  # OTHER METHODS:
+  def get_slug(self):
+    """
+    create a slug from post's title
+    """
+    slug = slugify(self.title)
+    return slug
+ 
   def get_author(self):
     """
     get user's full name or username
@@ -110,22 +132,8 @@ class Post(models.Model):
     else: 
       return self.author.username
 
-
-  class Meta:
-    """ specify global meta options for Post model"""
-    ordering = ('-published_date',) # set default ordering of the objects
-
-  def __str__(self):
-    """ identify blog entries by their title for admin page """
-    return self.title
-
-
   def get_short_content(self):
     '''get a truncated version of a post's content'''
     return truncatechars(self.content, 200)
 
-  @permalink
-  def get_post_detail_url(self):
-    return ('post_detail', [self.published_date.year,
-                            self.published_date.month,
-                            self.slug])
+  
