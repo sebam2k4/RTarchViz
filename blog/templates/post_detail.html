@@ -43,23 +43,27 @@
 
     <nav class="post-detail-nav mt-5">
       <ul class="pagination justify-content-center">
+        {% if prev_post %}
         <li class="page-item">
           <a class="page-link" href="{% url 'post_detail' prev_post.published_date.year prev_post.published_date.month prev_post.slug %}">
             <span aria-hidden="true">&laquo;</span>
             <span class="font-italic">{{prev_post.title}}</span>
           </a>
         </li>
+        {% endif %}
         <li class="page-item text-center posts-list-btn">
           <a class="page-link" href="{% url 'posts_list' %}">
             Back To Blog
           </a>
         </li>
+        {% if next_post %}
         <li class="page-item">
           <a class="page-link" href="{% url 'post_detail' next_post.published_date.year next_post.published_date.month next_post.slug %}">
             <span class="font-italic">{{next_post.title}}
             </span><span aria-hidden="true">&raquo;</span>
           </a>
         </li>
+        {% endif %}
       </ul>
       
     </nav>

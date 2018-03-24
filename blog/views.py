@@ -8,10 +8,12 @@ from .models import Post
 
 def posts_list(request):
   '''
-  A view that returns a paginated list of all published posts and
+  This view does two tings:
+  
+  1. returns a paginated list of all published posts and
   renders them to the 'posts_list.html' template. 
   
-  Also, provides filtering and ordering choices to user through a
+  2. Provides filtering and ordering choices to user through a
   select field in the template: When user applies a filer, a get
   request is made with the user's choice as a query string and is
   matched with one of the predefined options below (oldest,
@@ -55,19 +57,29 @@ def posts_list(request):
 
 def post_detail(request, year, month, slug):
   '''
-  A view that returns a single Post object based
+  This view does two things:
+  
+  1. Returns a single Post object based
   on the post's published year, month, and slug and renders
   it to the 'postdetail.html' template. Or return a 404
   error if the post is not found.
 
-  The view also gets the next and previous post through a
-  query set defined in the custom PostManager
+  2. Gets the next and previous post objects and make only
+  their specified values available to the template. They
+  are then used in the template for next/prev post navigation
   '''
+  # get single post object for current post detail
   post = get_object_or_404(Post, published_date__year=year, published_date__month=month, slug=slug)
   
-  # get the next post and get the previous post
-  next_post = Post.objects.get_next_post(post.published_date)   
-  prev_post = Post.objects.get_prev_post(post.published_date)   
+  published_posts = Post.objects.published()
+
+  # get a querysets for next and prev post objects
+  next_post = published_posts.values('title', 'slug', 'published_date')       \
+                              .filter(published_date__gt=post.published_date) \
+                              .order_by('published_date').first()
+  prev_post = published_posts.values('title', 'slug', 'published_date')       \
+                              .filter(published_date__lt=post.published_date) \
+                              .order_by('-published_date').first()
 
   # remove the page view counter to prevent other logic from running on post.save (I've overriden object's save method to do timestamps)
   # need to implement the counter in a different way - session based?
