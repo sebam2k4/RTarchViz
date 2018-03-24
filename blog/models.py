@@ -37,7 +37,7 @@ class Post(models.Model):
   title = models.CharField(max_length=200, unique=True)
   # slug is generated from the title
   slug = models.SlugField(editable=False, max_length=200, unique=True)
-  content = models.TextField(max_length=3000)
+  content = models.TextField(max_length=10000)
   # identify when post was created
   created_date = models.DateTimeField(editable=False, default=timezone.now)
   # set publish date initially to blank and null as drafts are allowed

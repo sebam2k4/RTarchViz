@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'accounts',
     'blog',
     'bootstrap4',
+    'tinymce',
     'disqus',
     # required by disqus:
     'django.contrib.sites',
@@ -130,6 +131,29 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Media files (images)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'mode' : "textareas",
+    'theme': "modern",
+    'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
+                anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
+                code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
+                contextmenu, directionality, emoticons, template, paste, textcolor,     \
+                colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
+                autosave',
+    'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
+                 alignleft aligncenter alignright alignjustify |    \
+                 bullist numlist outdent indent | link image',  
+    'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
+    }
+
+# The following causes 'Synchronous SMLHttpRequest warning
+# when set to True and the tinyMCE editor stops working
+# the compressor is supposed to gzip all js and make the
+# tinyMCE editor load faster and result in fewer requests
+# Investigate!
+TINYMCE_COMPRESSOR = False
 
 # Log DEBUG information to the console
 # LOGGING = {
