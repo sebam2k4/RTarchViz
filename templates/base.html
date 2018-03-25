@@ -31,17 +31,17 @@
         <li class="nav-item">
           <a class="nav-link" href="#">News</a>
         </li>
-        {% if not user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+        {% if not request.user.is_authenticated %}
+        <li class="nav-item {% if url_name == 'login' %}active{% endif %}">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
         </li>
-        <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+        <li class="nav-item {% if url_name == 'register' %}active{% endif %}">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
         {% endif %}
-        {% if user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'profile'  %}active{% endif %}">
-          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        {% if request.user.is_authenticated %}
+        <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'logout' %}">Logout</a>
