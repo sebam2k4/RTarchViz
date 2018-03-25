@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^logout/$', views.logout, name='logout'),
     url(r'password/', include(url_reset)),
     url(r'^profile/user/(?P<username>[\w.@+-]+)/?$', views.profile, name='profile'),
+    url(r'^dashboard/$', views.dashboard, name='dashboard'),
 ]

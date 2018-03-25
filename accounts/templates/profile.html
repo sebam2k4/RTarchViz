@@ -18,24 +18,18 @@
 			<p>Welcome to your user profile page</p>
 			<div class="row">
 				<div class="one-half column">
-					<h5>Profile Details:</h5>
-					<p>You are logged in as username: {{user.username}} </p>
-					<p>Email: {{user.email}} </p>
-					<p>Full name: {{user.first_name}} {{user.last_name}} </p>
-					<p>DOB: {{user.birth_date}} </p>
-					<p>address1: {{user.address1}} </p>
-					<p>address2: {{user.address2}} </p>
-					<p>City or Town: {{user.city_town}} </p>
-					<p>County: {{user.county_state}} </p>
-					<p>Post Code: {{user.post_code}} </p>
-					<p>Country: {{ user.country }}</p>
-					<p>Bio: {{ user.bio }}</p>
-
 					{% if request.user.is_authenticated and request.user == user %}
-					<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
-					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+					<a class="btn btn-primary mb-5" href="{% url 'dashboard' %}">View Your Dashbaord</a>
+					<p>You are Logged in as: {{user.username}} </p>
+					{% else %}
+					<p>Username: {{user.username}} </p>
 					{% endif %}
-
+					{% if user.first_name or user.last_name %}
+					<p>Name: {{user.first_name}} {{user.last_name}} </p>
+					{% endif %}
+					{% if user.bio %}
+					<p>Bio: {{ user.bio }}</p>
+					{% endif %}
 				</div>
 			</div>
 		</div>

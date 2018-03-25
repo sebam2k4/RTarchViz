@@ -75,7 +75,7 @@ def login(request):
   args.update(csrf(request))
   return render(request, 'login.html', args)
 
-def profile(request, username=None):
+def profile(request, username):
   '''
   A view that gets the specified user's profile page by querying
   the User object with username from url. Or if no username provided
@@ -84,7 +84,14 @@ def profile(request, username=None):
   user = get_object_or_404(User, username=username)
   return render(request, 'profile.html', {'user': user})
 
-
+@login_required
+def dashboard(request):
+  '''
+  A view that gets the authenticated user's dashboard.
+  '''
+  #user = get_object_or_404(User, username=username)
+  user = User.objects.get(email=request.user.email)
+  return render(request, 'dashboard.html', {'user': user})
 
 @login_required
 def logout(request):
