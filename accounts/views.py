@@ -109,7 +109,10 @@ def update(request):
     form = UserEditForm(data=request.POST, instance=request.user)
     if form.is_valid():
       form.save()
-      return redirect(reverse('profile', kwargs={'username': request.user.username}))
+      messages.success(request, 'You have successfully Updated your details')
+      return redirect(reverse('dashboard'))
+    else:
+      messages.error(request, 'Please correct the error!')
   else:
     form = UserEditForm(instance=request.user)
   args = {'form': form}
@@ -129,7 +132,7 @@ def change_password(request):
       messages.success(request, 'Your password was successfully updated!')
       return redirect(reverse('profile', kwargs={'username': request.user.username}))
     else:
-      messages.error(request, 'Please correct the error below.')
+      messages.error(request, 'Please correct the errors!')
   else:
     form = PasswordChangeForm(user=request.user)
   return render(request, 'change_password.html', {'form': form})
