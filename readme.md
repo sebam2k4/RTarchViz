@@ -32,6 +32,7 @@ Using Django's Built in Password validation:
 #### ToDo
 - prevent password_reset access to logged in users. Currently using django's built in password reset views and not sure how to do this without rewriting the views using `is_authenticated`
 - Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
+- Make sure username is case insensitive. Registration form does a case insensitive check for username and email correctly. Profile update form does the case insensitive check as well, but will throw validation errors when user submits the form without changing both the username and email. Create something of a 'if field has changed' for email and username fields as they're the only ones unique
 
 ### Pages App
 Static pages like the homepage and about

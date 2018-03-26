@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}Dashboard{% endblock %}
+
+{# Profile content #}
+{% block content %}
+<main>
+	<section id="profile">
+		<div class="container">
+			<h2>Your Dashboard</h2>
+			<p>Welcome to your user Dashbaord</p>
+			<div class="row">
+				<div class="one-half column">
+					<p>You are logged in as Username: {{user.username}} </p>
+					<p>Email: {{user.email}} </p>
+					<p>Full name: {{user.first_name}} {{user.last_name}} </p>
+					<p>DOB: {{user.birth_date}} </p>
+					<p>address1: {{user.address1}} </p>
+					<p>address2: {{user.address2}} </p>
+					<p>City or Town: {{user.city_town}} </p>
+					<p>County: {{user.county_state}} </p>
+					<p>Post Code: {{user.post_code}} </p>
+					<p>Country: {{ user.country }}</p>
+					<p>Bio: {{ user.bio }}</p>
+
+					{% if request.user.is_authenticated and request.user == user %}
+					<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
+					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+					{% endif %}
+
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+{% endblock %}

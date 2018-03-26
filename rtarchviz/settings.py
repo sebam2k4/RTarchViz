@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
-ALLOWED_HOSTS = ['rtarchviz.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['rtarchviz.herokuapp.com', 'localhost', '10.11.12.105']
 
 # Use custom User class for accounts
 AUTH_USER_MODEL = 'accounts.User'
@@ -118,23 +118,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Log DEBUG information to the console
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-#         },
-#     },
-# }
-
 try:
     if os.environ["ENV"] == 'development':
         '''
@@ -176,6 +159,22 @@ try:
         '''
 
         DEBUG = False
+        # Log DEBUG information to the console
+        LOGGING = {
+            'version': 1,
+            'disable_existing_loggers': False,
+            'handlers': {
+                'console': {
+                    'class': 'logging.StreamHandler',
+                },
+            },
+            'loggers': {
+                'django': {
+                    'handlers': ['console'],
+                    'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+                },
+            },
+        }
 
         # Add whitenoise for deploying app with static files to Heroku 
         MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')

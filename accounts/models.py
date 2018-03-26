@@ -54,7 +54,6 @@ class User(AbstractUser): # inherit from Django's AbstractUser class
 
   # we can add payment details for example
 
-  # !!! Need to set email validation EmailValidate in django! - find out how !!!
   email = models.EmailField(
     _('email'),
     max_length=150,

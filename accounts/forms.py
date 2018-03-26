@@ -11,8 +11,31 @@ class UserLoginForm(forms.Form):
 
 class UserEditForm(forms.ModelForm):
   """
-  A form to handle editing of user details
+  A form to handle editing of user details. Performs case insensitive check
+  for email and username to make sure they're not already registered.
   """
+
+  # Note: validation error when form saved without changing the email & username fields
+  #       need some sort of check if these fields changed or not.
+  def clean_email(self):
+    """
+    Check if email already registered (case insensitive check)
+    """
+    email = self.cleaned_data.get('email')
+    if User.objects.filter(email__iexact=email):
+      message = "Email already registered!"
+      raise ValidationError(message)
+    return email
+
+  def clean_username(self):
+    """
+    Check if username already registered (case insensitive check)
+    """
+    username = self.cleaned_data.get('username')
+    if User.objects.filter(username__iexact=username):
+      message = "Username already registered!"
+      raise ValidationError(message)
+    return username
 
   class Meta:
     model = User
@@ -21,7 +44,8 @@ class UserEditForm(forms.ModelForm):
 class UserRegistrationForm(UserCreationForm):
   """
   Extending UserCreationForm
-  Unique Fields: Email, Username
+  Performs case insensitive check for email and username to make sure
+  they're not already registered.
   """
   password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 
