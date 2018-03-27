@@ -53,7 +53,7 @@ class UserRegistrationForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country'] #only display these input fields
+    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'bio', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country'] #only display these input fields
 
   def clean_email(self):
     """
