@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}List of all users{% endblock %}
+
+{# Profile content #}
+{% block content %}
+<main id="userList">
+
+	<section class="user-list container">
+			<div class="row">
+				<div class="col">
+          <h2>All Registered Users</h2>
+          <p>Click username to access their profile page</p>
+					{% for user in users %}
+          <p><a href="{% url 'profile' user.username %}">{{ user.username}}'s Profile</a></p>
+					{% endfor %}
+          
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+{% endblock %}
