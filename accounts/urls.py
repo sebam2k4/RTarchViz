@@ -27,4 +27,5 @@ urlpatterns = [
     url(r'password/', include(url_reset)),
     url(r'^profile/user/(?P<username>[\w.@+-]+)/?$', views.profile, name='profile'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^profile/user/$', views.user_list, name='user_list'),
 ]

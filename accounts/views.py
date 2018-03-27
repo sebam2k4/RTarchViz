@@ -84,6 +84,14 @@ def profile(request, username):
   user = get_object_or_404(User, username=username)
   return render(request, 'profile.html', {'user': user})
 
+def user_list(request):
+  """
+  A view for listing all registered users (for testing)
+  """
+  users = User.objects.values('username', 'email').all()
+  print users
+  return render(request, 'users_list.html', {'users': users})
+
 @login_required
 def dashboard(request):
   '''
