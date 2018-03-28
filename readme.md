@@ -1,5 +1,7 @@
 # RTarchViz
 
+**In Early Development**
+
 ## Introduction
 
 (Real-Time Architectural Visualizations)
@@ -21,6 +23,8 @@ I extended the app in the following ways:
 - Created change_password view that integrates django's built in PasswordChangeForm to provide a simple password change form available to users. The form is available from user's profile page. The view also updates the session hash appropriately to prevent a pasword change from loggin out the session.
 - Removed the app's custom password validation on registration form as django's built in password validation is more sufficient.
 - Integrated password reset via email for cases when user forgets their password and cannot login. Also, created custom templates for the password reset stages
+- User profile pages now accessible by other users
+- Added a private user dashboard for sale and purchase stats
 
 #### Password Validation
 Using Django's Built in Password validation:
@@ -32,9 +36,9 @@ Using Django's Built in Password validation:
 #### ToDo
 - prevent password_reset access to logged in users. Currently using django's built in password reset views and not sure how to do this without rewriting the views using `is_authenticated`
 - Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
-- Make sure username is case insensitive. Registration form does a case insensitive check for username and email correctly. Profile update form does the case insensitive check as well, but will throw validation errors when user submits the form without changing both the username and email. Create something of a 'if field has changed' for email and username fields as they're the only ones unique
 
 #### Issues/Bugs
+- Make sure username is case insensitive. Registration form does a case insensitive check for username and email correctly. Profile update form does the case insensitive check as well, but will throw validation errors when user submits the form without changing both the username and email. Create something of a 'if field has changed' for email and username fields as they're the only ones unique
 
 ### Pages App
 Static pages like the homepage and about
@@ -55,7 +59,6 @@ Post filtering available to user on blog list page. options: newset, oldest, mos
 Custom model save method - Overriding the save method to generate datetime stamps for published date and updated date for posts. Published date gets stamped when posts is actually published (status is initially changed from 'draft' to 'published'). Once a post is published then saving it again will add updated date. Any consequent saves to the post will update the updated date with current date and time. Published date stays the same and indicates the date when post was originally published.
 
 #### ToDo:
-- improve next_post & prev_post navigation in post_detail
 - Add ability for staff to add/upload images to post's content through tinyMCE. May need some file manager for this or some kind of many-to-many post-media setup.
 
 #### Useful Docs:
