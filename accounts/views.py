@@ -129,7 +129,8 @@ def update(request):
 @login_required
 def change_password(request):
   """
-  change password for authenticated user
+  change password for authenticated user using Django's built in
+  PasswordChangeForm.
   """
   if request.method == 'POST':
     form = PasswordChangeForm(user=request.user, data=request.POST)

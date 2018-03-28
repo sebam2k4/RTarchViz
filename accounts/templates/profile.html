@@ -12,11 +12,11 @@
 {# set page info #}
 {% block page_title %}{{ user.username }}'s Profile{% endblock %}
 
-{# Profile content #}
+{# Profile #}
 {% block content %}
 <main id="userProfile">
 
-	{# User Header #}
+	{# Profile Header #}
 	<header class="user-profile-header">
 		<div class="jumbotron jumbotron-fluid">
 			<div class="container">
@@ -30,7 +30,7 @@
 		</div>
 	</header>
 
-	{# User Bio #}
+	{# Profile User Bio #}
 	<section class="user-profile container">
 			<div class="row">
 				<div class="col">
@@ -42,7 +42,7 @@
 		</div>
 	</section>
 
-	<!-- User Products List placeholder -->
+	<!-- Profile User Products List placeholder -->
 	<section class="user-profile-products container">
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
 		<div class="user-profile-products-cards">
@@ -82,7 +82,6 @@
 	<section class="user-profile-others container">
 			<div class="row">
 				<div class="col">
-					
 					<h2 class="mb-3">Other user profiles <span class="text-muted">(for testing)</span></h2>
 					<a href="{% url 'user_list' %}">Access full list of registered users here</a>
 				</div>
