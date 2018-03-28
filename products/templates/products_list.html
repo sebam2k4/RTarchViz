@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/products.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}Products{% endblock %}
+
+
+{# Products - products_list #}
+{% block content %}
+<main id="productList">
+
+  {# Product List Page Header #}
+  <header class="product-list-header">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Products</h1>
+        <p class="lead">Unreal Engine assets for real time arch viz</p>
+        <hr class="my-4">
+        <p>shop shop shop</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="product-list container">
+
+    {# Product List - Cards #}
+    <div class="product-list-cards">
+      <div class="row">
+        {% for product in products %}
+        <div class="col-lg-6">
+          <div class="card mb-5">
+            <a href="#">
+              <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+            </a>
+            <div class="card-body">
+              <h5 class="card-title"><a href="#">{{ product.name }}</a></h5>
+              <p class="card-text">Sold by <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <span class="product-version">UE Version: {{ product.ue_version }}</span>
+                <span class="product-rating">Rating *****</span>
+              </li>
+              <li class="list-group-item">
+                <span class="product-category">Category: {{ product.category|capfirst }}</span>
+                <span class="product-price">&euro;{{ product.price}}</span>
+              </li>
+            </ul>
+            <div class="card-body">
+              <a href="#" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
+              <a href="#" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </section>
+</main>
+{% endblock %}

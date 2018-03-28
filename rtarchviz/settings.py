@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'pages',
     'accounts',
     'blog',
+    'products',
+    # 3rd party apps:
     'bootstrap4',
     'tinymce',
     'disqus',
