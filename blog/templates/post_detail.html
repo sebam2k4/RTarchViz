@@ -9,24 +9,27 @@
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
 
-
 {# set page info #}
 {% block page_title %}Blog - {{ post.title }}{% endblock %}
 
-{# post_detail content #}
+{# Blog - post_detail #}
 {% block content %}
 <main id="postDetail">
+
+    {# Blog Post Detail Main Image #}
     <div class="post-detail-image jumbotron jumbotron-fluid" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');">
     </div>
 
 	<article class="post-detail container rounded-top pr-md-4 pl-md-4">
-    
+
+    {# Blog Post Detail Header #}
     <header class="post-detail-header">
       <p class="font-italic mb-0 pt-4">{{ post.published_date |date:"N d, Y" }}</p>
       <h1>{{ post.title }}</h1>
       <p class="font-italic mt-4 mb-5">by: {{ post.get_author }}</p>
     </header>
 
+    {# Full Blog Post Content #}
     <div class="post-detail-content">
         {% autoescape off %}{{ post.content }}{% endautoescape %}
     </div>
@@ -35,12 +38,14 @@
       <!-- placeholder for social share actions -->
     </div>
 
+    {# Blog Post Updated Date #}
     {% if post.updated_date %}
     <div class="post-detail-updated">
       <p class="font-italic pt-5">Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
     </div>
     {% endif %}
 
+    {# Blog Post Detail Next/Prev Navigation #}
     <nav class="post-detail-nav mt-5">
       <ul class="pagination justify-content-center">
         {% if prev_post %}
@@ -70,6 +75,7 @@
 
   </article>
 
+  {# DISQUS Comments #}
   <div class="post-detail-comments container">
     {% load disqus_tags %}
     {% set_disqus_title post.title %}

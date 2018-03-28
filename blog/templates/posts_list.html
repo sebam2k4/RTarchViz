@@ -12,23 +12,26 @@
 {# set page info #}
 {% block page_title %}Latest News{% endblock %}
 
-{# post_list content #}
+
+{# Blog - post_list #}
 {% block content %}
 <main id="postList">
 
+  {# Blog Post List Page Header #}
   <header class="post-list-header">
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">Latest News</h1>
+        <h1 class="display-4">Blog</h1>
         <p class="lead">News and Tutorials</p>
         <hr class="my-4">
-        <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+        <p>Latest and greatest about Unreal Engine arch viz and other exciting technologies.</p>
       </div>
     </div>
   </header>
 
   <section class="post-list container">
 
+    {# Filter Select Dropdown #}
     <div class="post-list-filter mb-5">
       <form action="{% url 'posts_list' %}" method="GET">
         <div class="form-group">
@@ -46,6 +49,7 @@
       </form>
     </div>
     
+    {# Blog Post List - Cards #}
     <div class="post-list-cards">
       <div class="row">
         {% for post in posts %}
@@ -57,7 +61,9 @@
             <div class="card-body">
               <h5 class="card-title"><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
               <p class="card-text">{{ post.get_short_content|striptags }}</p>
-              <p class="card-text"><small class="text-muted">{{ post.published_date }}</small></p>
+              {# ---find better way than to float?--- #}
+              <p class="card-text float-left"><small class="text-muted">{{ post.published_date|date:"N d, Y" }}</small></p>
+              <p class="card-text float-right"><small class="text-muted">{{ post.category|capfirst }}</small></p>
             </div>
           </div>
         </div>
@@ -65,11 +71,12 @@
       </div>
     </div>
 
+    {# Pagination #}
     <nav class="post-list-pagination">
       <ul class="pagination justify-content-center">
         {% if posts.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+          <a class="page-link" href="?page={{ posts.previous_page_number }}{% if chosen_filter %}&amp;post-filter-select={{ chosen_filter }}{% endif %}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             <span>Previous</span>
           </a>
@@ -80,13 +87,13 @@
             {% if posts.number == num %}
             <li class="page-item active page-link">{{ num }} <span class="sr-only">(current)</span></li>
             {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}&amp;post-filter-select={{ chosen_filter }}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_filter %}&amp;post-filter-select={{ chosen_filter }}{% endif %}">{{ num }}</a></li>
             {% endif %}
           {% endfor %}
         {% endif %}
         {% if posts.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ posts.next_page_number }}&amp;post-filter-select={{ chosen_filter }}" aria-label="Next">
+          <a class="page-link" href="?page={{ posts.next_page_number }}{% if chosen_filter %}&amp;post-filter-select={{ chosen_filter }}{% endif %}" aria-label="Next">
               <span>Next</span>
             <span aria-hidden="true">&raquo;</span>
           </a>
