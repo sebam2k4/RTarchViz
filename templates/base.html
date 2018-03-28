@@ -15,40 +15,42 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
-    <a class="navbar-brand" href="{% url 'index' %}">RTarchViz</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        {% with url_name=request.resolver_match.url_name %}
-        <li class="nav-item {% if url_name == 'index'  %}active{% endif %}">
-          <a class="nav-link" href="{% url 'index' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Shop</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">News</a>
-        </li>
-        {% if not request.user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'login' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item {% if url_name == 'register' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
-        </li>
-        {% endif %}
-        {% if request.user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        {% endif %}
-        {% endwith %}
-      </ul>
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'index' %}">RTarchViz</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          {% with url_name=request.resolver_match.url_name %}
+          <li class="nav-item {% if url_name == 'index'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'index' %}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Shop</a>
+          </li>
+          <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'posts_list' %}">News</a>
+          </li>
+          {% if not reques.user.is_authenticated %}
+          <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
+          </li>
+          <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          {% endif %}
+          {% if request.user.is_authenticated %}
+          <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          {% endif %}
+          {% endwith %}
+        </ul>
+      </div>
     </div>
   </nav>
 
