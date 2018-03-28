@@ -5,14 +5,17 @@
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
 {% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+{% endblock %}
 
 {# set page info #}
 {% block page_title %}Dashboard{% endblock %}
 
-{# Profile content #}
+{# Dashboard #}
 {% block content %}
 <main id="userDashboard">
-	{# User Header #}
+	{# Dashboard Header #}
 	<header class="user-dashboard-header">
 			<div class="jumbotron jumbotron-fluid">
 				<div class="container">
@@ -23,7 +26,7 @@
 			</div>
 		</header>
 	
-		{# User Bio #}
+		{# Dashboard Sales #}
 		<section class="user-dashboard-sales container">
 				<div class="row">
 					<div class="col">
@@ -35,6 +38,8 @@
 				</div>
 			</div>
 		</section>
+
+		{# Dashboard Purchases #}
 		<section class="user-dashboard-purchases container">
 				<div class="row">
 					<div class="col">
@@ -46,7 +51,9 @@
 				</div>
 			</div>
 		</section>
-		<section class="user-dashboard-sales container">
+
+		{# Dashboard Stats #}
+		<section class="user-dashboard-stats container">
 				<div class="row">
 					<div class="col">
 						<h2 class="mb-3">All Products &amp; Stats</h2>
@@ -56,6 +63,8 @@
 				</div>
 			</div>
 		</section>
+
+		{# Dashboard Account Utility Links #}
 		<section class="user-dashboard-utilities container">
 				<div class="row">
 					<div class="col">
