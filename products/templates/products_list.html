@@ -37,11 +37,11 @@
         {% for product in products %}
         <div class="col-lg-6">
           <div class="card mb-5">
-            <a href="#">
+            <a href="{{ product.get_product_detail_url }}">
               <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
             </a>
             <div class="card-body">
-              <h5 class="card-title"><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h5>
+              <h5 class="card-title"><a href="{{ product.get_product_detail_url }}">{{ product.name }}</a></h5>
               <p class="card-text">Sold by <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
             </div>
             <ul class="list-group list-group-flush">
@@ -55,7 +55,7 @@
               </li>
             </ul>
             <div class="card-body">
-              <a href="#" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
+              <a href="{{ product.get_product_detail_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
               <a href="#" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
             </div>
           </div>

@@ -13,3 +13,67 @@
 .product-price {
   float: right;
 }
+.carousel {
+  height: 20em;
+}
+.carousel-item .carousel-image {
+  height: 20em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.product-detail-carousel {
+  background-color: #aaa;
+}
+
+main {
+  background-color: white;
+}
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .carousel {
+    height: 23em;
+  }
+  .carousel-item .carousel-image {
+    height: 23em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .carousel {
+    height: 28em;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .carousel-item .carousel-image {
+    height: 28em;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .carousel {
+    height: 32em;
+    max-width: 960px;
+  }
+  .carousel-item .carousel-image {
+    height: 32em;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .carousel {
+    height: 40em;
+    max-width: 1140px;
+  }
+  .carousel-item .carousel-image {
+    height: 40em;
+  }
+}

@@ -43,7 +43,7 @@ Using Django's Built in Password validation:
 ### Pages App
 Static pages like the homepage and about
 
-### Blog
+### Blog App
 Blog app for latest news and tutorials. Managed only by is_staff (company staff) who can add, edit, and delete posts in Django's built in, although extended/modified, admin. The staff users are provided with a handy form and a main texarea for the writing the blog content using the tinyMCE WYSIWYG text editor.
 
 admin for Blog Posts sports a nice display of filterable and orderable fields that makes it easy for staff to search for posts they are working on (drafts) or want to edit/update. Can also get some statistical filters to see which posts are performing well (have most views or comments).
@@ -68,6 +68,11 @@ Custom model save method - Overriding the save method to generate datetime stamp
 - title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
 - Disqus doesn't seem to be configured correctly or does not work well on localhost. It loads the comments, but doesn't connect with my Disqus API. Try to investigate this once deployed to heroku server. Make sure to change site name in admin.
 - getting 2 duplicated sql queries in post_detail view for selecting "accounts_user"."id" = "id" ??? - investigate
+
+### Products App
+
+#### Issues/Bugs
+- Change or modify the Product Detail carousel to make displaying product images more uniform. User may upload images with different measurements and they may display cropped depending on screen size/browser size. Currently Images are diaplay using css background-image. Don't want users restricted to having to uplaod a very specific image resolution sieze. Explore this maybe: http://kenwheeler.github.io/slick/ for responsive slider
 
 ## Local Development
 
