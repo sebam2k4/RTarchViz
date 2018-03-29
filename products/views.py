@@ -9,6 +9,6 @@ def products_list(request):
   products = Product.objects.all()
   return render(request, "products_list.html", {"products": products})
 
-def product_detail(request, id):
-  product = get_object_or_404(Product, pk=id)
+def product_detail(request, slug, id):
+  product = get_object_or_404(Product, slug=slug, pk=id)
   return render(request, "product_detail.html", {"product": product})
