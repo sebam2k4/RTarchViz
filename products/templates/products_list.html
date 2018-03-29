@@ -56,7 +56,11 @@
             </ul>
             <div class="card-body">
               <a href="{{ product.get_product_detail_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
+              {% if request.user.id == product.seller_id %}
+              <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg btn-block">Edit Your Product</a>
+              {% else %}
               <a href="#" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+              {% endif %}
             </div>
           </div>
         </div>

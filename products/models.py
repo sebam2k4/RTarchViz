@@ -57,3 +57,8 @@ class Product(models.Model):
   def get_product_detail_url(self):
     return ('product_detail', [self.slug,
                                self.id])
+
+  @permalink
+  def get_edit_product_url(self):
+    return ('edit_product', [self.slug,
+                             self.id])
