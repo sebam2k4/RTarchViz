@@ -8,11 +8,20 @@ from django.utils.text import slugify
 from django.db.models import permalink
 
 
+def user_directory_path(instance, filename):
+    """
+    product main images and file will be uploaded to
+    MEDIA_ROOT/seller_id_<id>/product_id_<id>-<filename>
+    note: see if can incorporate username in addition to seller_id
+    (need to import User model?)
+    """
+    return 'products/seller_id_{0}/product_id_{1}-{2}'.format(instance.seller_id, instance.id, filename)
+
 class Product(models.Model):
   """
   Defining Product's Post models
   """
-
+  
   # CHOICES:
   CATEGORY_CHOICES = (
     ('assets', 'Assets'),
@@ -36,8 +45,8 @@ class Product(models.Model):
   added_date = models.DateTimeField(editable=False, default=timezone.now)
   category = models.CharField(max_length=25, choices=CATEGORY_CHOICES)
   ue_version = models.CharField('Unreal Engine Version', max_length=5, choices=UE_VERSION_CHOICES)
-  main_image = models.ImageField(upload_to='product-images', blank=True, null=True)
-  file_path = models.CharField(max_length=254, blank=True, null=True)
+  main_image = models.ImageField('Main Product Image', upload_to=user_directory_path, blank=True, null=True)
+  product_file = models.FileField('Product File', upload_to=user_directory_path, blank=True, null=True)
  
   # TO STRING METHOD:
   def __unicode__(self):

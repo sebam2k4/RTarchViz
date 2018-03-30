@@ -73,14 +73,14 @@ Custom model save method - Overriding the save method to generate datetime stamp
 
 #### To Do:
 - multiple photo upload
-- file upload
+- check user uploads 'zip' or '7z' and not other file type.
 
 #### Useful Docs:
 - https://docs.djangoproject.com/en/2.0/topics/http/file-uploads/
 
 #### Issues/Bugs
 - Change or modify the Product Detail carousel to make displaying product images more uniform. User may upload images with different measurements and they may display cropped depending on screen size/browser size. Currently Images are diaplay using css background-image. Don't want users restricted to having to uplaod a very specific image resolution sieze. Explore this maybe: http://kenwheeler.github.io/slick/ for responsive slider
-
+- Product file will be uploaded to MEDIA_ROOT/seller_id_<id>/product_id_<id>-<filename> note: see if can incorporate username in addition to seller_id (need to import User model?)
 ## Local Development
 
 coming soon...
