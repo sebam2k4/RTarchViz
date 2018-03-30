@@ -72,9 +72,13 @@ Custom model save method - Overriding the save method to generate datetime stamp
 ### Products App
 
 #### To Do:
+- Product list -> use a single [FILTER] button for filtering form
+- add pagination to product list
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
 - uploading multiple files for product images
+- Add rating & reviews
+- Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
 
 #### Useful Docs:
 - https://docs.djangoproject.com/en/2.0/topics/http/file-uploads/
@@ -126,7 +130,11 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 ## 3rd Party Apps/Packages Used:
 - django-bootstrap4: used for forms [docs](http://django-bootstrap4.readthedocs.io/en/latest/index.html)
 
-## Other Todo
+## Other Todo/issues
+
+#### General
+- better way to do filters? Is it a good or bad to have object filters in views?
+
 #### Bootstrap Forms
 - disable error message on top of form or change erros to only indicate the form fields that are invalid  (same error messages appear under appropriate form fields)
 

@@ -31,11 +31,51 @@
 
   <section class="product-list container">
 
+    <div class="product-list-filter-category mb-5">
+      <form action="{% url 'products_list' %}" method="GET">
+        <div class="input-group mb-5">
+          <select class="custom-select" name="product-category-select">
+            {% for choice in category_choices %}
+            <option {% if chosen_category == choice %}selected{% endif %}>{{ choice }}</option>
+            {% endfor%}
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">-> Filter by Category</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <select class="custom-select" name="product-order-select">
+            {% for choice in order_choices %}
+            <option {% if chosen_order == choice %}selected{% endif %}>{{ choice }}</option>
+            {% endfor %}
+          </select>
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">-> Order by Stuff</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- <div class="product-list-filter-order mb-5">
+        <form action="{% url 'products_list' %}" method="GET">
+          <div class="input-group">
+            <select class="custom-select" name="product-order-select">
+              {% for choice in order_choices %}
+              <option {% if chosen_order == choice %}selected{% endif %}>{{ choice }}</option>
+              {% endfor%}
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit">-> Order by Stuff</button>
+            </div>
+          </div>
+        </form>
+      </div> -->
+
     {# Product List - Cards #}
     <div class="product-list-cards">
       <div class="row">
         {% for product in products %}
-        <div class="col-lg-6">
+        <div class="col-md-6 col-lg-4">
           <div class="card mb-5">
             <a href="{{ product.get_product_detail_url }}">
               <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>

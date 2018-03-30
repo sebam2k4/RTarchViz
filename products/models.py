@@ -48,6 +48,11 @@ class Product(models.Model):
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path, blank=True, null=True)
   product_file = models.FileField('Product File', upload_to=user_directory_path, blank=True, null=True)
  
+  # META CLASS:
+  class Meta:
+    """specify global meta options for model"""
+    ordering = ('-added_date',) # set default ordering of the objects
+
   # TO STRING METHOD:
   def __unicode__(self):
     return self.name

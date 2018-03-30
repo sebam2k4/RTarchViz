@@ -8,11 +8,51 @@ from .forms import ProductForm
 
 def products_list(request):
   """
-  A view that returns a list of all products and render them
+  This view does two tings:
+
+  1. returns a list of all products and render them
   to the 'products_list.html' template.
+
+  2. Provides filtering by category and various ordering choices
+  to user through 2 select fields in the template: When user
+  applies a filer, a get request is made with the user's choices as a query string and is matched with one of the predefined category or ordering
+  options defined below.
   """
   products = Product.objects.all()
-  return render(request, "products_list.html", {"products": products})
+
+  # define filter choices and get filtered objects based on user select
+  # note: refactor this code as it pretty much uses all hard coded values. See
+  #       if can fill a tuple from a list of available product categories?
+  #       This would be useful for when categories are added or modified.
+  category_choices = ('all products', 'assets', 'environment', 'blueprint', 'materials')
+  order_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
+
+  
+  if request.method == 'GET':
+    chosen_category = request.GET.get('product-category-select')
+    chosen_order = request.GET.get('product-order-select')
+    
+    if chosen_category:
+      if chosen_category == 'all products':
+        products_by_category = products
+      else:
+        products_by_category = products.filter(category=chosen_category)
+      #products = products_by_category
+
+    if chosen_order:
+      if chosen_order == 'newest':
+        products_by_ordering = products_by_category.order_by('-added_date')
+      elif chosen_order == 'oldest':
+        products_by_ordering  = products_by_category.order_by('added_date')
+      elif chosen_order == 'most popular':
+        products_by_ordering = products_by_category.order_by('-sold_count')
+      elif chosen_order == 'a-z':
+        products_by_ordering = products_by_category.order_by('name')
+      elif chosen_order == 'z-a':
+        products_by_ordering = products_by_category.order_by('-name')
+      products = products_by_ordering
+
+  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'order_choices': order_choices, 'chosen_order': chosen_order, 'chosen_category': chosen_category})
 
 def product_detail(request, slug, id):
   """
