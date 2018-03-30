@@ -21,6 +21,9 @@ def product_detail(request, slug, id):
   Or return a 404 error if the product is not found.
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
+  # clock up the number of product views
+  product.view_count += 1
+  product.save()
   return render(request, "product_detail.html", {"product": product})
 
 def new_product(request):
