@@ -65,6 +65,9 @@
         <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
         <a href="#" class="btn btn-primary btn-lg">Add to Cart</a>
         {% endif %}
+        {% if product.product_file %}
+        <a href="/media/{{ product.product_file }}" class="btn btn-primary btn-lg">Download</a>
+        {% endif %}
       </div>
     </div>
   </header>

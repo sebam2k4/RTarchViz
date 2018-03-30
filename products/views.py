@@ -36,6 +36,7 @@ def new_product(request):
       return redirect(Product.get_product_detail_url(product))
   else:
     form = ProductForm()
+  # Render the new product
   return render(request, 'product_form_new.html', {'form': form})
 
 def edit_product(request, slug, id):
@@ -45,7 +46,6 @@ def edit_product(request, slug, id):
   product = get_object_or_404(Product, slug=slug, pk=id)
   if request.method == "POST":
     # Create instance of ProductForm & bind file data and form data
-    # https://docs.djangoproject.com/en/1.11/ref/forms/api/#binding-uploaded-files
     form = ProductForm(request.POST, request.FILES, instance=product)
     if form.is_valid():
       product = form.save(commit=False)
@@ -53,5 +53,7 @@ def edit_product(request, slug, id):
       product.save()
       return redirect(Product.get_product_detail_url(product))
   else:
+    # Render the edited product
     form = ProductForm(instance=product)
   return render(request, 'product_form_edit.html', {'form': form})
+  
