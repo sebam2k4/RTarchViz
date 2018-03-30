@@ -47,32 +47,21 @@
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
 		<div class="user-profile-products-cards">
 			<div class="row">
-				<div class="w-50 col-sm-4">
+				{% for product in products %}
+				<div class="w-50 col-md-4 col-lg-3">
 					<div class="card mb-5">
-						<a href="#">
-							<div class="card-img-top" style="background-image: url('http://placehold.it/200?text=bkg-img');"></div>
+						<a href="{{ product.get_product_detail_url }}">
+							<div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}');"></div>
 						</a>
 						<div class="card-body">
-							<h5 class="card-title"><a href="#">Product Title</a></h5>
-							<p class="card-text">date added</p>
-							<p class="card-text float-left"><small class="text-muted">rating</small></p>
-							<p class="card-text float-right">$34</p>
+							<h5 class="card-title"><a href="{{ product.get_product_detail_url }}">{{ product.name }}</a></h5>
+							<p class="card-text">{{ added_date }}</p>
+							<p class="card-text float-left"><small class="text-muted">rating*****</small></p>
+							<p class="card-text float-right">&euro;{{ product.price }}</p>
 						</div>
 					</div>
 				</div>
-				<div class="w-50 col-sm-4">
-					<div class="card mb-5">
-						<a href="#">
-							<div class="card-img-top" style="background-image: url('http://placehold.it/200?text=bkg-img');"></div>
-						</a>
-						<div class="card-body">
-							<h5 class="card-title"><a href="#">Product Title</a></h5>
-							<p class="card-text">date added</p>
-							<p class="card-text float-left"><small class="text-muted">rating</small></p>
-							<p class="card-text float-right">$22</p>
-						</div>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
 		</div>
 

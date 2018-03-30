@@ -81,8 +81,10 @@ def profile(request, username):
   the User object with username from url. Or if no username provided
   in ulr.
   '''
+  from products.models import Product
   user = get_object_or_404(User, username=username)
-  return render(request, 'profile.html', {'user': user})
+  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
+  return render(request, 'profile.html', {'user': user, 'products': products})
 
 def user_list(request):
   """
