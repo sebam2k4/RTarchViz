@@ -17,66 +17,95 @@
 <main id="userDashboard">
 	{# Dashboard Header #}
 	<header class="user-dashboard-header">
-			<div class="jumbotron jumbotron-fluid">
-				<div class="container">
-					<h1 class="display-4">Your Dashboard</h1>
-					<p class="lead">You are logged in as: {{ request.user.username }}</p>
-					<p class="lead">your email: {{ request.user.email}}</p>
-				</div>
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Your Dashboard</h1>
+				<p class="lead">You are logged in as: {{ request.user.username }}</p>
+				<p class="lead">your email: {{ request.user.email}}</p>
 			</div>
-		</header>
+		</div>
+	</header>
 	
 		{# Dashboard Sales #}
-		<section class="user-dashboard-sales container">
-				<div class="row">
-					<div class="col">
-						<h2 class="mb-3">Your Sales</h2>
-						<p>...</p>
-						<p>...</p>
-						<a class="btn btn-primary" href="#">View Detailed Sales History</a>
+	<section class="user-dashboard-sales container">
+			<div class="row">
+				<div class="col">
+					<h2 class="mb-3">Your Sales</h2>
+					{% if products %}
+					<div class="table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Product Name</th>
+									<th scope="col">Sold</th>
+									<th scope="col">Views</th>
+									<th scope="col">Rating</th>
+									<th scope="col">Total Earned</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for product in products %}
+								<tr>
+									<th scope="row">{{ forloop.counter }}</th>
+									<td>{{ product.name }}</td>
+									<td>{{ product.sold_count }}</td>
+									<td>{{ product.view_count }}</td>
+									<td>*****</td>
+									<td>loads of cash</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
 					</div>
+					<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
+					<a class="btn btn-primary disabled" href="#">View Detailed Sales History</a>
+					{% else %}
+					<p>You have no products listed...</p>
+					<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
+					{% endif %}
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
-		{# Dashboard Purchases #}
-		<section class="user-dashboard-purchases container">
-				<div class="row">
-					<div class="col">
-						<h2 class="mb-3">Your Purchases</h2>
-						<p>...</p>
-						<p>...</p>
-						<a class="btn btn-primary" href="#">View Detailed Purchase History</a>
-					</div>
+	{# Dashboard Purchases #}
+	<section class="user-dashboard-purchases container">
+			<div class="row">
+				<div class="col">
+					<h2 class="mb-3">Your Purchases</h2>
+					<p>...</p>
+					<p>...</p>
+					<a class="btn btn-primary disabled" href="#">View Detailed Purchase History</a>
 				</div>
 			</div>
-		</section>
+		</div>
+	</section>
 
-		{# Dashboard Stats #}
-		<section class="user-dashboard-stats container">
-				<div class="row">
-					<div class="col">
-						<h2 class="mb-3">All Products &amp; Stats</h2>
-						<p>Products A, rating 4.5, views: 400, sold: 10</p>
-						<p>Products B, rating 4.0, views: 250, sold: 7</p>
+	{# Dashboard Personal Details #}
+	<section class="user-dashboard-details container">
+			<div class="row">
+				<div class="col">
+					<h2 class="mb-3">Your Personal Details</h2>
+					<div class="alert alert-warning alert-dismissible fade show" role="alert">
+						<strong>NOTE:</strong> Please make sure your billing details are up to date.
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
 					</div>
+					<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+					<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
+					{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
+					<p>City or Town: {{ user.city_town }}</p>
+					<p>Post Code: {{ user.post_code }}</p>
+					<p>Country: {{ user.country }}</p>
+					{# Dashboard Account Utility Links #}
+					<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
+					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
 				</div>
 			</div>
-		</section>
-
-		{# Dashboard Account Utility Links #}
-		<section class="user-dashboard-utilities container">
-				<div class="row">
-					<div class="col">
-						<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
-						<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
-					</div>
-				</div>
-			</div>
-		</section>
-
-					
-
+		</div>
+	</section>
 
 </main>
 {% endblock %}

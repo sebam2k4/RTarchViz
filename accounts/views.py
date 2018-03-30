@@ -10,6 +10,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
+from products.models import Product
 # from django.http import HttpResponseRedirect
 
 # Create your views here.
@@ -77,11 +78,10 @@ def login(request):
 
 def profile(request, username):
   '''
-  A view that gets the specified user's profile page by querying
-  the User object with username from url. Or if no username provided
-  in ulr.
+  A view that gets the specified user object based on username
+  and renders it to the 'profile.html' template. Also, gets the
+  user's products.
   '''
-  from products.models import Product
   user = get_object_or_404(User, username=username)
   products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
   return render(request, 'profile.html', {'user': user, 'products': products})
@@ -97,11 +97,13 @@ def user_list(request):
 @login_required
 def dashboard(request):
   '''
-  A view that gets the authenticated user's dashboard.
+  A view that gets the authenticated user's dashboard and provides stats
+  on product sales and purchases as well as interface for adding products,
+  editing user personal details, and changing user password.
   '''
-  #user = get_object_or_404(User, username=username)
   user = User.objects.get(email=request.user.email)
-  return render(request, 'dashboard.html', {'user': user})
+  products = Product.objects.filter(seller_id = request.user.id).order_by('-added_date')
+  return render(request, 'dashboard.html', {'user': user, 'products': products})
 
 @login_required
 def logout(request):
