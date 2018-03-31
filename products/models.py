@@ -31,8 +31,8 @@ class Product(models.Model):
   )
   NEWEST_VERSION = 419
   BASE_VERSION = 400
-  UE_VERSION_CHOICES = [((str(i/100.00)),str(i/100.00)) for i in range(BASE_VERSION, BASE_VERSION + (NEWEST_VERSION - BASE_VERSION + 1))]
-
+  # version choices as floats converted to string (4.19, 4.18, etc.)
+  UE_VERSION_CHOICES = [(str(i/100.00),str(i/100.00)) for i in range( NEWEST_VERSION,BASE_VERSION -1, -1)]
 
   # DATABASE FIELDS:
   seller = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -44,7 +44,7 @@ class Product(models.Model):
   view_count = models.IntegerField('views', editable=False, default=0)
   added_date = models.DateTimeField(editable=False, default=timezone.now)
   category = models.CharField(max_length=25, choices=CATEGORY_CHOICES)
-  ue_version = models.CharField('Unreal Engine Version', max_length=5, choices=UE_VERSION_CHOICES)
+  ue_version = models.CharField('Unreal Engine Version', max_length=5, choices=UE_VERSION_CHOICES, default=UE_VERSION_CHOICES[0])
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path, blank=True, null=True)
   product_file = models.FileField('Product File', upload_to=user_directory_path, blank=True, null=True)
  
