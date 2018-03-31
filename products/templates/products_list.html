@@ -101,6 +101,37 @@
       </div>
     </div>
 
+    {# Pagination #}
+    <nav class="product-list-pagination">
+      <ul class="pagination justify-content-center">
+        {% if products.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.previous_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span>Previous</span>
+          </a>
+        </li>
+        {% endif %}
+        {% if products.has_previous or products.has_next %}
+          {% for num in paginator.page_range %}
+            {% if products.number == num %}
+            <li class="page-item active page-link">{{ num }} <span class="sr-only">(current)</span></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}">{{ num }}</a></li>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% if products.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ products.next_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Next">
+              <span>Next</span>
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+
   </section>
 </main>
 {% endblock %}

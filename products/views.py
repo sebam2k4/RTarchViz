@@ -2,32 +2,43 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Product
 from .forms import ProductForm
 
 
 def products_list(request):
   """
-  This view does two tings:
+  This view does three things:
 
-  1. returns a list of all products and render them
-  to the 'products_list.html' template.
+  1. Provides filtering by category and various ordering choices
+  to user through 2 select fields in the template: When user selects
+  an option, a get request is made with the user's choice as a query
+  string and is matched with one of the predefined options below to
+  apply the appropriate filter to the queryset.
 
-  2. Provides filtering by category and various ordering choices
-  to user through 2 select fields in the template: When user
-  applies a filer, a get request is made with the user's choices as a query string and is matched with one of the predefined category or ordering
-  options defined below.
+  2. Paginates the list of post objects, filtered or not.
+
+  3. returns paginated list of products and
+  renders them to the 'products_list.html' template. 
+
+  This view is dealing with up to three query strings at the same
+  time, one for pagination '?page=' and the other two for selecting
+  category & sorting '?product-category-select=''&product-sort-select'.
+  To avoid the category and sorting query strings from being cleared,
+  by requesting next page of results with paginator, the form's
+  select options in the template have to be matched with user selected
+  options and set 'selected' attribute on the specified option tags.
   """
   products = Product.objects.all()
 
   # define filter choices and get filtered objects based on user select
   # note: refactor this code as it pretty much uses all hard coded values. See
-  #       if can fill a tuple from a list of available product categories?
+  #       if can fill a tuple from list of the actual available categories?
   #       This would be useful for when categories are added or modified.
   category_choices = ('all products', 'assets', 'environment', 'blueprint', 'materials')
   sort_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
 
-  
   if request.method == 'GET':
     chosen_category = request.GET.get('product-category-select')
     chosen_sort = request.GET.get('product-sort-select')
@@ -37,7 +48,6 @@ def products_list(request):
         products_by_category = products
       else:
         products_by_category = products.filter(category=chosen_category)
-      #products = products_by_category
 
     if chosen_sort:
       if chosen_sort == 'newest':
@@ -52,7 +62,19 @@ def products_list(request):
         products_by_sort = products_by_category.order_by('-name')
       products = products_by_sort
 
-  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'sort_choices': sort_choices, 'chosen_sort': chosen_sort, 'chosen_category': chosen_category})
+  # paginate the products list
+  paginator = Paginator(products, 3)
+  products_page = request.GET.get('page')
+  try:
+    products = paginator.page(products_page)
+  except PageNotAnInteger:
+    # if page is not an integer, deliver first page
+    products = paginator.page(1)
+  except EmptyPage:
+    # deliver last page of results when page is out of range
+    products = paginator.page(paginator.num_pages)
+
+  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'sort_choices': sort_choices, 'chosen_sort': chosen_sort, 'chosen_category': chosen_category, 'paginator': paginator})
 
 def product_detail(request, slug, id):
   """
