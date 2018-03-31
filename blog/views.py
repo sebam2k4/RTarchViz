@@ -8,16 +8,18 @@ from .models import Post
 
 def posts_list(request):
   '''
-  This view does two tings:
+  This view does three things:
   
-  1. returns a paginated list of all published posts and
-  renders them to the 'posts_list.html' template. 
-  
-  2. Provides filtering and ordering choices to user through a
-  select field in the template: When user applies a filer, a get
+  1. Provides filtering and ordering choices to user through a
+  select field in the template: When user selects an option, a get
   request is made with the user's choice as a query string and is
-  matched with one of the predefined options below (oldest,
-  turtorials, news, or most popular).
+  matched with one of the predefined options below to apply the
+  appropriate filter to the queryset.
+
+  2. Paginates the list of post objects, filtered or not.
+
+  3. returns paginated published posts and
+  renders them to the 'posts_list.html' template. 
   
   This view is dealing with up to two query strings at the same
   time, one for pagination '?page=' and another for filter
@@ -31,6 +33,8 @@ def posts_list(request):
   published_posts = Post.objects.published()
 
   # define filter choices and get filtered objects based on user select
+  # note: Refactor this code to make it better. Maybe put the filters and
+  #       sorts in the manager?
   filter_choices = ('newest', 'oldest', 'tutorials', 'news', 'most popular')
   chosen_filter = request.GET.get('post-filter-select')
   if chosen_filter == 'oldest':

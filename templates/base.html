@@ -26,8 +26,8 @@
           <li class="nav-item {% if url_name == 'index'  %}active{% endif %}">
             <a class="nav-link" href="{% url 'index' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Shop</a>
+          <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
           </li>
           <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
             <a class="nav-link" href="{% url 'posts_list' %}">Blog</a>
