@@ -76,3 +76,8 @@ class Product(models.Model):
   def get_edit_product_url(self):
     return ('edit_product', [self.slug,
                              self.id])
+
+  @permalink
+  def get_delete_product_url(self):
+    return ('delete_product', [self.slug,
+                             self.id])

@@ -138,3 +138,4 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 
 #### Other
 - Create custom 404 page
+- Possible help for preserving get query strings from view instead of templates (nice to have improvement): https://stackoverflow.com/questions/4477090/django-redirect-using-reverse-to-a-url-that-relies-on-query-strings

@@ -38,6 +38,7 @@
 								<tr>
 									<th scope="col">#</th>
 									<th scope="col">Product Name</th>
+									<th scope="col">Utilities</th>
 									<th scope="col">Sold</th>
 									<th scope="col">Views</th>
 									<th scope="col">Rating</th>
@@ -49,6 +50,7 @@
 								<tr>
 									<th scope="row">{{ forloop.counter }}</th>
 									<td>{{ product.name }}</td>
+									<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
 									<td>{{ product.sold_count }}</td>
 									<td>{{ product.view_count }}</td>
 									<td>*****</td>

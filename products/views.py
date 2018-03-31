@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
@@ -134,4 +135,18 @@ def edit_product(request, slug, id):
     messages.error(request, 'You cannot edit this product')
     raise PermissionDenied
 
-
+@login_required
+def delete_product(request, slug, id):
+  """
+  A view that handles deleting user's existing product
+  """
+  product = get_object_or_404(Product, slug=slug, pk=id)
+  # make sure user is the product owner
+  if request.user.id == product.seller_id:
+    product.delete()
+    messages.success(request, 'You have successfully deleted your product')
+    return redirect('dashboard')
+  else:
+    # raise 403 forbidden exception and render 403.html template
+    messages.error(request, 'You cannot delete this product')
+    raise PermissionDenied
