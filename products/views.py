@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from .models import Product
 from .forms import ProductForm
+
 
 
 def products_list(request):
@@ -88,6 +92,7 @@ def product_detail(request, slug, id):
   product.save()
   return render(request, "product_detail.html", {"product": product})
 
+@login_required
 def new_product(request):
   """
   A view that allows to create a new product
@@ -104,21 +109,29 @@ def new_product(request):
   # Render the new product
   return render(request, 'product_form_new.html', {'form': form})
 
+@login_required
 def edit_product(request, slug, id):
   """
-  A view that allows to edit an existing product
+  A view that allows to edit user's existing product
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
-  if request.method == "POST":
-    # Create instance of ProductForm & bind file data and form data
-    form = ProductForm(request.POST, request.FILES, instance=product)
-    if form.is_valid():
-      product = form.save(commit=False)
-      product.seller = request.user
-      product.save()
-      return redirect(Product.get_product_detail_url(product))
+  # make sure user is the product owner
+  if request.user.id == product.seller_id:
+    if request.method == "POST":
+      # Create instance of ProductForm & bind file data and form data
+      form = ProductForm(request.POST, request.FILES, instance=product)
+      if form.is_valid():
+        product = form.save(commit=False)
+        product.seller = request.user
+        product.save()
+        return redirect(Product.get_product_detail_url(product))
+    else:
+      # Render the edited product
+      form = ProductForm(instance=product)
+    return render(request, 'product_form_edit.html', {'form': form})
   else:
-    # Render the edited product
-    form = ProductForm(instance=product)
-  return render(request, 'product_form_edit.html', {'form': form})
-  
+    # raise 403 forbidden exception and render 403.html template
+    messages.error(request, 'You cannot edit this product')
+    raise PermissionDenied
+
+
