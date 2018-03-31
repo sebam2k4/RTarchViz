@@ -66,13 +66,11 @@ Custom model save method - Overriding the save method to generate datetime stamp
 
 #### Issues/Bugs
 - title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
-- Disqus doesn't seem to be configured correctly or does not work well on localhost. It loads the comments, but doesn't connect with my Disqus API. Try to investigate this once deployed to heroku server. Make sure to change site name in admin.
 - getting 2 duplicated sql queries in post_detail view for selecting "accounts_user"."id" = "id" ??? - investigate
 
 ### Products App
 
 #### To Do:
-- Product list -> use a single [FILTER] button for filtering form
 - add pagination to product list
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)

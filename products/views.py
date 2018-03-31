@@ -25,12 +25,12 @@ def products_list(request):
   #       if can fill a tuple from a list of available product categories?
   #       This would be useful for when categories are added or modified.
   category_choices = ('all products', 'assets', 'environment', 'blueprint', 'materials')
-  order_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
+  sort_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
 
   
   if request.method == 'GET':
     chosen_category = request.GET.get('product-category-select')
-    chosen_order = request.GET.get('product-order-select')
+    chosen_sort = request.GET.get('product-sort-select')
     
     if chosen_category:
       if chosen_category == 'all products':
@@ -39,20 +39,20 @@ def products_list(request):
         products_by_category = products.filter(category=chosen_category)
       #products = products_by_category
 
-    if chosen_order:
-      if chosen_order == 'newest':
-        products_by_ordering = products_by_category.order_by('-added_date')
-      elif chosen_order == 'oldest':
-        products_by_ordering  = products_by_category.order_by('added_date')
-      elif chosen_order == 'most popular':
-        products_by_ordering = products_by_category.order_by('-sold_count')
-      elif chosen_order == 'a-z':
-        products_by_ordering = products_by_category.order_by('name')
-      elif chosen_order == 'z-a':
-        products_by_ordering = products_by_category.order_by('-name')
-      products = products_by_ordering
+    if chosen_sort:
+      if chosen_sort == 'newest':
+        products_by_sort = products_by_category.order_by('-added_date')
+      elif chosen_sort == 'oldest':
+        products_by_sort  = products_by_category.order_by('added_date')
+      elif chosen_sort == 'most popular':
+        products_by_sort = products_by_category.order_by('-sold_count')
+      elif chosen_sort == 'a-z':
+        products_by_sort = products_by_category.order_by('name')
+      elif chosen_sort == 'z-a':
+        products_by_sort = products_by_category.order_by('-name')
+      products = products_by_sort
 
-  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'order_choices': order_choices, 'chosen_order': chosen_order, 'chosen_category': chosen_category})
+  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'sort_choices': sort_choices, 'chosen_sort': chosen_sort, 'chosen_category': chosen_category})
 
 def product_detail(request, slug, id):
   """

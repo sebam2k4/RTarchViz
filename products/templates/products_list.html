@@ -31,45 +31,38 @@
 
   <section class="product-list container">
 
+    {# Filter and sort Select Dropdowns #}
     <div class="product-list-filter-category mb-5">
       <form action="{% url 'products_list' %}" method="GET">
-        <div class="input-group mb-5">
-          <select class="custom-select" name="product-category-select">
-            {% for choice in category_choices %}
-            <option {% if chosen_category == choice %}selected{% endif %}>{{ choice }}</option>
-            {% endfor%}
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">-> Filter by Category</button>
-          </div>
-        </div>
-        <div class="input-group">
-          <select class="custom-select" name="product-order-select">
-            {% for choice in order_choices %}
-            <option {% if chosen_order == choice %}selected{% endif %}>{{ choice }}</option>
-            {% endfor %}
-          </select>
-          <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">-> Order by Stuff</button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- <div class="product-list-filter-order mb-5">
-        <form action="{% url 'products_list' %}" method="GET">
-          <div class="input-group">
-            <select class="custom-select" name="product-order-select">
-              {% for choice in order_choices %}
-              <option {% if chosen_order == choice %}selected{% endif %}>{{ choice }}</option>
-              {% endfor%}
-            </select>
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="submit">-> Order by Stuff</button>
+        <div class="form-row">
+          <div class="col-md-6 mb-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label for="category-select" class="input-group-text">Category</label>
+              </div>
+              <select class="custom-select" id="category-select" name="product-category-select">
+                {% for choice in category_choices %}
+                <option {% if chosen_category == choice %}selected{% endif %}>{{ choice }}</option>
+                {% endfor%}
+              </select>
             </div>
           </div>
-        </form>
-      </div> -->
+          <div class="col-md-6 mb-3">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label for="sort-select" class="input-group-text">Sort by</label>
+              </div>
+              <select class="custom-select" id="sort-select" name="product-sort-select">
+                {% for choice in sort_choices %}
+                <option {% if chosen_sort == choice %}selected{% endif %}>{{ choice }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+      </form>
+    </div>
 
     {# Product List - Cards #}
     <div class="product-list-cards">
