@@ -32,7 +32,7 @@ class AccountUserManager(UserManager):
     """
     Overriding method
     Normalize the address by lowercasing both the name and domain parts
-    of the email address.
+    of the email address before saving it to the db.
     """
     email = email or ''
     try:
