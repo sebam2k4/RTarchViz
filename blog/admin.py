@@ -12,20 +12,22 @@ class PostAdmin(admin.ModelAdmin):
   """
   custom admin
   """
-  list_display = ("title", "author", "published_date", "updated_date", "status", "category", "view_count")
+  list_display = ("title", "author", "published_date", "updated_date", "status", "category",
+                  "view_count")
   list_filter = ("status", "category", "created_date", "published_date", "updated_date")
   search_fields = ("title", "author")
   date_hierarchy = "published_date"
   ordering = ["status", "-published_date"]
 
-  readonly_fields=("created_date", "published_date", "updated_date", "view_count", "slug",)
+  readonly_fields=("created_date", "published_date", "updated_date",
+                   "view_count", "slug",)
   fieldsets = (
-                (None,          {'fields': ('author',  'title', 'slug', 'content', 'category')}),
-                (_('Image'),   {'fields': ('image',)}),
-                (_('Status'),   {'fields': ('status',)}),
-                (_('History'),  {'fields': ('created_date', 'published_date', 'updated_date')}),
-                (_('Views'),  {'fields': ('view_count',)}),
-              )
+    (None,         {'fields': ('author',  'title', 'slug', 'content', 'category')}),
+    (_('Image'),   {'fields': ('image',)}),
+    (_('Status'),  {'fields': ('status',)}),
+    (_('History'), {'fields': ('created_date', 'published_date', 'updated_date')}),
+    (_('Views'),   {'fields': ('view_count',)}),
+  )
 
   # override all textfields to use the tinyMCE widget
   formfield_overrides = {
@@ -38,7 +40,8 @@ class PostAdmin(admin.ModelAdmin):
     return only users who are staff
     """
     if db_field.name == 'author':
-      # use get_user_model to return current active user model instead of 'import accounts.User'
+      # use get_user_model to return current active user model instead
+      # of 'import accounts.User'
       kwargs['queryset'] = get_user_model().objects.filter(is_staff=request.user.is_staff)
     return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 

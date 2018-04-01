@@ -11,7 +11,6 @@ from .models import Product
 from .forms import ProductForm
 
 
-
 def products_list(request):
   """
   This view does three things:
@@ -38,9 +37,10 @@ def products_list(request):
   products = Product.objects.all()
 
   # define filter choices and get filtered objects based on user select
-  # note: refactor this code as it pretty much uses all hard coded values. See
-  #       if can fill a tuple from list of the actual available categories?
-  #       This would be useful for when categories are added or modified.
+  # note: refactor this code as it pretty much uses all hard coded
+  #       values. See if can fill a tuple from list of the actual
+  #       available categories? This would be useful for when categories
+  #       are added or modified.
   category_choices = ('all products', 'assets', 'environment', 'blueprint', 'materials')
   sort_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
 
@@ -79,7 +79,10 @@ def products_list(request):
     # deliver last page of results when page is out of range
     products = paginator.page(paginator.num_pages)
 
-  return render(request, 'products_list.html', {'products': products, 'category_choices': category_choices, 'sort_choices': sort_choices, 'chosen_sort': chosen_sort, 'chosen_category': chosen_category, 'paginator': paginator})
+  context = {'products': products, 'category_choices': category_choices,
+             'sort_choices': sort_choices, 'chosen_sort': chosen_sort,
+             'chosen_category': chosen_category, 'paginator': paginator}
+  return render(request, 'products_list.html', context)
 
 def product_detail(request, slug, id):
   """
@@ -91,7 +94,8 @@ def product_detail(request, slug, id):
   # clock up the number of product views
   product.view_count += 1
   product.save()
-  return render(request, "product_detail.html", {"product": product})
+  context = {"product": product}
+  return render(request, "product_detail.html", context)
 
 @login_required
 def new_product(request):
@@ -104,11 +108,13 @@ def new_product(request):
       product = form.save(commit=False)
       product.seller = request.user
       product.save()
+      # redirect to the new product after save
       return redirect(Product.get_product_detail_url(product))
   else:
     form = ProductForm()
-  # Render the new product
-  return render(request, 'product_form_new.html', {'form': form})
+
+  context = {'form': form}
+  return render(request, 'product_form_new.html', context)
 
 @login_required
 def edit_product(request, slug, id):
@@ -129,7 +135,9 @@ def edit_product(request, slug, id):
     else:
       # Render the edited product
       form = ProductForm(instance=product)
-    return render(request, 'product_form_edit.html', {'form': form})
+
+    context = {'form': form}
+    return render(request, 'product_form_edit.html', context)
   else:
     # raise 403 forbidden exception and render 403.html template
     messages.error(request, 'You cannot edit this product')

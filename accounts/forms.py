@@ -11,11 +11,13 @@ class UserLoginForm(forms.Form):
 
 class UserEditForm(forms.ModelForm):
   """
-  A form to handle editing of user details. Performs case insensitive check
-  for email and username to make sure they're not already registered.
+  A form to handle editing of user details. Performs case insensitive
+  check for email and username to make sure they're not already
+  registered.
   """
 
-  # Note: validation error when form saved without changing the email & username fields
+  # Note: validation error when form saved without changing the email &
+  #       username fields
   #       need some sort of check if these fields changed or not.
   def clean_email(self):
     """
@@ -39,7 +41,8 @@ class UserEditForm(forms.ModelForm):
 
   class Meta:
     model = User
-    fields = ['email', 'username', 'first_name', 'last_name', 'bio', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country']
+    fields = ['email', 'username', 'first_name', 'last_name', 'bio', 'birth_date', 'address1',
+              'address2', 'city_town', 'county_state', 'post_code', 'country']
 
 class UserRegistrationForm(UserCreationForm):
   """
@@ -53,7 +56,9 @@ class UserRegistrationForm(UserCreationForm):
 
   class Meta:
     model = User
-    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'bio', 'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code', 'country'] #only display these input fields
+    fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'bio',
+              'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code',
+              'country']
 
   def clean_email(self):
     """
@@ -74,7 +79,3 @@ class UserRegistrationForm(UserCreationForm):
       message = "Username already registered!"
       raise ValidationError(message)
     return username
-
-
-
-

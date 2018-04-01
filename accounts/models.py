@@ -6,15 +6,13 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
-# Create your models here.
+class AccountUserManager(UserManager):
 
-class AccountUserManager(UserManager):  # inherit from Django's UserManager class
-
-  # override the _create_user method to add a check if email is correct (default uses username for login)
+  # override the _create_user method to add a check if email is correct
   def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
-    '''
+    """
     Created and saves a User with the given username, email, and password
-    '''
+    """
     
     if not email:
       raise ValueError('The given email address must be set')
@@ -23,10 +21,8 @@ class AccountUserManager(UserManager):  # inherit from Django's UserManager clas
     
 
     email = self.normalize_email(email)
-    user = self.model(username=username, email=email,
-                      is_staff=is_staff, is_active=True,
-                      is_superuser=is_superuser,
-                      date_joined=timezone.now(), **extra_fields)
+    user = self.model(username=username, email=email, is_staff=is_staff, is_active=True,
+                      is_superuser=is_superuser, date_joined=timezone.now(), **extra_fields)
     user.set_password(password)
     user.save(using=self._db)
 
