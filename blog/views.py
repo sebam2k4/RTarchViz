@@ -7,7 +7,7 @@ from django.utils import timezone
 from .models import Post
 
 def posts_list(request):
-  '''
+  """
   This view does three things:
   
   1. Provides filtering and ordering choices to user through a
@@ -28,7 +28,7 @@ def posts_list(request):
   the form's select option in the template has to be matched with
   user selected filter and set 'selected' attribute on the specified
   option tag.
-  '''
+  """
   # Get all published posts
   published_posts = Post.objects.published()
 
@@ -63,7 +63,7 @@ def posts_list(request):
   return render(request, 'posts_list.html', context)
 
 def post_detail(request, year, month, slug):
-  '''
+  """
   This view does two things:
   
   1. Returns a single Post object based
@@ -74,7 +74,7 @@ def post_detail(request, year, month, slug):
   2. Gets the next and previous post objects and make only
   their specified values available to the template. They
   are then used in the template for next/prev post navigation
-  '''
+  """
   # get single post object for current post detail
   post = get_object_or_404(Post, published_date__year=year, published_date__month=month, slug=slug)
   
