@@ -108,6 +108,7 @@ def new_product(request):
       product = form.save(commit=False)
       product.seller = request.user
       product.save()
+      messages.success(request, 'You have successfully created a new product')
       # redirect to the new product after save
       return redirect(Product.get_product_detail_url(product))
   else:
@@ -131,6 +132,7 @@ def edit_product(request, slug, id):
         product = form.save(commit=False)
         product.seller = request.user
         product.save()
+        messages.success(request, 'You have successfully updated your product')
         return redirect(Product.get_product_detail_url(product))
     else:
       # Render the edited product
