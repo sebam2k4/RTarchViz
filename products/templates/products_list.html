@@ -41,6 +41,7 @@
                 <label for="category-select" class="input-group-text">Category</label>
               </div>
               <select class="custom-select" id="category-select" name="product-category-select">
+                {# match user choice with available select options to set 'selected' attribute #}
                 {% for choice in category_choices %}
                 <option {% if chosen_category == choice %}selected{% endif %}>{{ choice }}</option>
                 {% endfor%}
@@ -53,6 +54,7 @@
                 <label for="sort-select" class="input-group-text">Sort by</label>
               </div>
               <select class="custom-select" id="sort-select" name="product-sort-select">
+                {# match user choice with available select options to set 'selected' attribute #}
                 {% for choice in sort_choices %}
                 <option {% if chosen_sort == choice %}selected{% endif %}>{{ choice }}</option>
                 {% endfor %}

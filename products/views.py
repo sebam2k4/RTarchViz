@@ -68,7 +68,7 @@ def products_list(request):
       products = products_by_sort
 
   # paginate the products list
-  paginator = Paginator(products, 3)
+  paginator = Paginator(products, 9)
   products_page = request.GET.get('page')
   try:
     products = paginator.page(products_page)
@@ -100,7 +100,7 @@ def product_detail(request, slug, id):
 @login_required
 def new_product(request):
   """
-  A view that allows to create a new product
+  A view for creatubg a new product
   """
   if request.method == "POST":
     form = ProductForm(request.POST, request.FILES)
@@ -120,7 +120,7 @@ def new_product(request):
 @login_required
 def edit_product(request, slug, id):
   """
-  A view that allows to edit user's existing product
+  A view for editing user's existing product
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
   # make sure user is the product owner
@@ -141,7 +141,8 @@ def edit_product(request, slug, id):
     context = {'form': form}
     return render(request, 'product_form_edit.html', context)
   else:
-    # raise 403 forbidden exception and render 403.html template
+    # if not product owner, raise 403 forbidden exception and render
+    # 403.html template
     messages.error(request, 'You cannot edit this product')
     raise PermissionDenied
 
@@ -157,6 +158,7 @@ def delete_product(request, slug, id):
     messages.success(request, 'You have successfully deleted your product')
     return redirect('dashboard')
   else:
-    # raise 403 forbidden exception and render 403.html template
+    # if not product owner, raise 403 forbidden exception and render
+    #  403.html template
     messages.error(request, 'You cannot delete this product')
     raise PermissionDenied
