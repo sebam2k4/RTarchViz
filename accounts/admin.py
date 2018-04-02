@@ -13,6 +13,4 @@ class AccountsUserAdmin(admin.ModelAdmin):
   search_fields = ("email", "username", "first_name", "last_name")
   ordering = ('-last_login',)
 
-
-
 admin.site.register(User, AccountsUserAdmin)

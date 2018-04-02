@@ -26,19 +26,23 @@ I extended the app in the following ways:
 - User profile pages now accessible by other users
 - Added a private user dashboard for sale and purchase stats
 
-#### Password Validation
-Using Django's Built in Password validation:
-- password can't be too similar to your other personal information. (on password change)
-- password must contain at least 8 characters.
-- password can't be a commonly used password.
-- password can't be entirely numeric.
+
+#### Validation
+- Password: Using Django's Built in Password validation
+  - password can't be too similar to your other personal information. (on password change)
+  - password must contain at least 8 characters.
+  - password can't be a commonly used password.
+  - password can't be entirely numeric.
+- Username:
+  - case sensitive, but unique in a way that no two users can have same letters usernames no matter what letter case. If a user has a username 'JoHn' then another user cannot register or change their username to 'john'.
+- Email:
+  - email is always saved in db in lowercase no matter how it was entered at registration and all validation checks against it are case insensitive.
 
 #### ToDo
 - prevent password_reset access to logged in users. Currently using django's built in password reset views and not sure how to do this without rewriting the views using `is_authenticated`
 - Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
 
 #### Issues/Bugs
-- Make sure username is case insensitive. Registration form does a case insensitive check for username and email correctly. Profile update form does the case insensitive check as well, but will throw validation errors when user submits the form without changing both the username and email. Create something of a 'if field has changed' for email and username fields as they're the only ones unique
 
 ### Pages App
 Static pages like the homepage and about
