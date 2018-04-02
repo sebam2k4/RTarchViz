@@ -9,17 +9,13 @@ from django.db.models import permalink
 from django.template.defaultfilters import truncatechars
 
 class PostManager(models.Manager):
-  """
-  Defining custom Manager methods
-  """
+  """Defining custom Manager methods"""
   def published(self):
-    """ select only published posts """
+    """ elect only published posts"""
     return self.get_queryset().filter(status="published")
 
 class Post(models.Model):
-  """
-  Defining Blog's Post models
-  """
+  """Defining Blog's Post models"""
 
   # CHOICES:
   CATEGORY_CHOICES = (
@@ -32,7 +28,8 @@ class Post(models.Model):
   )
 
   # DATABASE FIELDS:
-  # author is linked to a registered staff user, via the User model in the accounts app.
+  # author is linked to a registered staff user, via the User model in
+  # the accounts app.
   author = models.ForeignKey(settings.AUTH_USER_MODEL)
   title = models.CharField(max_length=200, unique=True)
   # slug is generated from the title
@@ -60,7 +57,7 @@ class Post(models.Model):
   # META CLASS:
   class Meta:
     """specify global meta options for model"""
-    ordering = ('-published_date',) # set default ordering of the objects
+    ordering = ('-published_date',) # set default ordering of objects
 
   # TO STRING METHOD:
   def __unicode__(self):
@@ -72,9 +69,10 @@ class Post(models.Model):
     """
     overwrite Model save method to 
     1. automatically generate a slug from post's title
-    2. set published_date with current date & time when post's status is initially
-       changed from 'draft' to 'published'
-    3. set updated_date with current date & time if published_date already set
+    2. set published_date with current date & time when post's status
+       is initially changed from 'draft' to 'published'
+    3. set updated_date with current date & time if published_date
+       already set
     """
     self.slug = self.get_slug()
     if self.status == 'published' and self.published_date is None or '':
@@ -92,23 +90,19 @@ class Post(models.Model):
 
   # OTHER METHODS:
   def get_slug(self):
-    """
-    create a slug from post's title
-    """
+    """create a slug from post's title"""
     slug = slugify(self.title)
     return slug
  
   def get_author(self):
-    """
-    get user's full name or username
-    """
+    """get user's full name or username"""
     if self.author.first_name and self.author.last_name:
       return "%s %s" % (self.author.first_name, self.author.last_name)
     else: 
       return self.author.username
 
   def get_short_content(self):
-    '''get a truncated version of a post's content'''
+    """get a truncated version of a post's content"""
     return truncatechars(self.content, 200)
 
   

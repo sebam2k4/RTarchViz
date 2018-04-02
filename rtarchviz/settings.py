@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'pages',
     'accounts',
     'blog',
+    'products',
+    # 3rd party apps:
     'bootstrap4',
     'tinymce',
     'disqus',
@@ -118,7 +120,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_SHORTNAME')
+DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_WEBSITE_SHORTNAME')
 DISQUS_API_KEY = os.environ.get('DISQUS_API_KEY')
 SITE_ID = 1
 

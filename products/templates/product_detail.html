@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/products.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}Product - {{ product.name }}{% endblock %}
+
+
+{# Products - product_detail #}
+{% block content %}
+
+{# Product Detail Carousel #}
+<header class="product-detail-carousel">
+  <div id="productCarousel" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#productCarousel" data-slide-to="0" class="active"></li>
+      <li data-target="#productCarousel" data-slide-to="1"></li>
+      <li data-target="#productCarousel" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="carousel-image" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-image" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
+      </div>
+      <div class="carousel-item">
+        <div class="carousel-image" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</header>
+
+<main id="productDetail">
+
+  {# Product Detail Header #}
+  <header class="product-detail-header">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">{{ product.name }}</h1>
+        <hr class="my-4">
+        <p>Sold by: <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
+        <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
+        <p>UE Version: {{ product.ue_version }}</p>
+        <p>Rating: *****</p>
+        <p>&euro;{{ product.price }}</p>
+        {% if request.user.id == product.seller_id %}
+        <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
+        {% else %}
+        <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
+        <a href="#" class="btn btn-primary btn-lg">Add to Cart</a>
+        {% endif %}
+        {% if product.product_file %}
+        <a href="/media/{{ product.product_file }}" class="btn btn-primary btn-lg">Download</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <section class="product-detail container">
+
+  {# Product Description #}
+  <div class="product-detail-description">
+    <h2>Description</h2>
+    <hr class="my-4">
+      <p>{{ product.description }}</p>
+  </div>
+
+  <div class="product-detail-social">
+    <!-- placeholder for social share actions -->
+  </div>
+ 
+  </section>
+
+  <section>
+
+  </section>
+</main>
+{% endblock %}
