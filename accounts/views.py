@@ -106,9 +106,8 @@ def dashboard(request):
   products, editing user personal details, and changing user password.
   """
   user = User.objects.get(email=request.user.email)
-  products = Product.objects.filter(seller_id = request.user.id).order_by('-added_date')
 
-  context = {'user': user, 'products': products}
+  context = {'user': user}
   return render(request, 'dashboard.html', context)
 
 @login_required

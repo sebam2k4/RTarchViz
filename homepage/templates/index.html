@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{# load tags #}
+{% load blog_tags %}
+{% load product_tags %}
+
+{# Load required js and css #}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+{% endblock %}
+
+{% block page_title %}RTarchViz - Unreal Engine assets for real-time arch viz projects{% endblock %}
+{% block page_heading %}Home Page{% endblock %}
+
+{# Homepage content #}
+{% block content %}
+<main id="homePage">
+  
+  {# Homepage Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Welcome to RTarchViz</h1>
+        <p class="lead">Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal Engine 4</p>
+        <hr class="my-4">
+        <p>Boop</p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="{% url 'products_list' %}" role="button">Shop All Products Now</a>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  {# Recent new Products #}
+  <section class="homepage-products">
+    <div class="container">
+      <h2>Recent Products</h2>
+      <hr class="my-4">
+      {% home_recent_products num=6 md='6' lg='4' %}
+    </div>
+  </section>
+
+  {# Recent Blog Posts #}
+  <section class="homepage-posts">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Recent Blog Posts</h2>
+          <hr class="my-4">
+          {% home_recent_posts num=4 %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+{% endblock %}
