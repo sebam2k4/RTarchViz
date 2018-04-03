@@ -44,8 +44,8 @@ I extended the app in the following ways:
 
 #### Issues/Bugs
 
-### Pages App
-Static pages like the homepage and about
+### Homepage App
+The project's homepage that uses custom inclusion tags to display most recent products and blog posts.
 
 ### Blog App
 Blog app for latest news and tutorials. Managed only by is_staff (company staff) who can add, edit, and delete posts in Django's built in, although extended/modified, admin. The staff users are provided with a handy form and a main texarea for the writing the blog content using the tinyMCE WYSIWYG text editor.
