@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-
+{# load tags #}
 {% load blog_tags %}
 {% load product_tags %}
 
@@ -13,10 +13,12 @@
 {% block page_title %}RTarchViz - Unreal Engine assets for real-time arch viz projects{% endblock %}
 {% block page_heading %}Home Page{% endblock %}
 
+{# Homepage content #}
 {% block content %}
 <main id="homePage">
+  
+  {# Homepage Header #}
   <header>
-      
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <h1 class="display-4">Welcome to RTarchViz</h1>
@@ -30,6 +32,7 @@
     </div>
   </header>
 
+  {# Recent new Products #}
   <section class="homepage-products">
     <div class="container">
       <h2>Recent Products</h2>
@@ -37,20 +40,19 @@
       {% home_recent_products num=6 md='6' lg='4' %}
     </div>
   </section>
+
+  {# Recent Blog Posts #}
   <section class="homepage-posts">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12">
-            <h2>Recent Blog Posts</h2>
-            <hr class="my-4">
-            {% home_recent_posts 4 %}
-          </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Recent Blog Posts</h2>
+          <hr class="my-4">
+          {% home_recent_posts num=4 %}
         </div>
-
       </div>
-    </section>
+    </div>
+  </section>
 
-
-  
 </main>
 {% endblock %}
