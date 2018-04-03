@@ -31,10 +31,6 @@ main {
   background-color: #aaa;
 }
 
-.product-list-pagination .active.page-link {
-  background-color: #007bff;
-  color: white;
-}
 /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .carousel {

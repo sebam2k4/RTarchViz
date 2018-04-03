@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load product_tags %}
 
 {# Load required js and css #}
 {% block body_js %}
@@ -67,44 +68,10 @@
     </div>
 
     {# Product List - Cards #}
-    <div class="product-list-cards">
-      <div class="row">
-        {% for product in products %}
-        <div class="col-md-6 col-lg-4">
-          <div class="card mb-5">
-            <a href="{{ product.get_product_detail_url }}">
-              <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
-            </a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ product.get_product_detail_url }}">{{ product.name }}</a></h5>
-              <p class="card-text">Sold by <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <span class="product-version">UE Version: {{ product.ue_version }}</span>
-                <span class="product-rating">Rating *****</span>
-              </li>
-              <li class="list-group-item">
-                <span class="product-category">Category: {{ product.category|capfirst }}</span>
-                <span class="product-price">&euro;{{ product.price}}</span>
-              </li>
-            </ul>
-            <div class="card-body">
-              <a href="{{ product.get_product_detail_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
-              {% if request.user.id == product.seller_id %}
-              <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg btn-block">Edit Your Product</a>
-              {% else %}
-              <a href="#" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
+    {% include '_product_list_cards_partial.html' with md="6" lg="4" %}
 
     {# Pagination #}
-    <nav class="product-list-pagination">
+    <nav class="product-list-pagination" aria-label="pagination">
       <ul class="pagination justify-content-center">
         {% if products.has_previous %}
         <li class="page-item">
@@ -117,7 +84,7 @@
         {% if products.has_previous or products.has_next %}
           {% for num in paginator.page_range %}
             {% if products.number == num %}
-            <li class="page-item active page-link">{{ num }} <span class="sr-only">(current)</span></li>
+            <li class="page-item active"><a class="page-link" href="#">{{ num }}<span class="sr-only">(current)</span></a></li>
             {% else %}
             <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}">{{ num }}</a></li>
             {% endif %}

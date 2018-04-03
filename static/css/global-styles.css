@@ -33,21 +33,3 @@ section {
 article {
   margin-bottom: 5em;
 }
-
-.recent-posts .post-image {
-  height: 10em;
-  width: 12em;
-  margin-right: 1em;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-/* Extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) {
-  .recent-posts .post-image {
-    height: 12em;
-    width: 100%;
-    margin-bottom: 1em;
-  }
-}
