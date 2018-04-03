@@ -16,15 +16,15 @@
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
     <div class="container">
-      <a class="navbar-brand" href="{% url 'index' %}">RTarchViz</a>
+      <a class="navbar-brand" href="{% url 'homepage' %}">RTarchViz</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           {% with url_name=request.resolver_match.url_name %}
-          <li class="nav-item {% if url_name == 'index'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'index' %}">Home</a>
+          <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
+            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
           </li>
           <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
             <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
