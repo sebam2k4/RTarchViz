@@ -37,21 +37,25 @@
 				<div class="col">
 					
 					<h2 class="mb-3">Bio</h2>
+					{% if user.bio %}
 					<p>{{ user.bio }}</p>
+					{% else %}
+					<p>Real-Time ArchViz Enthusiast</p>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!-- Profile User Products List placeholder -->
-	{% if products %}
+	{# Profile User Products List #}
+	
 	<section class="user-profile-products container">
 		<div class="user-profile-product-cards">
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
 		{% user_product_list user md='6' lg='4' %}
 		</div>
 	</section> 
-	{% endif %}
+	
 
 
 	<!-- Links to other Users.   for testing - remove when done -->

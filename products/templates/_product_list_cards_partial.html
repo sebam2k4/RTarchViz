@@ -1,5 +1,5 @@
 {# Reusable product list cards partial template #}
-
+{% if products %}
 <div class="product-list-cards">
   <div class="row">
     {% for product in products %}
@@ -37,3 +37,6 @@
     {% endfor %}
   </div>
 </div>
+{% else %}
+<p>No products listed</p>
+{% endif %}
