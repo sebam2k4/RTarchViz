@@ -78,7 +78,6 @@ Custom model save method - Overriding the save method to generate datetime stamp
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
 - uploading multiple files for product images
-- Restrict adding reviews to buyers and 1 review/product
 - Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
 - Combine product_form_edit and product_form_new into one. Can easily reuse the form and template in different views
 

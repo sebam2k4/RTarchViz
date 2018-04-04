@@ -106,7 +106,7 @@ def product_detail(request, slug, id):
 
   # check if user already reviewed. Only 1 review/product allowed
   already_reviewed = False
-  if Review.objects.filter(buyer_id=request.user.id).count() >= 1:
+  if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
     already_reviewed = True
  
   if request.method == "POST":
