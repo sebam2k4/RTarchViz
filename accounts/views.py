@@ -84,9 +84,8 @@ def profile(request, username):
   user's products.
   """
   user = get_object_or_404(User, username=username)
-  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
-
-  context = {'user': user, 'products': products}
+  
+  context = {'user': user}
   return render(request, 'profile.html', context)
 
 def user_list(request):
@@ -106,8 +105,9 @@ def dashboard(request):
   products, editing user personal details, and changing user password.
   """
   user = User.objects.get(email=request.user.email)
+  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
 
-  context = {'user': user}
+  context = {'user': user, 'products': products}
   return render(request, 'dashboard.html', context)
 
 @login_required
@@ -115,7 +115,7 @@ def logout(request):
   # destroy user session with .logout method
   auth.logout(request)
   messages.success(request, 'You have successfully logged out')
-  return redirect(reverse('index'))
+  return redirect(reverse('homepage'))
 
 @login_required
 def update(request):
