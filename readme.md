@@ -75,12 +75,12 @@ Custom model save method - Overriding the save method to generate datetime stamp
 ### Products App
 
 #### To Do:
-- add pagination to product list
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
 - uploading multiple files for product images
-- Add rating & reviews
+- Restrict adding reviews to buyers and 1 review/product
 - Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
+- Combine product_form_edit and product_form_new into one. Can easily reuse the form and template in different views
 
 #### Useful Docs:
 - https://docs.djangoproject.com/en/2.0/topics/http/file-uploads/
@@ -136,6 +136,7 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 
 #### General
 - better way to do filters? Is it a good or bad to have object filters in views?
+- Prevent multiple form submissions when user clicks submit button multiple times
 
 #### Bootstrap Forms
 - disable error message on top of form or change erros to only indicate the form fields that are invalid  (same error messages appear under appropriate form fields)
