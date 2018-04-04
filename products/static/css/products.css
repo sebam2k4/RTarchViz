@@ -2,12 +2,6 @@ main {
   background-color: white;
 }
 
-.card-img-top {
-  height: 22em;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
 .product-version,
 .product-category {
   float: left;
