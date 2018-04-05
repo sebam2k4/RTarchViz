@@ -16,13 +16,15 @@ def user_directory_path(instance, filename):
   (need to import User model?)
   * cannot use instance.id as the instance has not yet been saved
   at this point. id is generated incrementally by db.
+  * Need to make a check if user changed product title to update
+  file name accordingly (maybe in save method)
   """
   return 'products/seller_id_{0}/product_name_{1}-{2}'.format(instance.seller_id,
                                                               instance.slug, filename)
 
 class Product(models.Model):
   """
-  Defining Product's Post models
+  Defining Product models
   """
   
   # CHOICES:
@@ -35,7 +37,7 @@ class Product(models.Model):
   NEWEST_VERSION = 419
   BASE_VERSION = 400
   # version choices as floats converted to string (4.19, 4.18, etc.)
-  UE_VERSION_CHOICES = [(str(i/100.00),str(i/100.00)) for i in range( NEWEST_VERSION,BASE_VERSION -1, -1)]
+  UE_VERSION_CHOICES = [(str(i/100.00),str(i/100.00)) for i in range(NEWEST_VERSION, BASE_VERSION -1, -1)]
 
   # DATABASE FIELDS:
   seller = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -86,5 +88,29 @@ class Product(models.Model):
   @permalink
   def get_delete_product_url(self):
     return ('delete_product', [self.slug,
-                             self.id])
+                               self.id])
                              
+class Review(models.Model):
+  """
+  Defining product review models
+  """
+  
+  # CHOICES
+  # Restrict rating to choices 1 thru 5
+  RATING_CHOICES = [(i, i) for i in range(1, 6)]
+  
+  # DATABASE FIELDS:
+  buyer = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews')
+  product = models.ForeignKey(Product, related_name='reviews')
+  rating = models.IntegerField(choices=RATING_CHOICES, null=False)
+  review_text = models.TextField(max_length=700, blank=True, null=True)
+  added_date = models.DateTimeField(editable=False, default=timezone.now)
+  
+  # META CLASS:
+  class Meta:
+    """specify global meta options for model"""
+    ordering = ('-added_date',) # set default ordering of the objects
+
+  # TO STRING METHOD:
+  def __unicode__(self):
+    return '{0} review by {1}'.format(self.product.name, self.buyer.username)
