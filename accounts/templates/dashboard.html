@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load product_tags %}
 
 {# Load required js and css #}
 {% block body_js %}
@@ -38,11 +39,12 @@
 								<tr>
 									<th scope="col">#</th>
 									<th scope="col">Product Name</th>
-									<th scope="col">Utilities</th>
+									<th scope="col">Edit</th>
 									<th scope="col">Sold</th>
 									<th scope="col">Views</th>
-									<th scope="col">Rating</th>
+									<th scope="col">Avg. Rating</th>
 									<th scope="col">Total Earned</th>
+									<th scope="col">Delete</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -50,11 +52,12 @@
 								<tr>
 									<th scope="row">{{ forloop.counter }}</th>
 									<td>{{ product.name }}</td>
-									<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
+									<td><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
 									<td>{{ product.sold_count }}</td>
 									<td>{{ product.view_count }}</td>
-									<td>*****</td>
+									<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
 									<td>loads of cash</td>
+									<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
 								</tr>
 								{% endfor %}
 							</tbody>

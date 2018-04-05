@@ -58,7 +58,7 @@
         <p>Sold by: <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
         <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
         <p>UE Version: {{ product.ue_version }}</p>
-        <p>Rating: *****</p>
+        <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
         <p>&euro;{{ product.price }}</p>
         {% if request.user.id == product.seller_id %}
         <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
@@ -100,31 +100,35 @@
 
   {# Product Reviews #}
   <section class="product-detail-review container">
-    <h2>Reviews</h2>
-    <hr class="my-4">
-    {% if product_reviews %}
-      {% for review in product_reviews %}
-      <p>By {{ review.buyer.username }}</p>
-      <p>Rating: {{ review.rating }}</p>
-      {% if review.review_text %}
-      <p>Review: {{ review.review_text }}</p>
-      {% endif %}
-      <p>
-        {% if review.buyer_id == request.user.id %}
-        <a href="{% url 'edit_review' product.slug product.id review.id %}" class="btn btn-primary">Edit Your Review</a>
-        <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger">Delete Your Review</a>
+    <div class="product-detail-review-entries pb-4">
+      <h2>Reviews <small>{% if product|get_review_count != 0 %} ({{ product|get_review_count }}){% endif %}</small></h2>
+      <hr class="my-4">
+      {% if product_reviews %}
+        {% for review in product_reviews %}
+        <p>By {{ review.buyer.username }}</p>
+        <p>Rating: {{ review.rating }}</p>
+        {% if review.review_text %}
+        <p>Review: {{ review.review_text }}</p>
         {% endif %}
-      </p>
-      {% endfor %}
-    {% else %}
-      <p>No review yet.</p>
-    {% endif %}
+        <p>
+          {% if review.buyer_id == request.user.id %}
+          <a href="{% url 'edit_review' product.slug product.id review.id %}" class="btn btn-primary">Edit Your Review</a>
+          <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger">Delete Your Review</a>
+          {% endif %}
+        </p>
+        {% endfor %}
+      {% else %}
+        <p>No review yet.</p>
+      {% endif %}
+    </div>
 
     {# Display ReviewForm #}
     {% if user.is_authenticated and not request.user.id is product.seller_id and not already_reviewed %}
-    <h4>Leave a Reveiw</h4>
-    {% include '_review_form.html' %}
-    {% endif %}
+    <div class="product-detail-review-form">
+      <h5>Leave a Reveiw</h5>
+      {% include '_review_form.html' %}
+      {% endif %}
+    </div>
   </section>
 
 </main>

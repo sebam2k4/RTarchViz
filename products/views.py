@@ -93,7 +93,9 @@ def product_detail(request, slug, id):
   ReviewForm and rendering it in a partial template
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
-  product_reviews = Review.objects.filter(product_id=product.id)
+  product_reviews = product.reviews.all()
+  #product_reviews = Review.objects.filter(product_id=product.id)
+  
   # save the url user came from. Will include any GET parameters and
   # hence preserve any user applied list filters and ordering.
   previous_page = request.META.get('HTTP_REFERER')

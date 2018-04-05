@@ -3,10 +3,27 @@ from ..models import Product, Review
 
 register = template.Library()
 
-# get total number of reviews
-# get average rating number
+@register.filter
+def get_review_count(product):
+  count = product.reviews.count()
+  if count == 0:
+    return 0
+  else:
+    return '{0}'.format(count)
 
-
+@register.filter
+def get_average_rating(product):
+  product_reviews = product.reviews.all()
+  count = product_reviews.count()
+  if count == 0:
+    return 0
+  total = 0
+  for review in product_reviews:
+    total += review.rating
+  average_rating = total/ float(count)
+  # round up average rating to two decimal places.
+  return '{0}'.format(round(average_rating, 2))
+  
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
 def home_recent_products(context, num, md=6, lg=4):
   """

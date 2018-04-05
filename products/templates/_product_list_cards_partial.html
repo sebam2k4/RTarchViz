@@ -1,3 +1,5 @@
+
+{% load product_tags %}
 {# Reusable product list cards partial template #}
 {% if products %}
 <div class="product-list-cards">
@@ -15,11 +17,11 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item d-flex w-100 justify-content-between">
             <span class="product-version">UE Version: {{ product.ue_version }}</span>
-            <span class="product-rating">Rating *****</span>
+            <span class="product-rating">{% if product|get_review_count != 0 %}Rating: {{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</span>
           </li>
           <li class="list-group-item d-flex w-100 justify-content-between">
             <span class="product-category">Category: {{ product.category|capfirst }}</span>
-            <span class="product-price">&euro;{{ product.price}}</span>
+            <span class="product-price">&euro;{{ product.price }}</span>
           </li>
         </ul>
         <div class="card-body">
