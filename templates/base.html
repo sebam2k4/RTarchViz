@@ -42,7 +42,7 @@
           {% endif %}
           {% if request.user.is_authenticated %}
           <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
-            <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
+            <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load bootstrap4 %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/products.js' %}"></script>
@@ -11,9 +14,6 @@
 
 {# set page info #}
 {% block page_title %}Edit Your Review{% endblock %}
-
-{# Load the tag library #}
-{% load bootstrap4 %}
 
 {# Display the ProductForm #}
 {% block content %}
@@ -32,14 +32,10 @@
   </header>
 
   <section class="review-form container">
-    <form role="form" enctype="multipart/form-data" method="POST" action="{{ form_action }}">
-			{% csrf_token %}
-			{% bootstrap_form form %}
 
-			{% buttons %}
-			<button type="submit" class="btn btn-primary">Save Changes</button>
-			{% endbuttons %}
-		</form>
+    {# Review Edit Form #}
+    {% include '_review_form_partial.html' %}
+
   </section>
 </main>
 {% endblock %}

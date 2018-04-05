@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load bootstrap4 %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/products.js' %}"></script>
@@ -11,9 +14,6 @@
 
 {# set page info #}
 {% block page_title %}Edit Product Form{% endblock %}
-
-{# Load the tag library #}
-{% load bootstrap4 %}
 
 {# Display the ProductForm #}
 {% block content %}

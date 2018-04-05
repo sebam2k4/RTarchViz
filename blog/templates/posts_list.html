@@ -12,7 +12,6 @@
 {# set page info #}
 {% block page_title %}Latest News{% endblock %}
 
-
 {# Blog - post_list #}
 {% block content %}
 <main id="postList">
@@ -55,11 +54,11 @@
         {% for post in posts %}
         <div class="col-lg-6">
           <div class="card mb-5">
-            <a href="{{ post.get_post_detail_url }}">
+            <a href="{{ post.get_absolute_url }}">
               <div class="card-img-top" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
             </a>
             <div class="card-body">
-              <h5 class="card-title"><a href="{{ post.get_post_detail_url }}">{{ post.title }}</a></h5>
+              <h5 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
               <p class="card-text">{{ post.get_short_content|striptags }}</p>
               <div class="d-flex w-100 justify-content-between">
                 <p class="card-text"><small class="text-muted">{{ post.published_date|date:"N d, Y" }}</small></p>

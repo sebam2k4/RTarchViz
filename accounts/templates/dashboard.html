@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+
+{# load custom template tags #}
 {% load product_tags %}
 
 {# Load required js and css #}
@@ -27,87 +29,84 @@
 		</div>
 	</header>
 	
-		{# Dashboard Sales #}
+	{# Dashboard Sales #}
 	<section class="user-dashboard-sales container">
-			<div class="row">
-				<div class="col">
-					<h2 class="mb-3">Your Sales</h2>
-					{% if products %}
-					<div class="table-responsive">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th scope="col">#</th>
-									<th scope="col">Product Name</th>
-									<th scope="col">Edit</th>
-									<th scope="col">Sold</th>
-									<th scope="col">Views</th>
-									<th scope="col">Avg. Rating</th>
-									<th scope="col">Total Earned</th>
-									<th scope="col">Delete</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for product in products %}
-								<tr>
-									<th scope="row">{{ forloop.counter }}</th>
-									<td>{{ product.name }}</td>
-									<td><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
-									<td>{{ product.sold_count }}</td>
-									<td>{{ product.view_count }}</td>
-									<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
-									<td>loads of cash</td>
-									<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-					<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
-					<a class="btn btn-primary disabled" href="#">View Detailed Sales History</a>
-					{% else %}
-					<p>You have no products listed...</p>
-					<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
-					{% endif %}
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Sales</h2>
+				{% if products %}
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Edit</th>
+								<th scope="col">Sold</th>
+								<th scope="col">Views</th>
+								<th scope="col">Avg. Rating</th>
+								<th scope="col">Total Earned</th>
+								<th scope="col">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for product in products %}
+							<tr>
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{ product.name }}</td>
+								<td><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
+								<td>{{ product.sold_count }}</td>
+								<td>{{ product.view_count }}</td>
+								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
+								<td>loads of cash</td>
+								<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
+				<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
+				<a class="btn btn-primary disabled" href="#">View Detailed Sales History</a>
+				{% else %}
+				<p>You have no products listed...</p>
+				<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
+				{% endif %}
 			</div>
 		</div>
 	</section>
 
 	{# Dashboard Purchases #}
 	<section class="user-dashboard-purchases container">
-			<div class="row">
-				<div class="col">
-					<h2 class="mb-3">Your Purchases</h2>
-					<p>...</p>
-					<p>...</p>
-					<a class="btn btn-primary disabled" href="#">View Detailed Purchase History</a>
-				</div>
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Purchases</h2>
+				<p>...</p>
+				<p>...</p>
+				<a class="btn btn-primary disabled" href="#">View Detailed Purchase History</a>
 			</div>
 		</div>
 	</section>
 
 	{# Dashboard Personal Details #}
 	<section class="user-dashboard-details container">
-			<div class="row">
-				<div class="col">
-					<h2 class="mb-3">Your Personal Details</h2>
-					<div class="alert alert-warning alert-dismissible fade show" role="alert">
-						<strong>NOTE:</strong> Please make sure your billing details are up to date.
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
-					<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
-					{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
-					<p>City or Town: {{ user.city_town }}</p>
-					<p>Post Code: {{ user.post_code }}</p>
-					<p>Country: {{ user.country }}</p>
-					{# Dashboard Account Utility Links #}
-					<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
-					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Personal Details</h2>
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<strong>NOTE:</strong> Please make sure your billing details are up to date.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
 				</div>
+				<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+				<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
+				{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
+				<p>City or Town: {{ user.city_town }}</p>
+				<p>Post Code: {{ user.post_code }}</p>
+				<p>Country: {{ user.country }}</p>
+				{# Dashboard Account Utility Links #}
+				<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
+				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
 			</div>
 		</div>
 	</section>
