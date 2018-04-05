@@ -1,29 +1,33 @@
 {# Reusable product list cards partial template #}
 
+{# load custom template tags #}
+{% load product_tags %}
+
+{% if products %}
 <div class="product-list-cards">
   <div class="row">
     {% for product in products %}
     <div class="col-md-{{ md }} col-lg-{{ lg }}">
       <div class="card mb-5">
-        <a href="{{ product.get_product_detail_url }}">
+        <a href="{{ product.get_absolute_url }}">
           <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
         </a>
         <div class="card-body">
-          <h5 class="card-title"><a href="{{ product.get_product_detail_url }}">{{ product.name }}</a></h5>
-          <p class="card-text">Sold by <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
+          <h5 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
+          <p class="card-text">Sold by <a href="{% url 'profile' product.seller.username %}">{{ product.seller }}</a></p>
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item d-flex w-100 justify-content-between">
             <span class="product-version">UE Version: {{ product.ue_version }}</span>
-            <span class="product-rating">Rating *****</span>
+            <span class="product-rating">{% if product|get_review_count != 0 %}Rating: {{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</span>
           </li>
           <li class="list-group-item d-flex w-100 justify-content-between">
             <span class="product-category">Category: {{ product.category|capfirst }}</span>
-            <span class="product-price">&euro;{{ product.price}}</span>
+            <span class="product-price">&euro;{{ product.price }}</span>
           </li>
         </ul>
         <div class="card-body">
-          <a href="{{ product.get_product_detail_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
+          <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
           {% with url_name=request.resolver_match.url_name %}
           {% if request.user.id == product.seller_id and url_name != 'profile' %}
           <a href="#" class="btn btn-primary btn-lg btn-block disabled">Add to Cart</a>
@@ -37,3 +41,6 @@
     {% endfor %}
   </div>
 </div>
+{% else %}
+<p>No products listed</p>
+{% endif %}

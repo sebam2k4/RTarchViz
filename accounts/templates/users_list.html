@@ -22,7 +22,7 @@
           <h2>All Registered Users</h2>
           <p>Click username to access their profile page</p>
 					{% for user in users %}
-          <p><a href="{% url 'profile' user.username %}">{{ user.username}}'s Profile</a></p>
+          <p><a href="{{ user.get_absolute_url }}">{{ user.username}}'s Profile</a></p>
 					{% endfor %}
           
 				</div>

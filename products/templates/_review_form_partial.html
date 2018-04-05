@@ -1,0 +1,14 @@
+{# Reusable Review Form Partial Template #}
+
+{# load custom template tags #}
+{% load bootstrap4 %}
+
+{# Display the ReviewForm #}
+<form role="form" method="POST" action="{{ form_action }}">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+
+  {% buttons %}
+  <button type="submit" class="btn btn-primary">{{ form_button}}</button>
+  {% endbuttons %}
+</form>

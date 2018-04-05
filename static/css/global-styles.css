@@ -33,3 +33,31 @@ section {
 article {
   margin-bottom: 5em;
 }
+
+.product-list-cards .card-img-top {
+  height: 17em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* custom size query for screens smaller than 380px (portrait phones)*/
+@media (max-width: 380px) {
+  .product-list-cards .card-img-top {
+    height: 12em;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .product-list-cards .card-img-top {
+    height: 20em;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .product-list-cards .card-img-top {
+    height: 15em;
+  }
+}

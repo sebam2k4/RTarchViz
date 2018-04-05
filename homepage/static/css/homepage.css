@@ -7,14 +7,6 @@
   background-size: cover;
 }
 
-.card-img-top {
-  height: 22em;
-  width: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
 /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
   .recent-posts .post-image {

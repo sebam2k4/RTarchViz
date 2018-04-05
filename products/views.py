@@ -7,8 +7,8 @@ from django.core.urlresolvers import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from .models import Product
-from .forms import ProductForm
+from .models import Product, Review
+from .forms import ProductForm, ReviewForm
 
 
 def products_list(request):
@@ -87,14 +87,48 @@ def products_list(request):
 def product_detail(request, slug, id):
   """
   A view that returns a single product object based on product's
-  slug and id and renders it to the 'product_detail.html' template.
-  Or return a 404 error if the product is not found.
+  slug and id and its user reviews and renders it to the
+  'product_detail.html' template. Or return a 404 error if the product
+  is not found. Also, handles creating new user reviews using the
+  ReviewForm and rendering it in a partial template
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
+  product_reviews = product.reviews.all()
+  #product_reviews = Review.objects.filter(product_id=product.id)
+  
+  # save the url user came from. Will include any GET parameters and
+  # hence preserve any user applied list filters and ordering.
+  previous_page = request.META.get('HTTP_REFERER')
+  print previous_page
   # clock up the number of product views
   product.view_count += 1
   product.save()
-  context = {"product": product}
+  # load product review form
+  form = ReviewForm()
+
+  # check if user already reviewed. Only 1 review/product allowed
+  already_reviewed = False
+  if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
+    already_reviewed = True
+  
+  # Review Form
+  form_action = Product.get_absolute_url(product)
+  form_button = "Add Review"
+  if request.method == "POST":
+    form = ReviewForm(request.POST)
+    if form.is_valid():
+      review = form.save(commit=False)
+      review.buyer = request.user
+      review.product = product
+      review.save()
+      messages.success(request, 'You have successfully added a product review')
+      # redirect to the new product after save
+      return redirect(Product.get_absolute_url(product))
+
+  context = {"product": product, "product_reviews": product_reviews,
+             "previous_page": previous_page, "form": form, "already_reviewed": already_reviewed,
+             "form_action": form_action, "form_button": form_button }
+
   return render(request, "product_detail.html", context)
 
 @login_required
@@ -110,7 +144,7 @@ def new_product(request):
       product.save()
       messages.success(request, 'You have successfully created a new product')
       # redirect to the new product after save
-      return redirect(Product.get_product_detail_url(product))
+      return redirect(Product.get_absolute_url(product))
   else:
     form = ProductForm()
 
@@ -133,7 +167,7 @@ def edit_product(request, slug, id):
         product.seller = request.user
         product.save()
         messages.success(request, 'You have successfully updated your product')
-        return redirect(Product.get_product_detail_url(product))
+        return redirect(Product.get_absolute_url(product))
     else:
       # Render the edited product
       form = ProductForm(instance=product)
@@ -161,4 +195,53 @@ def delete_product(request, slug, id):
     # if not product owner, raise 403 forbidden exception and render
     #  403.html template
     messages.error(request, 'You cannot delete this product')
+    raise PermissionDenied
+
+@login_required
+def edit_review(request, product_slug, product_id, review_id):
+  """
+  A view for editing user's product review
+  """
+  product = get_object_or_404(Product, slug=product_slug, pk=product_id)
+  review = get_object_or_404(Review, pk=review_id)
+  # make sure user is the review owner
+  if request.user.id == review.buyer_id:
+    if request.method == "POST":
+      form = ReviewForm(request.POST, instance=review)
+      if form.is_valid():
+        form.save()
+        messages.success(request, 'You have successfully updated your review')
+        # redirect to the new product after save
+        return redirect(Product.get_absolute_url(product))
+    else:
+      form = ReviewForm(instance=review)
+
+    form_action = Review.get_edit_review_url(review)
+    form_button = "Save Changes"
+
+    context = { 'form': form, 'form_action': form_action, 'form_button': form_button }
+    return render(request, 'review_form_edit.html', context)
+
+  else:
+    # if not product owner, raise 403 forbidden exception and render
+    # 403.html template
+    messages.error(request, 'You cannot edit this review')
+    raise PermissionDenied
+
+@login_required
+def delete_review(request, product_slug, product_id, review_id):
+  """
+  A view that handles deleting user's existing product review
+  """
+  product = get_object_or_404(Product, slug=product_slug, pk=product_id)
+  review = get_object_or_404(Review, pk=review_id)
+  # make sure user is the review owner
+  if request.user.id == review.buyer_id:
+    review.delete()
+    messages.success(request, 'You have successfully deleted your review')
+    return redirect(Product.get_absolute_url(product))
+  else:
+    # if not product owner, raise 403 forbidden exception and render
+    #  403.html template
+    messages.error(request, 'You cannot delete this review')
     raise PermissionDenied

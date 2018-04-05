@@ -11,7 +11,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
 from products.models import Product
-# from django.http import HttpResponseRedirect
 
 # Create your views here.
 def register(request):
@@ -21,8 +20,7 @@ def register(request):
   """
   # redirect to user's profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile',
-                            kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     form = UserRegistrationForm(request.POST)
@@ -36,7 +34,7 @@ def register(request):
       if user:
         messages.success(request, "You have successfully registered")
         auth.login(request,user) # login automatically after registering
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         messages.error(request, "unable to log you in at this time!")
 
@@ -54,8 +52,7 @@ def login(request):
   """
   # redirect to profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile',
-                            kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     # use Django's built in auth.login method for user login
@@ -67,7 +64,7 @@ def login(request):
       if user is not None:
         auth.login(request,user)
         messages.success(request, "You have successfully logged in")
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         form.add_error(None, "Your email or password was not recognised")
   else:
@@ -84,16 +81,15 @@ def profile(request, username):
   user's products.
   """
   user = get_object_or_404(User, username=username)
-  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
-
-  context = {'user': user, 'products': products}
+  
+  context = {'user': user}
   return render(request, 'profile.html', context)
 
 def user_list(request):
   """
   A view for listing all registered users (for testing)
   """
-  users = User.objects.values('username', 'email').all()
+  users = User.objects.all()
 
   context = {'users': users}
   return render(request, 'users_list.html', context)
@@ -106,8 +102,9 @@ def dashboard(request):
   products, editing user personal details, and changing user password.
   """
   user = User.objects.get(email=request.user.email)
+  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
 
-  context = {'user': user}
+  context = {'user': user, 'products': products}
   return render(request, 'dashboard.html', context)
 
 @login_required
@@ -115,7 +112,7 @@ def logout(request):
   # destroy user session with .logout method
   auth.logout(request)
   messages.success(request, 'You have successfully logged out')
-  return redirect(reverse('index'))
+  return redirect(reverse('homepage'))
 
 @login_required
 def update(request):
@@ -151,7 +148,7 @@ def change_password(request):
       # password change
       update_session_auth_hash(request, user=request.user)
       messages.success(request, 'Your password was successfully updated!')
-      return redirect(reverse('profile', kwargs={'username': request.user.username}))
+      return redirect(User.get_absolute_url(request.user))
     else:
       messages.error(request, 'Please correct the errors!')
   else:
