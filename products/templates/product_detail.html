@@ -127,7 +127,7 @@
     {% if user.is_authenticated and not request.user.id is product.seller_id and not already_reviewed %}
     <div class="product-detail-review-form">
       <h5>Leave a Reveiw</h5>
-      {% include '_review_form.html' %}
+      {% include '_review_form_partial.html' %}
       {% endif %}
     </div>
   </section>

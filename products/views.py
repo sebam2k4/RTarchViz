@@ -110,7 +110,10 @@ def product_detail(request, slug, id):
   already_reviewed = False
   if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
     already_reviewed = True
- 
+  
+  # Review Form
+  form_action = Product.get_absolute_url(product)
+  form_button = "Add Review"
   if request.method == "POST":
     form = ReviewForm(request.POST)
     if form.is_valid():
@@ -123,7 +126,9 @@ def product_detail(request, slug, id):
       return redirect(Product.get_absolute_url(product))
 
   context = {"product": product, "product_reviews": product_reviews,
-             "previous_page": previous_page, "form": form, "already_reviewed": already_reviewed }
+             "previous_page": previous_page, "form": form, "already_reviewed": already_reviewed,
+             "form_action": form_action, "form_button": form_button }
+
   return render(request, "product_detail.html", context)
 
 @login_required
@@ -211,11 +216,10 @@ def edit_review(request, product_slug, product_id, review_id):
     else:
       form = ReviewForm(instance=review)
 
-    form_action = reverse('edit_review', kwargs={"product_slug": product.slug,
-                                                 "product_id": product.id,
-                                                 "review_id": review.id})
+    form_action = Review.get_edit_review_url(review)
+    form_button = "Save Changes"
 
-    context = { 'form': form, 'form_action': form_action }
+    context = { 'form': form, 'form_action': form_action, 'form_button': form_button }
     return render(request, 'review_form_edit.html', context)
 
   else:
