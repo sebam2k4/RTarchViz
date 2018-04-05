@@ -5,7 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
-from django.db.models import permalink
+from django.urls import reverse
 
 
 def user_directory_path(instance, filename):
@@ -75,20 +75,14 @@ class Product(models.Model):
     super(Product, self).save(*args, **kwargs)
 
   # ABSOLUTE URL METHODS:
-  @permalink
-  def get_product_detail_url(self):
-    return ('product_detail', [self.slug,
-                               self.id])
+  def get_absolute_url(self):
+    return reverse('product_detail', args=[self.slug, self.id])
 
-  @permalink
   def get_edit_product_url(self):
-    return ('edit_product', [self.slug,
-                             self.id])
+    return reverse('edit_product', args=[self.slug, self.id])
 
-  @permalink
   def get_delete_product_url(self):
-    return ('delete_product', [self.slug,
-                               self.id])
+    return reverse('delete_product', args=[self.slug, self.id])
                              
 class Review(models.Model):
   """
@@ -114,3 +108,10 @@ class Review(models.Model):
   # TO STRING METHOD:
   def __unicode__(self):
     return '{0} review by {1}'.format(self.product.name, self.buyer.username)
+
+  # ABSOLUTE URL METHODS:
+  def get_edit_review_url(self):
+    return reverse('edit_review', args=[self.product.slug, self.product.id, self.id])
+
+  def get_delete_review_url(self):
+    return reverse('delete_review', args=[self.product.slug, self.product.id, self.id])

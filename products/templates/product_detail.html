@@ -99,7 +99,6 @@
     </ul>
   </nav>
 
-  
   <section class="product-detail-review container">
     {# Product Reviews #}
     <div class="product-detail-review-entries pb-4">
@@ -114,7 +113,7 @@
         {% endif %}
         <p>
           {% if review.buyer_id == request.user.id %}
-          <a href="{% url 'edit_review' product.slug product.id review.id %}" class="btn btn-primary">Edit Your Review</a>
+          <a href="{{ review.get_edit_review_url }}" class="btn btn-primary">Edit Your Review</a>
           <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger">Delete Your Review</a>
           {% endif %}
         </p>

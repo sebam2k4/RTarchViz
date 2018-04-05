@@ -120,7 +120,7 @@ def product_detail(request, slug, id):
       review.save()
       messages.success(request, 'You have successfully added a product review')
       # redirect to the new product after save
-      return redirect(Product.get_product_detail_url(product))
+      return redirect(Product.get_absolute_url(product))
 
   context = {"product": product, "product_reviews": product_reviews,
              "previous_page": previous_page, "form": form, "already_reviewed": already_reviewed }
@@ -139,7 +139,7 @@ def new_product(request):
       product.save()
       messages.success(request, 'You have successfully created a new product')
       # redirect to the new product after save
-      return redirect(Product.get_product_detail_url(product))
+      return redirect(Product.get_absolute_url(product))
   else:
     form = ProductForm()
 
@@ -162,7 +162,7 @@ def edit_product(request, slug, id):
         product.seller = request.user
         product.save()
         messages.success(request, 'You have successfully updated your product')
-        return redirect(Product.get_product_detail_url(product))
+        return redirect(Product.get_absolute_url(product))
     else:
       # Render the edited product
       form = ProductForm(instance=product)
@@ -207,7 +207,7 @@ def edit_review(request, product_slug, product_id, review_id):
         form.save()
         messages.success(request, 'You have successfully updated your review')
         # redirect to the new product after save
-        return redirect(Product.get_product_detail_url(product))
+        return redirect(Product.get_absolute_url(product))
     else:
       form = ReviewForm(instance=review)
 
@@ -235,7 +235,7 @@ def delete_review(request, product_slug, product_id, review_id):
   if request.user.id == review.buyer_id:
     review.delete()
     messages.success(request, 'You have successfully deleted your review')
-    return redirect(Product.get_product_detail_url(product))
+    return redirect(Product.get_absolute_url(product))
   else:
     # if not product owner, raise 403 forbidden exception and render
     #  403.html template

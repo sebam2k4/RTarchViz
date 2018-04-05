@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from django.urls import reverse
 
 
 class AccountUserManager(UserManager):
@@ -74,3 +75,6 @@ class User(AbstractUser):
   def __unicode__(self):
     """specify string representation for a user in admin pages"""
     return self.email
+
+  def get_absolute_url(self):
+    return reverse('profile', args=[self.username])

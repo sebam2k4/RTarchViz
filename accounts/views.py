@@ -20,8 +20,7 @@ def register(request):
   """
   # redirect to user's profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile',
-                            kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     form = UserRegistrationForm(request.POST)
@@ -35,7 +34,7 @@ def register(request):
       if user:
         messages.success(request, "You have successfully registered")
         auth.login(request,user) # login automatically after registering
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         messages.error(request, "unable to log you in at this time!")
 
@@ -53,8 +52,7 @@ def login(request):
   """
   # redirect to profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile',
-                            kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     # use Django's built in auth.login method for user login
@@ -66,7 +64,7 @@ def login(request):
       if user is not None:
         auth.login(request,user)
         messages.success(request, "You have successfully logged in")
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         form.add_error(None, "Your email or password was not recognised")
   else:
@@ -91,7 +89,7 @@ def user_list(request):
   """
   A view for listing all registered users (for testing)
   """
-  users = User.objects.values('username', 'email').all()
+  users = User.objects.all()
 
   context = {'users': users}
   return render(request, 'users_list.html', context)
@@ -150,7 +148,7 @@ def change_password(request):
       # password change
       update_session_auth_hash(request, user=request.user)
       messages.success(request, 'Your password was successfully updated!')
-      return redirect(reverse('profile', kwargs={'username': request.user.username}))
+      return redirect(User.get_absolute_url(request.user))
     else:
       messages.error(request, 'Please correct the errors!')
   else:

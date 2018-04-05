@@ -7,6 +7,7 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.db.models import permalink
 from django.template.defaultfilters import truncatechars
+from django.urls import reverse
 
 class PostManager(models.Manager):
   """Defining custom Manager methods"""
@@ -83,11 +84,10 @@ class Post(models.Model):
     super(Post, self).save()
 
   # ABSOLUTE URL METHODS:
-  @permalink
-  def get_post_detail_url(self):
-    return ('post_detail', [self.published_date.year,
-                            self.published_date.month,
-                            self.slug])
+  def get_absolute_url(self):
+    return reverse('post_detail', args=[self.published_date.year,
+                                        self.published_date.month,
+                                        self.slug])
 
   # OTHER METHODS:
   def get_slug(self):

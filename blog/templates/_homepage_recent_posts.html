@@ -4,7 +4,7 @@
 
 <div class="list-group recent-posts">
   {% for post in recent_posts %}
-  <a href="{{ post.get_post_detail_url }}" class="list-group-item list-group-item-action flex-row align-items-start">
+  <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action flex-row align-items-start">
     <div class="d-sm-flex justify-content-start">
       <div class="">
         <div class="post-image" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
