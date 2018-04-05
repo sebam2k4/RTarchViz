@@ -11,7 +11,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
 from products.models import Product
-# from django.http import HttpResponseRedirect
 
 # Create your views here.
 def register(request):

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load bootstrap4 %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
@@ -11,9 +14,6 @@
 
 {# set page info #}
 {% block page_title %}Login{% endblock %}
-
-{# Load the UserLoginForm #}
-{% load bootstrap4 %}
 
 {# Display the #}
 {% block content %}

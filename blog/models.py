@@ -57,11 +57,12 @@ class Post(models.Model):
   # META CLASS:
   class Meta:
     """specify global meta options for model"""
-    ordering = ('-published_date',) # set default ordering of objects
+    # order by descending date (most recent posts first)
+    ordering = ('-published_date',)
 
   # TO STRING METHOD:
   def __unicode__(self):
-    """identify blog entries by their title for admin page """
+    """specify string representation for a post in admin pages"""
     return self.title
 
   # SAVE METHOD:
