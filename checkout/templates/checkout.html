@@ -32,12 +32,17 @@
   </header>
 
   <section class="checkout-form container">
-    <form role="form" method="POST" action="#">
+    <form role="form" method="POST" id="payment-form" action="#">
+      <div id="credit-card-errors" style="display:none">
+        <div class="alert-message block-message error" id="stripe-error-message"></div>
+      </div>
+
 			{% csrf_token %}
-			{# bootstrap_form form #}
+      {% bootstrap_form payment_form %}
+      {% bootstrap_form order_form %}
 
 			{% buttons %}
-			<button type="submit" class="btn btn-primary">Make Payment</button>
+			<button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
 			{% endbuttons %}
 		</form>
   </section>
