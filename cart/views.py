@@ -15,6 +15,8 @@ def view_cart(request):
 
 @login_required
 def add_to_cart(request, product_id):
+  previous_page = request.META.get('HTTP_REFERER')
+  
   """ Add product to cart """
   product = get_object_or_404(Product, pk=product_id)
   # retrieve session key for cart and its contents in a dictionary
@@ -22,11 +24,13 @@ def add_to_cart(request, product_id):
 
   if product_id in cart:
     messages.error(request, 'Item already in cart')
-    return redirect(reverse('products_list'))
+    #return redirect(reverse('products_list'))
+    return redirect(previous_page)
 
   elif product.seller == request.user:
     messages.error(request, 'Nice try! You can\'t buy your own product...')
-    return redirect(reverse('products_list'))
+    #return redirect(reverse('products_list'))
+    return redirect(previous_page)
 
   else:
     # add product to cart session
@@ -34,7 +38,8 @@ def add_to_cart(request, product_id):
     messages.success(request, 'Added \'{0}\' to your cart'.format(product.name))
     # save session with new cart contents
     request.session['cart'] = cart
-    return redirect(reverse('view_cart'))
+    #return redirect(reverse('view_cart'))
+    return redirect(previous_page)
 
 @login_required
 def clear_cart(request):
