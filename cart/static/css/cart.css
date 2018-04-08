@@ -1,0 +1,17 @@
+.cart-product-image {
+  height: 10em;
+  width: 14em;
+  margin-right: 1em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .cart-product-image {
+    height: 12em;
+    width: 100%;
+    margin-bottom: 1em;
+  }
+}

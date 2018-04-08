@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# load custom template tags #}
+{% load bootstrap4 %}
+
+{# Load required js and css #}
+{% block body_js %}
+
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/cart.css' %}">
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}Review your items in cart{% endblock %}
+
+{# Display the ProductForm #}
+{% block content %}
+<main id="Cart">
+
+  {# Product Form Page Header #}
+  <header class="cart-header">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Cart</h1>
+        <p class="lead">Review your cart's contents</p>
+        <hr class="my-4">
+        <p>yep yep yep</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="cart-items container">
+    {% for item in cart_items %}
+    <div class="list-group-item list-group-item-action flex-row align-items-start">
+      <div class="d-sm-flex justify-content-start">
+        <div class="">
+          <div class="d-flex cart-product-image" style="background-image: url('{% if item.product.main_image %}/media/{{ item.product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+        </div>
+        <div class="d-flex justify-content-between w-100">
+          <div class="">
+            <div class="d-flex">
+              <h5 class="mb-1 text-primary">{{ item.product.name }}</h5>
+            </div>
+            <p class="mb-1">Category: {{ item.product.category }}</p>
+          </div>
+          <div class="d-flex flex-row justify-content-between flex-sm-column align-items-start justify-content-sm-start">
+            <span class="h3">&euro;{{ item.product.price }}</span>
+            <a href="{% url 'remove_cart_item' item.product.id %}" class="btn btn-danger">Remove Item</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}   
+  </section>
+
+  <section class="cart-summary container d-flex justify-content-between">
+    <div class="total">
+      <span class="h2">Total: &euro;{{ total }}</span>
+    </div>
+    <a href="#" class="btn btn-primary">Checkout</a>
+  </section>
+
+</main>
+{% endblock %}
