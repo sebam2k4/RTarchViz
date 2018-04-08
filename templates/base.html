@@ -47,6 +47,12 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>
+          <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'view_cart' %}">
+              Cart
+              {% if product_count != 0 %}<span>Items: {{ product_count }}</span>{% endif %}
+            </a>
+          </li>
           {% endif %}
           {% endwith %}
         </ul>

@@ -32,7 +32,7 @@
           {% if request.user.id == product.seller_id and url_name != 'profile' %}
           <a href="#" class="btn btn-primary btn-lg btn-block disabled">Add to Cart</a>
           {% elif request.user.id != product.seller_id %}
-          <a href="#" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
           {% endif %}
           {% endwith %}
         </div>
