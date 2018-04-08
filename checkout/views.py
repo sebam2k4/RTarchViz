@@ -41,6 +41,8 @@ def checkout(request):
 
       for id in cart:
         product = get_object_or_404(Product, pk=id)
+        product.sold_count += 1
+        product.save()
         order_product_item = OrderProduct(order = order, product = product,)
         order_product_item.save()
 
