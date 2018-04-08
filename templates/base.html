@@ -55,6 +55,11 @@
               {% if product_count != 0 %}<span>Items: {{ product_count }}</span>{% endif %}
             </a>
           </li>
+          {% if product_count != 0 %}
+          <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+          </li>
+          {% endif %}
           {% endif %}
           {% endwith %}
         </ul>

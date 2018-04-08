@@ -31,8 +31,8 @@
     </div>
   </header>
 
+  {% if product_count != 0 %}
   <section class="cart-items container">
-    {% if product_count != 0 %}
     <div class="d-flex flex-row-reverse">
       <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
     </div>
@@ -57,17 +57,26 @@
       </div>
     </div>
     {% endfor %}
-    {% else %}
-    <p>You haven't added any items to your cart</p>
-    {% endif %}
   </section>
 
   <section class="cart-summary container d-flex justify-content-between">
     <div class="total">
       <span class="h2">Total: &euro;{{ total }}</span>
     </div>
-    <a href="#" class="btn btn-primary">Checkout</a>
+    <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
   </section>
+
+  {% else %}
+  <section class="cart-items container">
+    <p>You haven't added any items to your cart</p>
+  </section>
+  <section class="cart-summary container d-flex justify-content-between">
+    <div class="total">
+      <span class="h2">Total: &euro;{{ total }}</span>
+    </div>
+    <a href="#" class="btn btn-primary disabled">Checkout</a>
+  </section>
+  {% endif %}
 
 </main>
 {% endblock %}
