@@ -3,11 +3,11 @@ from __future__ import unicode_literals
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import MakePaymentForm, OrderForm
+from .forms import MakePaymentForm
 from django.conf import settings
 from django.utils import timezone
 from products.models import Product
-from .models import OrderProduct
+from .models import OrderProduct, Order
 import stripe
 
 
@@ -17,12 +17,13 @@ stripe.api_key = settings.STRIPE_SECRET
 def checkout(request):
   if request.method=="POST":
     payment_form = MakePaymentForm(request.POST)
-    order_form = OrderForm(request.POST)
 
-    if payment_form.is_valid() and order_form.is_valid():
+    if payment_form.is_valid():
       cart = request.session.get('cart', {})
 
-      order = order_form.save(commit=False)
+      # create a new Order instance
+      order = Order()
+      # add data to Order instance
       order.ordered_date = timezone.now()
       order.buyer = request.user
       
@@ -35,14 +36,13 @@ def checkout(request):
 
       order.total_amount = total
       order.product_count = product_count
+      # save Order instance
       order.save()
 
       for id in cart:
         product = get_object_or_404(Product, pk=id)
         order_product_item = OrderProduct(order = order, product = product,)
         order_product_item.save()
-
-      
 
       try:
         # capture one time payment
@@ -56,7 +56,6 @@ def checkout(request):
       except stripe.error.CardError, e:
         messages.error(request, "Your card was declined")
 
-      # Register user when payment successful:
       if customer.paid:
         request.session['cart'] = {}
         messages.success(request, "Your purchase was successful! You'll get your product link soon.")
@@ -66,12 +65,10 @@ def checkout(request):
     
     else:
       print(payment_form.errors)
-      print(order_form.errors)
       messages.error(request, "We were unable to take a payment with that card!")
   else:
     payment_form = MakePaymentForm()
-    order_form = OrderForm()
       
-  context = {'payment_form': payment_form, 'order_form': order_form, 'publishable': settings.STRIPE_PUBLISHABLE}
+  context = {'payment_form': payment_form, 'publishable': settings.STRIPE_PUBLISHABLE}
 
   return render(request, "checkout.html", context)
