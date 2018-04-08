@@ -4,12 +4,11 @@ from ..models import Post
 register = template.Library()
 
 
-@register.inclusion_tag('_homepage_recent_posts.html')
+@register.inclusion_tag('_recent_posts_list_partial.html')
 def home_recent_posts(num):
   """
   Return the specified number of recent blog posts in a partial template
-  specifically for inclusion into the Homepage App index.html template
-  or a landing page.
+  specifically for inclusion into other Apps's template.
   """
   recent_posts = Post.objects.published()[:num]
   return {'recent_posts': recent_posts}
