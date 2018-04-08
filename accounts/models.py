@@ -67,7 +67,9 @@ class User(AbstractUser):
   county_state = models.CharField('County or State', max_length=100, blank=True)
   post_code = models.CharField('Post Code', max_length=20, blank=True)
   country = models.CharField(max_length=100, blank=True)
-
+  # Stripe id for processing payments
+  stripe_id = models.CharField(max_length=40, default='')
+  
   # MANAGERS:
   objects = AccountUserManager()
 

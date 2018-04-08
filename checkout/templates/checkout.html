@@ -5,6 +5,15 @@
 {% load bootstrap4 %}
 
 {# Load required js and css #}
+{% block head_js %}
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  Stripe.publishableKey = '{{ publishable }}';
+  //]]>
+</script>
+<script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
+{% endblock %}
 {% block body_js %}
 
 {% endblock %}
@@ -32,7 +41,7 @@
   </header>
 
   <section class="checkout-form container">
-    <form role="form" method="POST" id="payment-form" action="#">
+    <form role="form" method="POST" id="payment-form" action="{% url 'checkout' %}">
       <div id="credit-card-errors" style="display:none">
         <div class="alert-message block-message error" id="stripe-error-message"></div>
       </div>
