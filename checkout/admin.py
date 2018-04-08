@@ -14,6 +14,7 @@ class OrderProductAdminInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
   inlines = (OrderProductAdminInline, )
   exclude = ('products',)
+  readonly_fields = ('ordered_date', 'product_count', 'order_total')
 
 
 admin.site.register(Order, OrderAdmin)
