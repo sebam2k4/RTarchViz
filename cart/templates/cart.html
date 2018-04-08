@@ -32,6 +32,10 @@
   </header>
 
   <section class="cart-items container">
+    {% if product_count != 0 %}
+    <div class="d-flex flex-row-reverse">
+      <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
+    </div>
     {% for item in cart_items %}
     <div class="list-group-item list-group-item-action flex-row align-items-start">
       <div class="d-sm-flex justify-content-start">
@@ -52,7 +56,10 @@
         </div>
       </div>
     </div>
-    {% endfor %}   
+    {% endfor %}
+    {% else %}
+    <p>You haven't added any items to your cart</p>
+    {% endif %}
   </section>
 
   <section class="cart-summary container d-flex justify-content-between">
