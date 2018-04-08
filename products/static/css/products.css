@@ -1,16 +1,10 @@
+/* PRODUCTS - GENERAL */
 main {
   background-color: white;
 }
 
-.product-version,
-.product-category {
-  float: left;
-}
 
-.product-rating,
-.product-price {
-  float: right;
-}
+/* PRODUCTS - CAROUSEL */
 .carousel {
   height: 20em;
 }
@@ -20,12 +14,9 @@ main {
   background-position: center;
   background-size: cover;
 }
-
 .product-detail-carousel {
   background-color: #aaa;
 }
-
-/* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) {
   .carousel {
     height: 23em;
@@ -37,8 +28,6 @@ main {
     background-size: cover;
   }
 }
-
-/* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) {
   .carousel {
     height: 28em;
@@ -50,8 +39,6 @@ main {
     height: 28em;
   }
 }
-
-/* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   .carousel {
     height: 32em;
@@ -61,8 +48,6 @@ main {
     height: 32em;
   }
 }
-
-/* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
   .carousel {
     height: 40em;
@@ -70,5 +55,29 @@ main {
   }
   .carousel-item .carousel-image {
     height: 40em;
+  }
+}
+
+
+/* PRODUCTS - REUSABLE _product_list_cards_partial.html TEMPLATE */
+.product-list-cards .card-img-top {
+  height: 17em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+@media (max-width: 380px) {
+  .product-list-cards .card-img-top {
+    height: 12em;
+  }
+}
+@media (min-width: 576px) {
+  .product-list-cards .card-img-top {
+    height: 20em;
+  }
+}
+@media (min-width: 768px) {
+  .product-list-cards .card-img-top {
+    height: 15em;
   }
 }
