@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from products.models import Product
+from checkout.models import Order
 from django.contrib import messages
 
 # Create your views here.
@@ -15,9 +16,16 @@ def view_cart(request):
 
 @login_required
 def add_to_cart(request, product_id):
+  """ Add product to cart """
   previous_page = request.META.get('HTTP_REFERER')
   
-  """ Add product to cart """
+  # get list of already purchased assets
+  orders = Order.objects.filter(buyer_id=request.user.id)
+  owned_assets = []
+  for order in orders:
+    for item in order.products.all():
+      owned_assets.append(item)
+
   product = get_object_or_404(Product, pk=product_id)
   # retrieve session key for cart and its contents in a dictionary
   cart = request.session.get('cart', {})
@@ -29,6 +37,12 @@ def add_to_cart(request, product_id):
 
   elif product.seller == request.user:
     messages.error(request, 'Nice try! You can\'t buy your own product...')
+    #return redirect(reverse('products_list'))
+    return redirect(previous_page)
+
+  # check if you already own this product
+  elif product in owned_assets:
+    messages.error(request, 'You already own this product!')
     #return redirect(reverse('products_list'))
     return redirect(previous_page)
 

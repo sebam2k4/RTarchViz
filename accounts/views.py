@@ -11,6 +11,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
 from products.models import Product
+from checkout.models import Order
+
 
 # Create your views here.
 def register(request):
@@ -102,9 +104,18 @@ def dashboard(request):
   products, editing user personal details, and changing user password.
   """
   user = User.objects.get(email=request.user.email)
+
+  # get products user has listed for sale
   products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
 
-  context = {'user': user, 'products': products}
+  # get a list of purchased assets/products
+  orders = Order.objects.filter(buyer_id=user.id)
+  owned_assets = []
+  for order in orders:
+    for item in order.products.all():
+      owned_assets.append(item)
+
+  context = {'user': user, 'products': products, 'owned_assets': owned_assets}
   return render(request, 'dashboard.html', context)
 
 @login_required
