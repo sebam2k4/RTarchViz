@@ -86,7 +86,8 @@ TEMPLATES = [
                 # add context processors for media files
                 'django.template.context_processors.media',
                 # cart
-                'cart.contexts.cart_contents'
+                'cart.contexts.cart_contents',
+                'products.contexts.owned_assets'
             ],
         },
     },

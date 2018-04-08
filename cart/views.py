@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from products.models import Product
 from checkout.models import Order
 from django.contrib import messages
+from django.template import RequestContext
 
 # Create your views here.
 @login_required
@@ -19,12 +20,9 @@ def add_to_cart(request, product_id):
   """ Add product to cart """
   previous_page = request.META.get('HTTP_REFERER')
   
-  # get list of already purchased assets
-  orders = Order.objects.filter(buyer_id=request.user.id)
-  owned_assets = []
-  for order in orders:
-    for item in order.products.all():
-      owned_assets.append(item)
+  # get list of user purchased assets from products context processor
+  owned_assets = RequestContext(request)
+  owned_assets.get('owned_assets')
 
   product = get_object_or_404(Product, pk=product_id)
   # retrieve session key for cart and its contents in a dictionary
