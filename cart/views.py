@@ -2,15 +2,18 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from products.models import Product
 from django.contrib import messages
 
 # Create your views here.
+@login_required
 def view_cart(request):
-  ''' A view that renders the cart contents page '''
+  """ A view that renders the cart contents page """
 
   return render(request, 'cart.html')
 
+@login_required
 def add_to_cart(request, product_id):
   """ Add product to cart """
   product = get_object_or_404(Product, pk=product_id)
@@ -33,12 +36,14 @@ def add_to_cart(request, product_id):
     request.session['cart'] = cart
     return redirect(reverse('view_cart'))
 
+@login_required
 def clear_cart(request):
   """ Remove all product items from cart """
   request.session['cart'] = {}
   messages.success(request, 'Removed all items from cart')
   return redirect(reverse('view_cart'))
 
+@login_required
 def remove_cart_item(request, product_id):
   """ Remove single product item """
   cart = request.session.get('cart', {})
