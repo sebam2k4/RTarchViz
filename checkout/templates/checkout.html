@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# load custom template tags #}
+{% load bootstrap4 %}
+
+{# Load required js and css #}
+{% block body_js %}
+
+{% endblock %}
+{% block head_css %}
+
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}Checkout{% endblock %}
+
+{# Display the ProductForm #}
+{% block content %}
+<main id="productForm">
+
+  {# Product Form Page Header #}
+  <header class="checkout-header">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Checkout</h1>
+        <p class="lead">Download link will be provided once you pay (feature coming soon)</p>
+        <hr class="my-4">
+        <p>use 4x4242 for credit card number</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="checkout-form container">
+    <form role="form" method="POST" action="#">
+			{% csrf_token %}
+			{# bootstrap_form form #}
+
+			{% buttons %}
+			<button type="submit" class="btn btn-primary">Make Payment</button>
+			{% endbuttons %}
+		</form>
+  </section>
+</main>
+{% endblock %}
