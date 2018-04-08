@@ -1,3 +1,4 @@
+/* BLOG - DETAIL */
 .post-detail-image {
   height: 30em;
   background-repeat: no-repeat;
@@ -8,18 +9,17 @@
   font-size: 1.75em;
   font-weight: 700;
 }
-
 .next-post-title {
   vertical-align: bottom;
 }
+
+/* BLOG - LIST */
 .card-img-top {
   height: 22em;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
-
-
 @media (min-width: 576px) {
   .post-image {
     height: 35em;
@@ -31,9 +31,25 @@
     background-color: white;
   }
 }
-
 @media (min-width: 768px) {
   .post-detail-content{
     font-size: 1.25em;
+  }
+}
+
+/* BLOG - REUSABLE _recent_posts_list_partial.html TEMPLATE */
+.recent-posts .post-image {
+  height: 10em;
+  width: 12em;
+  margin-right: 1em;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+@media (max-width: 575.98px) {
+  .recent-posts .post-image {
+    height: 12em;
+    width: 100%;
+    margin-bottom: 1em;
   }
 }

@@ -65,7 +65,7 @@
         <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
         {% else %}
         <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
-        <a href="#" class="btn btn-primary btn-lg">Add to Cart</a>
+        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
         {% endif %}
         {% if product.product_file %}
         <a href="/media/{{ product.product_file }}" class="btn btn-primary btn-lg">Download</a>

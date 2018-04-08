@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts',
     'blog',
     'products',
+    'cart',
     # 3rd party apps:
     'bootstrap4',
     'tinymce',
@@ -83,6 +84,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # add context processors for media files
                 'django.template.context_processors.media',
+                # cart
+                'cart.contexts.cart_contents'
             ],
         },
     },

@@ -73,13 +73,20 @@ Custom model save method - Overriding the save method to generate datetime stamp
 - getting 2 duplicated sql queries in post_detail view for selecting "accounts_user"."id" = "id" ??? - investigate
 
 ### Products App
+Products app for displaying listed products as well as providing means for users to add, edit, and delete products as well as product reviews.
+
+Products list uses django's Paginator to split product listings across multiple pages. A handy navigation is provided on the bottom of each page that user can use to navigate to the next or previous page as well as choosing specific page number. Provides better user experience.
+
+Product filtering by category and sorting by newset, oldest, most popular, highest rating, a-z, and z-a provided on product list as well. A 'Back' button on botto of product detail page takes user back to products list preserving the user applied filter and sorting.
+
+1 review per product per user allowed.
 
 #### To Do:
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
 - uploading multiple files for product images
 - Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
-- Combine product_form_edit and product_form_new into one. Can easily reuse the form and template in different views
+- Consider moving Add Review Form logic from product_detail view into its own
 
 #### Useful Docs:
 - https://docs.djangoproject.com/en/2.0/topics/http/file-uploads/
@@ -143,3 +150,8 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 #### Other
 - Create custom 404 page
 - Possible help for preserving get query strings from view instead of templates (nice to have improvement): https://stackoverflow.com/questions/4477090/django-redirect-using-reverse-to-a-url-that-relies-on-query-strings
+
+## General
+
+### URLs
+Now using get_absolute_url model methods for any urls that take arguments, such as review_edit, product_detail, etc. Easier to maintain and if urls change then will need to make changes in only one place.

@@ -25,7 +25,7 @@ def get_average_rating(product):
   return '{0}'.format(round(average_rating, 2))
   
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
-def home_recent_products(context, num, md=6, lg=4):
+def recent_products(context, num, md=6, lg=4):
   """
   Return the specified number of recent products in a reusable partial
   template. Can optionaly define column width for medium and large
@@ -40,8 +40,12 @@ def user_product_list(context, user, num=None, md=6, lg=4):
   """
   Return the specified number or all user products in a reusable partial
   template. Can optionaly define column width for medium and large
-  devices. ALso, pass user object as argument and make 'request' object
+  devices. ALso, accept user object as argument and make 'request' object
   available in the template's context
+
+  Can limit the number of user products to display by providing integer 
+  argument for the 'num' parameter. Otherwise all user products will
+  be displayed
   """
   if num is None:
     products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
