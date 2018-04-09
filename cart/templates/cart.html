@@ -50,7 +50,7 @@
             <p class="mb-1">Category: {{ item.category }}</p>
           </div>
           <div class="d-flex flex-row justify-content-between flex-sm-column align-items-start justify-content-sm-start">
-            <span class="h3">&euro;{{ item.price }}</span>
+            <span class="h3">{{ item.euro_price }}</span>
             <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">Remove Item</a>
           </div>
         </div>

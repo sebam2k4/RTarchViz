@@ -92,7 +92,9 @@ def product_detail(request, slug, id):
   is not found. Also, handles creating new user reviews using the
   ReviewForm and rendering it in a partial template
   """
+  # get product object
   product = get_object_or_404(Product, slug=slug, pk=id)
+  # get all reviews for product
   product_reviews = product.reviews.all()
   #product_reviews = Review.objects.filter(product_id=product.id)
   

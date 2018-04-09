@@ -60,7 +60,7 @@
         <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
         <p>UE Version: {{ product.ue_version }}</p>
         <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
-        <p>&euro;{{ product.price }}</p>
+        <p>{{ product.euro_price }}</p>
         {% if request.user.id == product.seller_id %}
         <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
         {% else %}
