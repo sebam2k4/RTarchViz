@@ -64,11 +64,17 @@
         {% if request.user.id == product.seller_id %}
         <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
         {% else %}
-        <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
-        <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
-        {% endif %}
-        {% if product.product_file %}
-        <a href="/media/{{ product.product_file }}" class="btn btn-primary btn-lg">Download</a>
+          {% if product in owned_assets %}
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg disabled">Owned</a>
+            {% if product.product_file %}
+            <a href="/media/{{ product.product_file }}" class="btn btn-success btn-lg">Download</a>
+            {% endif %}
+          {% elif product in cart_items %}
+          <a href="" class="btn btn-primary btn-lg disabled">Already in Cart</a>
+          {% else %}
+          <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
+          {% endif %}
         {% endif %}
       </div>
     </div>
@@ -124,12 +130,16 @@
     </div>
 
     {# Display ReviewForm #}
-    {% if user.is_authenticated and not request.user.id is product.seller_id and not already_reviewed %}
+    {% if request.user.is_authenticated and not already_reviewed %}
     <div class="product-detail-review-form">
       <h5>Leave a Reveiw</h5>
+      {% if product in owned_assets %}
       {% include '_review_form_partial.html' %}
+      {% else %}
+      <p>You need to have purchased the product to be able to leave a review.</p>
       {% endif %}
     </div>
+    {% endif %}
   </section>
 
 </main>

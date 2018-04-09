@@ -20,6 +20,8 @@ def cart_contents(request):
     total += product.price
     # get number of product items in cart
     product_count += 1
-    cart_items.append({'id': id, 'product': product})
+    cart_items.append(product)
 
+  print "Cart Items: {0}".format(cart_items)
+  
   return {'cart_items': cart_items, 'total': total, 'product_count': product_count}
