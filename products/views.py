@@ -98,10 +98,6 @@ def product_detail(request, slug, id):
   product_reviews = product.reviews.all()
   #product_reviews = Review.objects.filter(product_id=product.id)
   
-  # save the url user came from. Will include any GET parameters and
-  # hence preserve any user applied list filters and ordering.
-  previous_page = request.META.get('HTTP_REFERER')
-  print previous_page
   # clock up the number of product views
   product.view_count += 1
   product.save()
@@ -128,7 +124,7 @@ def product_detail(request, slug, id):
       return redirect(Product.get_absolute_url(product))
 
   context = {"product": product, "product_reviews": product_reviews,
-             "previous_page": previous_page, "form": form, "already_reviewed": already_reviewed,
+             "form": form, "already_reviewed": already_reviewed,
              "form_action": form_action, "form_button": form_button }
 
   return render(request, "product_detail.html", context)
