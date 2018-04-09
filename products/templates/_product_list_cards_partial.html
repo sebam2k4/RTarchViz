@@ -29,18 +29,22 @@
         <div class="card-body">
           <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
           {% with url_name=request.resolver_match.url_name %}
-          {% if request.user.id == product.seller_id and url_name != 'profile' %}
-          <a href="#" class="btn btn-primary btn-lg btn-block disabled">Add to Cart</a>
-          {% else %}
-            {% if product in owned_assets %}
-            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
-            {% elif product in cart_items %}
-            <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
-            {% else %}
-            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+          
+
+          {% if product in owned_assets %}
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
+          {% elif product in cart_items %}
+          <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
+          {% elif request.user.id == product.seller_id %}
+            {% if url_name != 'profile' %}
+            <a href="#" class="btn btn-primary btn-lg btn-block disabled">Add to Cart</a>
             {% endif %}
+          {% else %}
+          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
           {% endif %}
           {% endwith %}
+
+
         </div>
       </div>
     </div>
