@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'blog',
     'products',
     'cart',
+    'checkout',
     # 3rd party apps:
     'bootstrap4',
     'tinymce',
@@ -85,7 +86,8 @@ TEMPLATES = [
                 # add context processors for media files
                 'django.template.context_processors.media',
                 # cart
-                'cart.contexts.cart_contents'
+                'cart.contexts.cart_contents',
+                'products.contexts.owned_assets'
             ],
         },
     },
@@ -161,6 +163,10 @@ TINYMCE_DEFAULT_CONFIG = {
 # tinyMCE editor load faster and result in fewer requests
 # Investigate!
 TINYMCE_COMPRESSOR = False
+
+# STRIPE Payments settings
+STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
+STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
 try:
     if os.environ["ENV"] == 'development':

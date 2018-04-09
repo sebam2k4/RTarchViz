@@ -3,6 +3,15 @@ from ..models import Product, Review
 
 register = template.Library()
 
+@register.simple_tag
+def get_total_for_sold_product(product):
+  """ 
+  note: ***profit needs to be derived from invoice
+  as user can change product price and affect this data 
+  """
+  total = product.price * product.sold_count
+  return total
+
 @register.filter
 def get_review_count(product):
   count = product.reviews.count()
