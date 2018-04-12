@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# set page info #}
+{% block page_title %}403 Forbidden {{ product.name }}{% endblock %}
+
+
+{# 403 content #}
+{% block content %}
+
+<main id="403Forbidden">
+
+  {# 403 Header #}
+  <header class="forbidden-header">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">403 Forbidden</h1>
+        <p class="lead">You do not have permission to access this part of the site.</p>
+      </div>
+    </div>
+  </header>
+
+  {# 403 text #}
+  <section class="product-detail container">
+    <p>Hi There! Not sure how you got here, but here are a few things you can do:</p>
+    <ul>
+      <li><a href="{% url 'posts_list' %}">Read about the latest RTarchViz news in our blog</a></li>
+      <li><a href="{% url 'products_list' %}">Shop for some great Unreal Engine assets</a></li>
+      {% if request.user.is_authenticated %}
+      <li><a href="{% url 'dashboard' %}">Access your dashboard and list a product</a></li>
+      {% endif %}
+    </ul>
+ 
+  </section>
+
+</main>
+{% endblock %}

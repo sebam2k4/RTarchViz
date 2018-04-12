@@ -10,17 +10,19 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
-# from django.http import HttpResponseRedirect
+from products.models import Product
+from checkout.models import Order
+
 
 # Create your views here.
 def register(request):
-  '''
+  """
   View to take the new user's email and password. When validated,
   create the account.
-  '''
+  """
   # redirect to user's profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile', kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     form = UserRegistrationForm(request.POST)
@@ -29,75 +31,92 @@ def register(request):
 
       # *using the replaced auth object from backends.py
       user = auth.authenticate(email=request.POST.get('email').lower(),
-                                password=request.POST.get('password1'))
+                               password=request.POST.get('password1'))
 
       if user:
         messages.success(request, "You have successfully registered")
         auth.login(request,user) # login automatically after registering
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         messages.error(request, "unable to log you in at this time!")
 
   else:
     form = UserRegistrationForm()
 
-  args = {'form': form}
-  args.update(csrf(request))
-
-  return render(request, 'register.html', args)
+  context = {'form': form}
+  context.update(csrf(request))
+  return render(request, 'register.html', context)
 
 
 def login(request):
-  '''
+  """
   View to show default email/password login form and validate the input
-  '''
+  """
   # redirect to profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(reverse('profile', kwargs={'username': request.user.username}))
+    return redirect(User.get_absolute_url(request.user))
 
   if request.method == 'POST':
     # use Django's built in auth.login method for user login
     form = UserLoginForm(request.POST)
     if form.is_valid():
       # validate the input before using the auth object
-      user = auth.authenticate(email=request.POST.get('email').lower(), # lowercase user input
-                                password=request.POST.get('password'))
+      user = auth.authenticate(email=request.POST.get('email').lower(),
+                               password=request.POST.get('password'))
       if user is not None:
         auth.login(request,user)
         messages.success(request, "You have successfully logged in")
-        return redirect(reverse('profile', kwargs={'username': request.user.username}))
+        return redirect(User.get_absolute_url(request.user))
       else:
         form.add_error(None, "Your email or password was not recognised")
   else:
     form = UserLoginForm()
 
-  args = {'form': form}
-  args.update(csrf(request))
-  return render(request, 'login.html', args)
+  context = {'form': form}
+  context.update(csrf(request))
+  return render(request, 'login.html', context)
 
 def profile(request, username):
-  '''
-  A view that gets the specified user's profile page by querying
-  the User object with username from url. Or if no username provided
-  in ulr.
-  '''
+  """
+  A view that gets the specified user object based on username
+  and renders it to the 'profile.html' template. Also, gets the
+  user's products.
+  """
   user = get_object_or_404(User, username=username)
-  return render(request, 'profile.html', {'user': user})
+  
+  context = {'user': user}
+  return render(request, 'profile.html', context)
+
+def user_list(request):
+  """
+  A view for listing all registered users (for testing)
+  """
+  users = User.objects.all()
+
+  context = {'users': users}
+  return render(request, 'users_list.html', context)
 
 @login_required
 def dashboard(request):
-  '''
-  A view that gets the authenticated user's dashboard.
-  '''
-  #user = get_object_or_404(User, username=username)
+  """
+  A view that gets the authenticated user's dashboard and provides stats
+  on product sales and purchases as well as interface for adding
+  products, editing user personal details, and changing user password.
+  """
   user = User.objects.get(email=request.user.email)
-  return render(request, 'dashboard.html', {'user': user})
+
+  # get products user has listed for sale
+  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
+
+  context = {'user': user, 'products': products}
+  return render(request, 'dashboard.html', context)
 
 @login_required
 def logout(request):
-  auth.logout(request) # destroy user session with .logout method
+  # destroy user session with .logout method
+  auth.logout(request)
   messages.success(request, 'You have successfully logged out')
-  return redirect(reverse('index'))
+  return redirect(reverse('homepage'))
 
 @login_required
 def update(request):
@@ -115,35 +134,29 @@ def update(request):
       messages.error(request, 'Please correct the error!')
   else:
     form = UserEditForm(instance=request.user)
-  args = {'form': form}
-  return render(request, 'update.html', args)
+
+  context = {'form': form}
+  return render(request, 'update.html', context)
 
 @login_required
 def change_password(request):
   """
-  change password for authenticated user
+  change password for authenticated user using Django's built in
+  PasswordChangeForm.
   """
   if request.method == 'POST':
     form = PasswordChangeForm(user=request.user, data=request.POST)
     if form.is_valid():
       user = form.save()
-      # update session auth hash otherwise user will be logged out after password change
+      # update session auth hash otherwise user will be logged out after
+      # password change
       update_session_auth_hash(request, user=request.user)
       messages.success(request, 'Your password was successfully updated!')
-      return redirect(reverse('profile', kwargs={'username': request.user.username}))
+      return redirect(User.get_absolute_url(request.user))
     else:
       messages.error(request, 'Please correct the errors!')
   else:
     form = PasswordChangeForm(user=request.user)
-  return render(request, 'change_password.html', {'form': form})
 
-
-
-# Could use something like this for extra security for profile edit and password change views?:
-# from django.core.exceptions import PermissionDenied
-#   # querying the User object with pk from url
-#   user = User.objects.get(pk=pk)
-#   if request.user.is_authenticated() and request.user.id == user.id:
-#     ...
-#   else:
-#     raise PermissionDenied
+  context = {'form': form}
+  return render(request, 'change_password.html', context)

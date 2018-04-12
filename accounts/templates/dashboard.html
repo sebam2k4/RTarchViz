@@ -1,43 +1,139 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load product_tags %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
 {# set page info #}
 {% block page_title %}Dashboard{% endblock %}
 
-{# Profile content #}
+{# Dashboard #}
 {% block content %}
-<main>
-	<section id="profile">
-		<div class="container">
-			<h2>Your Dashboard</h2>
-			<p>Welcome to your user Dashbaord</p>
-			<div class="row">
-				<div class="one-half column">
-					<p>You are logged in as Username: {{user.username}} </p>
-					<p>Email: {{user.email}} </p>
-					<p>Full name: {{user.first_name}} {{user.last_name}} </p>
-					<p>DOB: {{user.birth_date}} </p>
-					<p>address1: {{user.address1}} </p>
-					<p>address2: {{user.address2}} </p>
-					<p>City or Town: {{user.city_town}} </p>
-					<p>County: {{user.county_state}} </p>
-					<p>Post Code: {{user.post_code}} </p>
-					<p>Country: {{ user.country }}</p>
-					<p>Bio: {{ user.bio }}</p>
-
-					{% if request.user.is_authenticated and request.user == user %}
-					<a class="btn btn-primary" href="{% url 'update' %}">Update Profile</a>
-					<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
-					{% endif %}
-
+<main id="userDashboard">
+	{# Dashboard Header #}
+	<header class="user-dashboard-header">
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Your Dashboard</h1>
+				<p class="lead">You are logged in as: {{ request.user.username }}</p>
+				<p class="lead">your email: {{ request.user.email}}</p>
+			</div>
+		</div>
+	</header>
+	
+	{# Dashboard Sales #}
+	<section class="user-dashboard-sales container">
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Sales</h2>
+				{% if products %}
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Edit</th>
+								<th scope="col">Sold</th>
+								<th scope="col">Views</th>
+								<th scope="col">Avg. Rating</th>
+								<th scope="col">Total Earned</th>
+								<th scope="col">Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for product in products %}
+							<tr>
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{ product.name }}</td>
+								<td><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
+								<td>{{ product.sold_count }}</td>
+								<td>{{ product.view_count }}</td>
+								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
+								<!-- profit needs to be derived from invoice as user can change product price and affect this data -->
+								<td>&euro;{% get_total_for_sold_product product %}</td>
+								<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
+				<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
+				<a class="btn btn-primary disabled" href="#">View Detailed Sales History</a>
+				{% else %}
+				<p>You have no products listed...</p>
+				<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
+				{% endif %}
 			</div>
 		</div>
 	</section>
+
+	{# Dashboard Purchases #}
+	<section class="user-dashboard-purchases container">
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Purchases</h2>
+				{% if owned_assets %}
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Product Name</th>
+								<th scope="col">Download</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for asset in owned_assets %}
+							<tr>
+								<th scope="row">{{ forloop.counter }}</th>
+								<td>{{ asset.name }}</td>
+								<td><a class="btn btn-secondary" href="/media/{{ asset.product_file }}">Downlaod</a></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<a class="btn btn-primary disabled" href="#">View Detailed Purchase History</a>
+				{% else %}
+				<p>You haven't purchased any products yet.</p>
+				{% endif %}
+				
+			</div>
+		</div>
+	</section>
+
+	{# Dashboard Personal Details #}
+	<section class="user-dashboard-details container">
+		<div class="row">
+			<div class="col">
+				<h2 class="mb-3">Your Personal Details</h2>
+				<div class="alert alert-warning alert-dismissible fade show" role="alert">
+					<strong>NOTE:</strong> Please make sure your billing details are up to date.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+				<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
+				{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
+				<p>City or Town: {{ user.city_town }}</p>
+				<p>Post Code: {{ user.post_code }}</p>
+				<p>Country: {{ user.country }}</p>
+				{# Dashboard Account Utility Links #}
+				<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
+				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+			</div>
+		</div>
+	</section>
+
 </main>
 {% endblock %}

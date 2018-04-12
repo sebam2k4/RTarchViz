@@ -44,9 +44,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'pages',
+    'homepage',
     'accounts',
+    'blog',
+    'products',
+    'cart',
+    'checkout',
+    # 3rd party apps:
     'bootstrap4',
+    'tinymce',
+    'disqus',
+    # required by disqus:
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +83,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # add context processors for media files
+                'django.template.context_processors.media',
+                # cart
+                'cart.contexts.cart_contents',
+                'products.contexts.owned_assets'
             ],
         },
     },
@@ -111,12 +127,46 @@ USE_L10N = True
 USE_TZ = True
 
 
+DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_WEBSITE_SHORTNAME')
+DISQUS_API_KEY = os.environ.get('DISQUS_API_KEY')
+SITE_ID = 1
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media files (images)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'mode' : "textareas",
+    'theme': "modern",
+    'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
+                anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
+                code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
+                contextmenu, directionality, emoticons, template, paste, textcolor,     \
+                colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
+                autosave',
+    'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
+                 alignleft aligncenter alignright alignjustify |    \
+                 bullist numlist outdent indent | link image',  
+    'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
+    }
+
+# The following causes 'Synchronous SMLHttpRequest warning
+# when set to True and the tinyMCE editor stops working
+# the compressor is supposed to gzip all js and make the
+# tinyMCE editor load faster and result in fewer requests
+# Investigate!
+TINYMCE_COMPRESSOR = False
+
+# STRIPE Payments settings
+STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
+STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
 try:
     if os.environ["ENV"] == 'development':

@@ -1,18 +1,21 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load bootstrap4 %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
 
 {# set page info #}
 {% block page_title %}Update User Details{% endblock %}
 
-{# Load the tag library #}
-{% load bootstrap4 %}
-
-{# Display a form #}
+{# Display the UserEditForm #}
 {% block content %}
 <section id="login">
 	<div class="container">

@@ -1,19 +1,17 @@
+/* GLOBAL - NAVIGATION */
 .nav-underline .nav-link {
   border-bottom: .25rem solid transparent;
 }
-
 .nav-underline .active .nav-link,
 .nav-underline .active .nav-link:hover {
   border-bottom-color: rgba(255, 255, 255, 1);
 }
-
 .nav-underline .nav-link:hover,
 .nav-underline .nav-link:focus {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
 
-
-/* SERVER MESSAGES */
+/* GLOBAL - SERVER MESSAGES */
 .auth-messages {
   background-color: lightgray;
   display: inline-block;
@@ -25,7 +23,13 @@
   bottom: 2rem;
 }
 
+/* GLOBAL - GENERAL LAYOUT */
 section {
   margin-top: 5em;
   margin-bottom: 5em;
 }
+article {
+  margin-bottom: 5em;
+}
+
+

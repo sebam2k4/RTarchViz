@@ -1,35 +1,72 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load product_tags %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
 {% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
 
 {# set page info #}
-{% block page_title %}Profile{% endblock %}
+{% block page_title %}{{ user.username }}'s Profile{% endblock %}
 
-{# Profile content #}
+{# Profile #}
 {% block content %}
-<main>
-	<section id="profile">
-		<div class="container">
-			<h2>Your Profile</h2>
-			<p>Welcome to your user profile page</p>
+<main id="userProfile">
+
+	{# Profile Header #}
+	<header class="user-profile-header">
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">{% if user == request.user %}Your Profile{% else %}{{ user.username }}'s Profile{% endif %}</h1>
+				<p class="lead">member since {{ user.date_joined|date:"N d, Y" }}</p>
+				{% if request.user.is_authenticated and request.user == user %}
+					<hr>
+					<a class="btn btn-primary" href="{% url 'dashboard' %}">View Your Dashbaord</a>
+				{% endif %}
+			</div>
+		</div>
+	</header>
+
+	{# Profile User Bio #}
+	<section class="user-profile container">
 			<div class="row">
-				<div class="one-half column">
-					{% if request.user.is_authenticated and request.user == user %}
-					<a class="btn btn-primary mb-5" href="{% url 'dashboard' %}">View Your Dashbaord</a>
-					<p>You are Logged in as: {{user.username}} </p>
-					{% else %}
-					<p>Username: {{user.username}} </p>
-					{% endif %}
-					{% if user.first_name or user.last_name %}
-					<p>Name: {{user.first_name}} {{user.last_name}} </p>
-					{% endif %}
+				<div class="col">
+					
+					<h2 class="mb-3">Bio</h2>
 					{% if user.bio %}
-					<p>Bio: {{ user.bio }}</p>
+					<p>{{ user.bio }}</p>
+					{% else %}
+					<p>Real-Time ArchViz Enthusiast</p>
 					{% endif %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{# Profile User Products List #}
+	
+	<section class="user-profile-products container">
+		<div class="user-profile-product-cards">
+		<h2 class="mb-3">{{ user.username }}'s Products</h2>
+		{% user_product_list user md='6' lg='4' %}
+		</div>
+	</section> 
+	
+
+
+	<!-- Links to other Users.   for testing - remove when done -->
+	<section class="user-profile-others container">
+			<div class="row">
+				<div class="col">
+					<h2 class="mb-3">Other user profiles <span class="text-muted">(for testing)</span></h2>
+					<a href="{% url 'user_list' %}">Access full list of registered users here</a>
 				</div>
 			</div>
 		</div>

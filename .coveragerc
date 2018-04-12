@@ -1,0 +1,8 @@
+[run]
+include = ./*
+branch = True
+
+omit = .venv/*
+       */migrations/*
+       */__init__.py
+       manage.py

@@ -12,46 +12,61 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
   <!-- App/page specific CSS: -->
   {% block head_css %}{% endblock %}
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  {% block head_js %}{% endblock head_js %}
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
-    <a class="navbar-brand" href="{% url 'index' %}">RTarchViz</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
-        {% with url_name=request.resolver_match.url_name %}
-        <li class="nav-item {% if url_name == 'index'  %}active{% endif %}">
-          <a class="nav-link" href="{% url 'index' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Shop</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">News</a>
-        </li>
-        {% if not request.user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'login' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
-        <li class="nav-item {% if url_name == 'register' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
-        </li>
-        {% endif %}
-        {% if request.user.is_authenticated %}
-        <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'profile' request.user.username %}">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-        {% endif %}
-        {% endwith %}
-      </ul>
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'homepage' %}">RTarchViz</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          {% with url_name=request.resolver_match.url_name %}
+            <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+            </li>
+            <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'posts_list' %}">Blog</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+              <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+              <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
+                <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            {% endif %}
+            {% if product_count != 0 %}
+              <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'view_cart' %}">
+                  Cart
+                  <span>Items: {{ product_count }}</span>
+                </a>
+              </li>
+              <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+              </li>
+            {% endif %}
+          {% endwith %}
+        </ul>
+      </div>
     </div>
   </nav>
-
+  
   {% block header%}
   {% endblock %}
 
