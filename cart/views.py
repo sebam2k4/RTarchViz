@@ -30,18 +30,15 @@ def add_to_cart(request, product_id):
 
   if product_id in cart:
     messages.error(request, 'Item already in cart')
-    #return redirect(reverse('products_list'))
     return redirect(previous_page)
 
   elif product.seller == request.user:
     messages.error(request, 'Nice try! You can\'t buy your own product...')
-    #return redirect(reverse('products_list'))
     return redirect(previous_page)
 
   # check if you already own this product
   elif product in owned_assets:
     messages.error(request, 'You already own this product!')
-    #return redirect(reverse('products_list'))
     return redirect(previous_page)
 
   else:
@@ -50,7 +47,6 @@ def add_to_cart(request, product_id):
     messages.success(request, 'Added \'{0}\' to your cart'.format(product.name))
     # save session with new cart contents
     request.session['cart'] = cart
-    #return redirect(reverse('view_cart'))
     return redirect(previous_page)
 
 
