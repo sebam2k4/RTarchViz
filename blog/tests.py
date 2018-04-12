@@ -4,8 +4,6 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from .models import Post
 from django.contrib.auth import get_user_model
-from django.utils import timezone
-from django.utils.text import slugify
 from django.urls import reverse
 
 
@@ -17,8 +15,35 @@ class PostModelTest(TestCase):
 
   def test_get_absolute_url(self):
     self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
-    post = Post.objects.create(title='1-title', content='1-content', published_date=timezone.now(), slug='1-title', author=self.user)
+    post = Post.objects.create(title='1-title', content='1-content', status='published', slug='1-title', author=self.user)
     self.assertIsNotNone(post.get_absolute_url())
+
+  def test_get_author_name_method(self):
+    self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com', first_name='John', last_name='Wick')
+    post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
+    full_name = post.get_author()
+    self.assertEqual(full_name, 'John Wick')
+
+  def test_get_author_method_when_no_name(self):
+    self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
+    post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
+    full_name = post.get_author()
+    self.assertEqual(full_name, self.user.username)
+
+  def test_post_published_date(self):
+    # setting 'published' status should record a published_date timestamp
+    self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
+    post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
+    self.assertNotEqual(post.published_date, None)
+    self.assertEqual(post.updated_date, None)
+
+  def test_post_updated_date(self):
+    # updating a post should record updated_date timestamp 
+    self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
+    post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
+    post.content = 'updated content'
+    post.save()
+    self.assertNotEqual(post.updated_date, None)
 
 
 class BlogPostListViewTest(TestCase):
@@ -38,7 +63,7 @@ class BlogPostListViewTest(TestCase):
       self.assertTemplateUsed(response, 'posts_list.html')
       
 
-  """Test whether blog posts show up on the Blog list view"""
+  #Test whether blog posts show up on the Blog list view:
 
   def setUp(self):
     self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
@@ -73,7 +98,7 @@ class BlogPostListViewTest(TestCase):
     self.assertNotContains(response, '6-title')
     self.assertNotContains(response, '6-content')
 
-  """ test pagination for Blog list view """
+  # test pagination for Blog list view:
 
   @classmethod
   def setUpTestData(cls):
@@ -86,12 +111,18 @@ class BlogPostListViewTest(TestCase):
   def test_pagination_is_4(self):
     response = self.client.get(reverse('posts_list'))
     self.assertEqual(response.status_code, 200)
-    # total items/page
+    # Confirm page has exactly 4 posts
     self.assertTrue( len(response.context['posts']) == 4)
 
   def test_lists_all_posts(self):
-    #Get third page and confirm it has (exactly) remaining 3 items
-    response = self.client.get(reverse('posts_list')+'?page=4')
+    #Get third page and confirm it has exactly 3 posts remaining
+    response = self.client.get(reverse('posts_list')+'?page=3')
+    self.assertEqual(response.status_code, 200)
+    self.assertTrue( len(response.context['posts']) == 3)
+
+  def test_show_last_page_when_requesting_out_of_range(self):
+    #Get third page and confirm it has exactly 3 posts remaining
+    response = self.client.get(reverse('posts_list')+'?page=50')
     self.assertEqual(response.status_code, 200)
     self.assertTrue( len(response.context['posts']) == 3)
 
