@@ -6,6 +6,8 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
 from django.urls import reverse
+import os
+from django.core.exceptions import ValidationError
 
 
 def user_directory_path(instance, filename):
@@ -22,11 +24,18 @@ def user_directory_path(instance, filename):
   return 'products/seller_id_{0}/product_name_{1}-{2}'.format(instance.seller_id,
                                                               instance.slug, filename)
 
+def validate_file_extension(file):
+    if not file.name.endswith('.zip'):
+      raise ValidationError('Only single .zip file is allowed')
+
+
 class Product(models.Model):
   """
   Defining Product models
   """
   
+  
+
   # CHOICES:
   CATEGORY_CHOICES = (
     ('assets', 'Assets'),
@@ -53,8 +62,8 @@ class Product(models.Model):
                                 choices=UE_VERSION_CHOICES, default=UE_VERSION_CHOICES[0])
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path,
                                  blank=True, null=True)
-  product_file = models.FileField('Product File', upload_to=user_directory_path,
-                                 blank=True, null=True)
+  product_file = models.FileField('Product File', upload_to=user_directory_path, null=False,
+                                  validators=[validate_file_extension])
  
   # META CLASS:
   class Meta:
@@ -72,6 +81,14 @@ class Product(models.Model):
     from product;s name
     """
     self.slug = slugify(self.name)
+    # detect if title has changed
+    if self.pk is not None:
+      original = Product.objects.get(pk=self.pk)
+      if original.name != self.name:
+        # rename product filename to reflect new product name
+        new_file_name = 'products/seller_id_{0}/product_name_{1}.zip'.format(str(self.seller_id), str(self.slug))
+        os.rename('./media/{0}'.format(str(self.product_file)), './media/{0}'.format(new_file_name))
+        self.product_file = new_file_name
     super(Product, self).save(*args, **kwargs)
 
   # ABSOLUTE URL METHODS:
@@ -88,6 +105,8 @@ class Product(models.Model):
   def euro_price(self):
     return '€{0}'.format(self.price)
 
+  
+        
 class Review(models.Model):
   """
   Defining product review models
