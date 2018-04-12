@@ -1,5 +1,9 @@
 # RTarchViz
 
+[![Build Status](https://travis-ci.org/sebam2k4/RTarchViz.svg?branch=master)](https://travis-ci.org/sebam2k4/RTarchViz)
+[![Test Coverage](./coverage.svg)]
+
+
 **In Early Development**
 
 ## Introduction

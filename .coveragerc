@@ -1,0 +1,6 @@
+[run]
+include = ./*
+branch = True
+
+omit = .venv/*
+  */migrations/*
