@@ -1,7 +1,7 @@
 # RTarchViz
 
 [![Build Status](https://travis-ci.org/sebam2k4/RTarchViz.svg?branch=master)](https://travis-ci.org/sebam2k4/RTarchViz)
-[![Test Coverage](./coverage.svg)]
+![Test Coverage](./coverage.svg)
 
 
 **In Early Development**
@@ -17,7 +17,7 @@ Users can register and then both buy and sell assets using the application
 ### Target Audience
 
 
-## Apps
+## APPS
 ### Account App
 Reused accounts app created in one of the Lessons
 It included a custom Email Authentication Backend for authenticating users based on email address instead of django's default username. Also, it contained views and templates for login, registration, profile, and logout as well as forms for registration and login.
@@ -85,6 +85,8 @@ Product filtering by category and sorting by newset, oldest, most popular, highe
 
 1 review per product per user allowed.
 
+context processor used to keep track of user's owned products
+
 #### To Do:
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
@@ -99,15 +101,19 @@ Product filtering by category and sorting by newset, oldest, most popular, highe
 #### Issues/Bugs
 - Change or modify the Product Detail carousel to make displaying product images more uniform. User may upload images with different measurements and they may display cropped depending on screen size/browser size. Currently Images are diaplay using css background-image. Don't want users restricted to having to uplaod a very specific image resolution sieze. Explore this maybe: http://kenwheeler.github.io/slick/ for responsive slider
 - Product file will be uploaded to MEDIA_ROOT/seller_id_<id>/product_id_<id>-<filename> note: see if can incorporate username in addition to seller_id (need to import User model?)
-## Local Development
+
+### Cart App
+Session based cart
+
+### Checkout App
+Stripe payments
+
+## LOCAL DEVELOPMENT SETUP
 
 coming soon...
 
-## Deployment
-
-### Heroku
+## DEPLOYMENT
 Project is deployed to Heroku and uses a free trier of Postgres add-on for the database.
-
 The project's settings.py contains production specific settings...
 
 #### Live Demo
@@ -137,10 +143,12 @@ Some packages that needed to be inmplemented for Production:
 files
 
 ### Travis CI
-Travis Continous Integrations is used to test builds before they're deployed to Heroku. Automated test will be implemented to run on builds to make sure app's code is performing as expected to minimize the risk of a broken production app.
+Travis Continous Integrations is used to test builds before they're deployed to Heroku. Automated test will be implemented to run on builds to make sure app's code is performing as expected to minimize the risk of a broken production app. 
 
-## 3rd Party Apps/Packages Used:
+## 3RD PARTY APPS USED:
 - django-bootstrap4: used for forms [docs](http://django-bootstrap4.readthedocs.io/en/latest/index.html)
+- Disqus: used for blog post comments
+- TinyMCE: WYSIWYG text editor used in project's admin site used by staff members to write blog posts.
 
 ## Other Todo/issues
 
@@ -152,10 +160,22 @@ Travis Continous Integrations is used to test builds before they're deployed to 
 - disable error message on top of form or change erros to only indicate the form fields that are invalid  (same error messages appear under appropriate form fields)
 
 #### Other
-- Create custom 404 page
 - Possible help for preserving get query strings from view instead of templates (nice to have improvement): https://stackoverflow.com/questions/4477090/django-redirect-using-reverse-to-a-url-that-relies-on-query-strings
 
 ## General
 
 ### URLs
 Now using get_absolute_url model methods for any urls that take arguments, such as review_edit, product_detail, etc. Easier to maintain and if urls change then will need to make changes in only one place.
+
+## TESTING
+Iintegration and unit testing.
+Travis-CI
+Coverage
+
+### Coverage
+
+'coverage run manage.py test' runs the project's tests and creates a coverage report.
+
+Then, run 'coverage report' to view the report in shell
+
+Alternatively, run 'coverage html' to pritify the report. This command creates a 'htmlcov' direcroty containing the test coverage. The 'index.html' is the overview file which links to the other files and provides detail code coverage information. 

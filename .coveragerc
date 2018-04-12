@@ -3,4 +3,5 @@ include = ./*
 branch = True
 
 omit = .venv/*
-  */migrations/*
+       */migrations/*
+       */__init__.py
