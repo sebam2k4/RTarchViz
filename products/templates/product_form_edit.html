@@ -32,12 +32,14 @@
   </header>
 
   <section class="product-form container">
-    <form role="form" enctype="multipart/form-data" method="POST" action="{{ product.get_product_edit_url }}">
+    <form role="form" enctype="multipart/form-data" method="POST" action="{{ product.get_edit_product_url }}">
 			{% csrf_token %}
 			{% bootstrap_form form %}
 
 			{% buttons %}
 			<button type="submit" class="btn btn-primary">Save Changes</button>
+			<a href="{{ product.get_absolute_url }}" class="btn btn-primary">Cancel</a>
+			<a href="{{ product.get_delete_product_url }}" class="btn btn-danger">Delete</a>
 			{% endbuttons %}
 		</form>
   </section>

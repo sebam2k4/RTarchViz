@@ -170,7 +170,7 @@ def edit_product(request, slug, id):
       # Render the edited product
       form = ProductForm(instance=product)
 
-    context = {'form': form}
+    context = {'form': form, 'product': product}
     return render(request, 'product_form_edit.html', context)
   else:
     # if not product owner, raise 403 forbidden exception and render
