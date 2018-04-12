@@ -60,7 +60,7 @@
         <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
         <p>UE Version: {{ product.ue_version }}</p>
         <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
-        <p>&euro;{{ product.price }}</p>
+        <p>{{ product.euro_price }}</p>
         {% if request.user.id == product.seller_id %}
         <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
         {% else %}
@@ -90,20 +90,6 @@
   <section class="product-detail-social">
     <!-- placeholder for social share actions -->
   </section>
- 
-
-  
-  {# Product Detail  Navigation #}
-  <nav class="product-detail-nav mt-5">
-    <ul class="pagination justify-content-center">
-      <li class="page-item">
-        <a class="page-link" href="{{ previous_page }}">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="font-italic">Back</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
 
   <section class="product-detail-review container">
     {# Product Reviews #}
@@ -130,7 +116,7 @@
     </div>
 
     {# Display ReviewForm #}
-    {% if request.user.is_authenticated and not already_reviewed %}
+    {% if request.user.is_authenticated and not already_reviewed and not product.seller == request.user %}
     <div class="product-detail-review-form">
       <h5>Leave a Reveiw</h5>
       {% if product in owned_assets %}

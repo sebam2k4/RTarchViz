@@ -25,42 +25,42 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           {% with url_name=request.resolver_match.url_name %}
-          <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'homepage' %}">Home</a>
-          </li>
-          <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
-          </li>
-          <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'posts_list' %}">Blog</a>
-          </li>
-          {% if not request.user.is_authenticated %}
-          <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'login' %}">Login</a>
-          </li>
-          <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
-            <a class="nav-link" href="{% url 'register' %}">Register</a>
-          </li>
-          {% endif %}
-          {% if request.user.is_authenticated %}
-          <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
-            <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-          </li>
-          <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
-            <a class="nav-link" href="{% url 'view_cart' %}">
-              Cart
-              {% if product_count != 0 %}<span>Items: {{ product_count }}</span>{% endif %}
-            </a>
-          </li>
-          {% if product_count != 0 %}
-          <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
-            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
-          </li>
-          {% endif %}
-          {% endif %}
+            <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+            </li>
+            <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
+              <a class="nav-link" href="{% url 'posts_list' %}">Blog</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+              <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+              <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
+                <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            {% endif %}
+            {% if product_count != 0 %}
+              <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'view_cart' %}">
+                  Cart
+                  <span>Items: {{ product_count }}</span>
+                </a>
+              </li>
+              <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+                <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+              </li>
+            {% endif %}
           {% endwith %}
         </ul>
       </div>
