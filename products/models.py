@@ -25,9 +25,13 @@ def user_directory_path(instance, filename):
                                                               instance.slug, filename)
 
 def validate_file_extension(file):
-    if not file.name.endswith('.zip'):
-      raise ValidationError('Only single .zip file is allowed')
+  if not file.name.endswith('.zip'):
+    raise ValidationError('Only single .zip file is allowed')
 
+def validate_file_size(file):
+  limit = 2621440 # 2.5MB
+  if file.size > limit:
+    raise ValidationError('File too large. Size should not exceed 2.5 MB.')
 
 class Product(models.Model):
   """
@@ -61,9 +65,9 @@ class Product(models.Model):
   ue_version = models.CharField('Unreal Engine Version', max_length=5,
                                 choices=UE_VERSION_CHOICES, default=UE_VERSION_CHOICES[0])
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path,
-                                 blank=True, null=True)
+                                 blank=True, null=True, validators=[validate_file_size])
   product_file = models.FileField('Product File', upload_to=user_directory_path, null=False,
-                                  validators=[validate_file_extension])
+                                  validators=[validate_file_extension, validate_file_size])
  
   # META CLASS:
   class Meta:
