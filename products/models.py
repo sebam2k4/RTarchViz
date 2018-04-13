@@ -6,27 +6,32 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
 from django.urls import reverse
+from django.core.exceptions import ValidationError
 
 
 def user_directory_path(instance, filename):
   """
   product main images and file will be uploaded to
   MEDIA_ROOT/seller_id_<id>/product_name_<slug>-<filename>
-  note: see if can incorporate username in addition to seller_id
-  (need to import User model?)
-  * cannot use instance.id as the instance has not yet been saved
-  at this point. id is generated incrementally by db.
-  * Need to make a check if user changed product title to update
-  file name accordingly (maybe in save method)
   """
   return 'products/seller_id_{0}/product_name_{1}-{2}'.format(instance.seller_id,
                                                               instance.slug, filename)
+
+def validate_file_extension(file):
+  """ Allow only zip files to be uploaded """
+  if not file.name.endswith('.zip'):
+    raise ValidationError('Only single .zip file is allowed')
+
+def validate_file_size(file):
+  """ limit file size for files uploaded """
+  limit = 2621440 # 2.5MB
+  if file.size > limit:
+    raise ValidationError('File too large. Size should not exceed 2.5 MB.')
 
 class Product(models.Model):
   """
   Defining Product models
   """
-  
   # CHOICES:
   CATEGORY_CHOICES = (
     ('assets', 'Assets'),
@@ -52,9 +57,9 @@ class Product(models.Model):
   ue_version = models.CharField('Unreal Engine Version', max_length=5,
                                 choices=UE_VERSION_CHOICES, default=UE_VERSION_CHOICES[0])
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path,
-                                 blank=True, null=True)
-  product_file = models.FileField('Product File', upload_to=user_directory_path,
-                                 blank=True, null=True)
+                                 blank=True, null=True, validators=[validate_file_size])
+  product_file = models.FileField('Product File', upload_to=user_directory_path, null=False,
+                                  validators=[validate_file_extension, validate_file_size])
  
   # META CLASS:
   class Meta:
@@ -88,6 +93,7 @@ class Product(models.Model):
   def euro_price(self):
     return '€{0}'.format(self.price)
 
+  
 class Review(models.Model):
   """
   Defining product review models

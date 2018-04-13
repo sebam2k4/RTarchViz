@@ -41,7 +41,16 @@ def products_list(request):
   #       values. See if can fill a tuple from list of the actual
   #       available categories? This would be useful for when categories
   #       are added or modified.
-  category_choices = ('all products', 'assets', 'environment', 'blueprint', 'materials')
+
+  # get all choices from Model's category field into a list
+  categories_list = []
+  for field in Product._meta.get_field('category').choices:
+    categories_list.append(field[0])
+  # insert 'all products' to beginning of list
+  categories_list.insert(0, 'all products')
+  category_choices = (categories_list)
+
+  # define sort choices
   sort_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
 
   if request.method == 'GET':
@@ -170,7 +179,7 @@ def edit_product(request, slug, id):
       # Render the edited product
       form = ProductForm(instance=product)
 
-    context = {'form': form}
+    context = {'form': form, 'product': product}
     return render(request, 'product_form_edit.html', context)
   else:
     # if not product owner, raise 403 forbidden exception and render
