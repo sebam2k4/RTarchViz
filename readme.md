@@ -89,6 +89,8 @@ context processor used to keep track of user's owned products
 
 There are two checks done to validate product file uploads. First, the product file is checked if it is a .zip file size is 2.5MB max.
 
+The product file and image filenames are generated using a custom method to include the product's slug value and palce the files into user's product folder.
+
 #### To Do:
 - check user uploads 'zip' or '7z' and not other file type.
 - look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)

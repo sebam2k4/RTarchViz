@@ -6,7 +6,6 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.text import slugify
 from django.urls import reverse
-import os
 from django.core.exceptions import ValidationError
 
 
@@ -14,21 +13,17 @@ def user_directory_path(instance, filename):
   """
   product main images and file will be uploaded to
   MEDIA_ROOT/seller_id_<id>/product_name_<slug>-<filename>
-  note: see if can incorporate username in addition to seller_id
-  (need to import User model?)
-  * cannot use instance.id as the instance has not yet been saved
-  at this point. id is generated incrementally by db.
-  * Need to make a check if user changed product title to update
-  file name accordingly (maybe in save method)
   """
   return 'products/seller_id_{0}/product_name_{1}-{2}'.format(instance.seller_id,
                                                               instance.slug, filename)
 
 def validate_file_extension(file):
+  """ Allow only zip files to be uploaded """
   if not file.name.endswith('.zip'):
     raise ValidationError('Only single .zip file is allowed')
 
 def validate_file_size(file):
+  """ limit file size for files uploaded """
   limit = 2621440 # 2.5MB
   if file.size > limit:
     raise ValidationError('File too large. Size should not exceed 2.5 MB.')
@@ -37,9 +32,6 @@ class Product(models.Model):
   """
   Defining Product models
   """
-  
-  
-
   # CHOICES:
   CATEGORY_CHOICES = (
     ('assets', 'Assets'),
@@ -85,14 +77,6 @@ class Product(models.Model):
     from product;s name
     """
     self.slug = slugify(self.name)
-    # detect if title has changed
-    if self.pk is not None:
-      original = Product.objects.get(pk=self.pk)
-      if original.name != self.name:
-        # rename product filename to reflect new product name
-        new_file_name = 'products/seller_id_{0}/product_name_{1}.zip'.format(str(self.seller_id), str(self.slug))
-        os.rename('./media/{0}'.format(str(self.product_file)), './media/{0}'.format(new_file_name))
-        self.product_file = new_file_name
     super(Product, self).save(*args, **kwargs)
 
   # ABSOLUTE URL METHODS:
@@ -110,7 +94,6 @@ class Product(models.Model):
     return '€{0}'.format(self.price)
 
   
-        
 class Review(models.Model):
   """
   Defining product review models

@@ -14,7 +14,7 @@ class ProductModelTest(TestCase):
   def setUpTestData(cls):
     #Set up non-modified objects used by all test methods
     get_user_model().objects.create(id=1, username='test_user', email='test_user@gmail.com')
-    Product.objects.create(id=1, name='1-name', price=10, seller=get_user_model().objects.get(id=1))
+    Product.objects.create(id=1, name='1-name', price=10, product_file='file_path', seller=get_user_model().objects.get(id=1))
 
   def test_string_representation(self):
     product = Product(name="Product-1")
@@ -84,7 +84,7 @@ class PostListViewTest(TestCase):
     seller = get_user_model().objects.create(username='seller1', email='seller1@gmail.com')
     number_of_products = 20
     for product_num in range(number_of_products):
-      Product.objects.create(seller=seller, name='title {0}'.format(product_num), price=14)
+      Product.objects.create(seller=seller, name='title {0}'.format(product_num), price=14, product_file='file_path')
 
   def test_pagination_is_9(self):
     response = self.client.get(reverse('products_list'))
@@ -111,7 +111,7 @@ class ProductDetailViewTest(TestCase):
   def setUpTestData(cls):
     #Set up non-modified objects used by all test methods
     get_user_model().objects.create(id=1, username='test_user', email='test_user@gmail.com')
-    Product.objects.create(id=1, name='1-name', price=10, seller=get_user_model().objects.get(id=1))
+    Product.objects.create(id=1, name='1-name', price=10, product_file='file_path', seller=get_user_model().objects.get(id=1))
 
   def test_view_url_exists_at_desired_location(self):
     product = Product.objects.get(id=1)
