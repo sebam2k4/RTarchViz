@@ -67,7 +67,7 @@ Post filtering available to user on blog list page. options: newset, oldest, mos
 Custom model save method - Overriding the save method to generate datetime stamps for published date and updated date for posts. Published date gets stamped when posts is actually published (status is initially changed from 'draft' to 'published'). Once a post is published then saving it again will add updated date. Any consequent saves to the post will update the updated date with current date and time. Published date stays the same and indicates the date when post was originally published.
 
 #### ToDo:
-- Add ability for staff to add/upload images to post's content through tinyMCE. May need some file manager for this or some kind of many-to-many post-media setup.
+- Create model level slug validation or overwrite admin save method to check if slug exists (don't think admin save calls clean() and I'm not using a custom form for model)
 
 #### Useful Docs:
 - https://docs.djangoproject.com/en/1.11/ref/contrib/admin/#django.contrib.admin.ModelAdmin.formfield_for_foreignkey
@@ -92,8 +92,6 @@ There are two checks done to validate product file uploads. First, the product f
 The product file and image filenames are generated using a custom method to include the product's slug value and palce the files into user's product folder.
 
 #### To Do:
-- check user uploads 'zip' or '7z' and not other file type.
-- look into proper file upload and donwload solution (serving files from MEDA_ROOT is not recommended for production)
 - uploading multiple files for product images
 - Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
 - Consider moving Add Review Form logic from product_detail view into its own
@@ -104,7 +102,6 @@ The product file and image filenames are generated using a custom method to incl
 
 #### Issues/Bugs
 - Change or modify the Product Detail carousel to make displaying product images more uniform. User may upload images with different measurements and they may display cropped depending on screen size/browser size. Currently Images are diaplay using css background-image. Don't want users restricted to having to uplaod a very specific image resolution sieze. Explore this maybe: http://kenwheeler.github.io/slick/ for responsive slider
-- Product file will be uploaded to MEDIA_ROOT/seller_id_<id>/product_id_<id>-<filename> note: see if can incorporate username in addition to seller_id (need to import User model?)
 
 ### Cart App
 Session based cart

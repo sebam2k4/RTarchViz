@@ -10,9 +10,9 @@ from tinymce.widgets import TinyMCE
 
 class PostAdmin(admin.ModelAdmin):
   """
-  custom admin
+  custom admin for managing Blog Posts
   """
-  list_display = ("title", "author", "published_date", "updated_date", "status", "category",
+  list_display = ("title", "author", "get_short_content", "published_date", "updated_date", "status", "category",
                   "view_count")
   list_filter = ("status", "category", "created_date", "published_date", "updated_date")
   search_fields = ("title", "author")
@@ -45,5 +45,4 @@ class PostAdmin(admin.ModelAdmin):
       kwargs['queryset'] = get_user_model().objects.filter(is_staff=request.user.is_staff)
     return super(PostAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-# Register your models here.
 admin.site.register(Post, PostAdmin)

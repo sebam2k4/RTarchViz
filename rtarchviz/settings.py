@@ -132,7 +132,6 @@ SITE_ID = 1
 
 TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
 TINYMCE_DEFAULT_CONFIG = {
-    'mode' : "textareas",
     'theme': "modern",
     'language': 'en_GB',
     'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \

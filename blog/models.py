@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.text import slugify
 from django.utils import timezone
+from django.utils.html import strip_tags
 from django.db.models import permalink
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
@@ -57,14 +58,18 @@ class Post(models.Model):
   
   # META CLASS:
   class Meta:
-    """specify global meta options for model"""
+    """ specify global meta options for model """
     # order by descending date (most recent posts first)
     ordering = ('-published_date',)
 
   # TO STRING METHOD:
   def __unicode__(self):
-    """specify string representation for a post in admin pages"""
+    """ specify string representation for a post in admin pages """
     return self.title
+
+  def clean(self):
+    """ clean data before saving in db """
+    self.title = self.title.capitalize()
 
   # SAVE METHOD:
   def save(self, *args, **kwargs):
@@ -76,10 +81,10 @@ class Post(models.Model):
     3. set updated_date with current date & time if published_date
        already set
     """
-    self.slug = self.get_slug()
-    if self.status == 'published' and self.published_date is None or '':
+    self.slug = slugify(self.title)
+    if self.status == 'published' and self.published_date is None:
       self.published_date = timezone.now()
-    elif self.status == 'published' and self.published_date is not None or '':
+    elif self.status == 'published' and self.published_date is not None:
       self.updated_date = timezone.now()
     super(Post, self).save()
 
@@ -89,21 +94,15 @@ class Post(models.Model):
                                         self.published_date.month,
                                         self.slug])
 
-  # OTHER METHODS:
-  def get_slug(self):
-    """create a slug from post's title"""
-    slug = slugify(self.title)
-    return slug
- 
+  # CUSTOM MODEL METHODS:
   def get_author(self):
     """get user's full name or username"""
     if self.author.first_name and self.author.last_name:
-      return "%s %s" % (self.author.first_name, self.author.last_name)
-    else: 
-      return self.author.username
+      return "{0} {1}".format(self.author.first_name, self.author.last_name)
+    return self.author.username
 
   def get_short_content(self):
-    """get a truncated version of a post's content"""
-    return truncatechars(self.content, 200)
+    """get truncated & html tags stripped post's content for admin """
+    return truncatechars(strip_tags(self.content), 124)
 
   
