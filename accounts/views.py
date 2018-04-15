@@ -107,8 +107,9 @@ def dashboard(request):
 
   # get products user has listed for sale
   products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
+  user_owned_products = Order.objects.owned_products(request.user)
 
-  context = {'user': user, 'products': products}
+  context = {'user': user, 'products': products, 'owned_assets': user_owned_products}
   return render(request, 'dashboard.html', context)
 
 @login_required
