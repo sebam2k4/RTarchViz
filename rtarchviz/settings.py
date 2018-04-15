@@ -236,6 +236,7 @@ try:
         MEDIAFILES_LOCATION = 'media'
         DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
         STATIC_URL = '/static/'
+        MEDIA_URL = '/media/'
 
         # Add whitenoise for deploying app with static files to Heroku 
         MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
