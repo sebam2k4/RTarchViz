@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
-from .models import Post
+from .models import Post, PostViewCount
 
 def posts_list(request):
   """
@@ -88,11 +88,11 @@ def post_detail(request, year, month, slug):
   prev_post = posts.filter(published_date__lt=post.published_date) \
                               .order_by('-published_date').first()
 
-  # remove the page view counter to prevent other logic from running on
-  # post.save (I've overriden object's save method to do timestamps)
-  # need to implement the counter in a different way - session based?
-  #post.view_count += 1 # clock up the number of post views
-  #post.save()
+  # get the related 'post view count' object
+  views = PostViewCount.objects.get(post=post)
+  # clock up the number of post views
+  views.view_count += 1
+  views.save()
 
   context = {'post': post, 'next_post': next_post, 'prev_post': prev_post}
   return render(request, "post_detail.html", context)

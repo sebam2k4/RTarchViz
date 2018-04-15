@@ -7,8 +7,10 @@ from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.html import strip_tags
 from django.db.models import permalink
+from django.db.models.signals import post_save
 from django.template.defaultfilters import truncatechars
 from django.urls import reverse
+from django.dispatch import receiver
 
 class PostManager(models.Manager):
   """Defining custom Manager methods"""
@@ -44,8 +46,6 @@ class Post(models.Model):
   published_date = models.DateTimeField(editable=False, blank=True, null=True)
   # record when a published post is last edited
   updated_date = models.DateTimeField(editable=False, blank=True, null=True)
-  # record how often a post is seen
-  view_count = models.IntegerField('views', editable=False, default=0)
   # set post's category
   category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='news')
   # set post's status (draft or published)
@@ -105,4 +105,24 @@ class Post(models.Model):
     """get truncated & html tags stripped post's content for admin """
     return truncatechars(strip_tags(self.content), 124)
 
-  
+
+class PostViewCount(models.Model):
+  """Defining PostViewCount model"""
+
+  # use one-to-one field to link it to specific blog post
+  post = models.OneToOneField(Post)
+  # record how often a post is seen
+  view_count = models.IntegerField('views', editable=False, default=0)
+
+  # TO STRING METHOD:
+  def __unicode__(self):
+    """ specify string representation for a post in admin pages """
+    return 'Views: {0}'.format(str(self.view_count))
+
+
+# SIGNALS
+@receiver(post_save, sender=Post)
+def create_post_view_count(sender, instance, created, **kwargs):
+  """ create PostViewCount instance when a Post instance is saved """
+  if created:
+      PostViewCount.objects.create(post=instance)
