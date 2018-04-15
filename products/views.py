@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from .models import Product, Review
 from .forms import ProductForm, ReviewForm
+from checkout.models import Order
+from blog.models import Post
 
 
 def products_list(request):
@@ -105,31 +107,39 @@ def product_detail(request, slug, id):
   product = get_object_or_404(Product, slug=slug, pk=id)
   # get all reviews for product
   product_reviews = product.reviews.all()
-  #product_reviews = Review.objects.filter(product_id=product.id)
   
   # clock up the number of product views
   product.view_count += 1
   product.save()
-  # load product review form
-  form = ReviewForm()
-
   # check if user already reviewed. Only 1 review/product allowed
   already_reviewed = False
   if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
     already_reviewed = True
-  
-  # Review Form
+
+  # get a list of user's purchased products
+  user_owned_products = Order.objects.owned_products(request.user)
+
+  # load product review form
+  form = ReviewForm()
   form_action = Product.get_absolute_url(product)
   form_button = "Add Review"
   if request.method == "POST":
-    form = ReviewForm(request.POST)
-    if form.is_valid():
-      review = form.save(commit=False)
-      review.buyer = request.user
-      review.product = product
-      review.save()
-      messages.success(request, 'You have successfully added a product review')
-      # redirect to the new product after save
+    if product in user_owned_products:
+      if not already_reviewed:
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+          review = form.save(commit=False)
+          review.buyer = request.user
+          review.product = product
+          review.save()
+          messages.success(request, 'You have successfully added a product review')
+          # redirect back to the product
+          return redirect(Product.get_absolute_url(product))
+      else:
+        messages.success(request, 'You have already reviewed this product')
+        return redirect(Product.get_absolute_url(product))
+    else:
+      messages.success(request, 'You need to have purchase the product to leave a review')
       return redirect(Product.get_absolute_url(product))
 
   context = {"product": product, "product_reviews": product_reviews,

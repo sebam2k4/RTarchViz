@@ -18,15 +18,18 @@ def view_cart(request):
 
 def add_to_cart(request, product_id):
   """ Add product to cart """
-  previous_page = request.META.get('HTTP_REFERER')
-  
-  # get list of user purchased assets from products context processor
-  owned_assets = RequestContext(request)
-  owned_assets.get('owned_assets')
 
   product = get_object_or_404(Product, pk=product_id)
   # retrieve session key for cart and its contents in a dictionary
   cart = request.session.get('cart', {})
+
+  if request.META.get('HTTP_REFERER') is not None:
+    previous_page = request.META.get('HTTP_REFERER')
+  else:
+    previous_page = 'products_list'
+
+  # get a list of user's purchased products
+  user_owned_products = Order.objects.owned_products(request.user)
 
   if product_id in cart:
     messages.error(request, 'Item already in cart')
@@ -37,7 +40,7 @@ def add_to_cart(request, product_id):
     return redirect(previous_page)
 
   # check if you already own this product
-  elif product in owned_assets:
+  elif product in user_owned_products:
     messages.error(request, 'You already own this product!')
     return redirect(previous_page)
 

@@ -2,9 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
-from .models import Post
+from .models import Post, PostViewCount
 
 def posts_list(request):
   """
@@ -69,30 +70,29 @@ def post_detail(request, year, month, slug):
   1. Returns a single Post object based
   on the post's published year, month, and slug and renders
   it to the 'postdetail.html' template. Or return a 404
-  error if the post is not found.
+  error if the post is not found or if it's satus is 'draft'.
 
   2. Gets the next and previous post objects and make only
   their specified values available to the template. They
-  are then used in the template for next/prev post navigation
+  are then used in the template for next/prev post navigation buttons
   """
   # get single post object for current post detail
   post = get_object_or_404(Post, published_date__year=year, published_date__month=month, slug=slug)
-  
-  published_posts = Post.objects.published()
+  if post.status == 'draft':
+    raise Http404
 
-  # get a querysets for next and prev post objects
-  next_post = published_posts.values('title', 'slug', 'published_date')       \
-                              .filter(published_date__gt=post.published_date) \
-                              .order_by('published_date').first()
-  prev_post = published_posts.values('title', 'slug', 'published_date')       \
-                              .filter(published_date__lt=post.published_date) \
+  # get querysets for next and prev post objects for bottom navigation
+  posts = Post.objects.published().values('title', 'slug', 'published_date')
+  next_post = posts.filter(published_date__gt=post.published_date) \
+                   .order_by('published_date').first()
+  prev_post = posts.filter(published_date__lt=post.published_date) \
                               .order_by('-published_date').first()
 
-  # remove the page view counter to prevent other logic from running on
-  # post.save (I've overriden object's save method to do timestamps)
-  # need to implement the counter in a different way - session based?
-  #post.view_count += 1 # clock up the number of post views
-  #post.save()
+  # get the related 'post view count' object
+  views = PostViewCount.objects.get(post=post)
+  # clock up the number of post views
+  views.view_count += 1
+  views.save()
 
   context = {'post': post, 'next_post': next_post, 'prev_post': prev_post}
   return render(request, "post_detail.html", context)
