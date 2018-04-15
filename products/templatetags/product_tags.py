@@ -45,7 +45,7 @@ def recent_products(context, request, num, md=6, lg=4,):
   products = Product.objects.all().order_by('-added_date')[:num]
   user_owned_products = Order.objects.owned_products(request.user)
 
-  return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg}
+  return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request']}
 
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
 def user_product_list(context, user, md=6, lg=4):
