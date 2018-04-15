@@ -34,16 +34,16 @@ class PostModelTest(TestCase):
     # setting 'published' status should record a published_date timestamp
     self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
     post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
-    self.assertNotEqual(post.published_date, None)
-    self.assertEqual(post.updated_date, None)
+    self.assertIsNotNone(post.published_date)
+    self.assertIsNone(post.updated_date)
 
   def test_post_updated_date(self):
-    # updating a post should record updated_date timestamp 
+    """ updating a post should record updated_date timestamp """
     self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
     post = Post.objects.create(title='1-title', content='1-content', status='published', author=self.user)
     post.content = 'updated content'
     post.save()
-    self.assertNotEqual(post.updated_date, None)
+    self.assertIsNotNone(post.updated_date)
 
 
 class BlogPostListViewTest(TestCase):
@@ -55,19 +55,13 @@ class BlogPostListViewTest(TestCase):
   def test_view_url_accessible_by_name(self):
     response = self.client.get(reverse('posts_list'))
     self.assertEqual(response.status_code, 200)
-  
-  def test_view_uses_correct_template(self):
-      response = self.client.get(reverse('posts_list'))
-      self.assertEqual(response.status_code, 200)
-      self.assertTemplateUsed(response, 'base.html')
-      self.assertTemplateUsed(response, 'posts_list.html')
-      
 
   #Test whether blog posts show up on the Blog list view:
 
   def setUp(self):
     self.user = get_user_model().objects.create(username='test_user', email='test_user@gmail.com')
 
+# make assertion that doesn't exist first
   def test_one_published_post(self):
     Post.objects.create(title='1-title', content='1-content', author=self.user, status='published')
     response = self.client.get('/blog/')
@@ -112,19 +106,19 @@ class BlogPostListViewTest(TestCase):
     response = self.client.get(reverse('posts_list'))
     self.assertEqual(response.status_code, 200)
     # Confirm page has exactly 4 posts
-    self.assertTrue( len(response.context['posts']) == 4)
+    self.assertEqual( len(response.context['posts']), 4)
 
   def test_lists_all_posts(self):
-    #Get third page and confirm it has exactly 3 posts remaining
+    """ Get third page and confirm it has exactly 3 posts remaining """
     response = self.client.get(reverse('posts_list')+'?page=3')
-    self.assertEqual(response.status_code, 200)
-    self.assertTrue( len(response.context['posts']) == 3)
+    self.assertEqual(response.status_code, 200, "Return code must be 200")
+    self.assertEqual( len(response.context['posts']), 3)
 
   def test_show_last_page_when_requesting_out_of_range(self):
-    #Get third page and confirm it has exactly 3 posts remaining
+    """ Get third page and confirm it has exactly 3 posts remaining """
     response = self.client.get(reverse('posts_list')+'?page=50')
     self.assertEqual(response.status_code, 200)
-    self.assertTrue( len(response.context['posts']) == 3)
+    self.assertEqual( len(response.context['posts']), 3)
 
 
 class BlogPostDetailViewTest(TestCase):
@@ -136,12 +130,6 @@ class BlogPostDetailViewTest(TestCase):
   def test_view_url_exists_at_desired_location(self):
     response = self.client.get(self.post.get_absolute_url())
     self.assertEqual(response.status_code, 200)
-
-  def test_view_uses_correct_template(self):
-    response = self.client.get(self.post.get_absolute_url())
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'base.html')
-    self.assertTemplateUsed(response, 'post_detail.html')
 
   def test_title_in_post(self):
     response = self.client.get(self.post.get_absolute_url())

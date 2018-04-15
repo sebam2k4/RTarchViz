@@ -48,13 +48,6 @@ class PostListViewTest(TestCase):
     response = self.client.get(reverse('products_list'))
     self.assertEqual(response.status_code, 200)
   
-  def test_view_uses_correct_template(self):
-    response = self.client.get(reverse('products_list'))
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'base.html')
-    self.assertTemplateUsed(response, 'products_list.html')
-      
-
   #Test whether products show up on the Product list view:
 
   def setUp(self):
@@ -75,7 +68,6 @@ class PostListViewTest(TestCase):
     self.assertContains(response, '2-name')
     self.assertContains(response, 25)
 
-
   # test pagination for Product list view:
 
   @classmethod
@@ -90,19 +82,19 @@ class PostListViewTest(TestCase):
     response = self.client.get(reverse('products_list'))
     self.assertEqual(response.status_code, 200)
     # Confirm page has exactly 9 products
-    self.assertTrue( len(response.context['products']) == 9)
+    self.assertEqual( len(response.context['products']), 9)
 
   def test_lists_all_posts(self):
     #Get third page and confirm it has exactly 2 posts remaining
     response = self.client.get(reverse('products_list')+'?page=3')
     self.assertEqual(response.status_code, 200)
-    self.assertTrue( len(response.context['products']) == 2)
+    self.assertEqual( len(response.context['products']), 2)
 
   def test_show_last_page_when_request_out_of_range(self):
     #Get third page and confirm it has exactly 3 posts remaining
     response = self.client.get(reverse('products_list')+'?page=50')
     self.assertEqual(response.status_code, 200)
-    self.assertTrue( len(response.context['products']) == 2)
+    self.assertEqual( len(response.context['products']), 2)
 
 
 class ProductDetailViewTest(TestCase):
@@ -117,13 +109,6 @@ class ProductDetailViewTest(TestCase):
     product = Product.objects.get(id=1)
     response = self.client.get(product.get_absolute_url())
     self.assertEqual(response.status_code, 200)
-
-  def test_view_uses_correct_template(self):
-    product = Product.objects.get(id=1)
-    response = self.client.get(product.get_absolute_url())
-    self.assertEqual(response.status_code, 200)
-    self.assertTemplateUsed(response, 'base.html')
-    self.assertTemplateUsed(response, 'product_detail.html')
 
   def test_product_name(self):
     product = Product.objects.get(id=1)
