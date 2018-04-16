@@ -7,7 +7,7 @@
   <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action flex-row align-items-start">
     <div class="d-sm-flex justify-content-start">
       <div class="">
-        <div class="post-image" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+        <div class="post-image" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
       </div>
       <div class="">
         <div class="d-flex w-100 justify-content-between">

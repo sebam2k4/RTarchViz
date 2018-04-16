@@ -55,7 +55,7 @@
         <div class="col-lg-6">
           <div class="card mb-5">
             <a href="{{ post.get_absolute_url }}">
-              <div class="card-img-top" style="background-image: url('{% if post.image %}/media/{{ post.image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+              <div class="card-img-top" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
             </a>
             <div class="card-body">
               <h5 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>

@@ -28,13 +28,13 @@
     </ol>
     <div class="carousel-inner">
       <div class="carousel-item active">
+        <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
+      </div>
+      <div class="carousel-item">
         <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ MEDIA_URL }}{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
       </div>
       <div class="carousel-item">
-        <div class="carousel-image" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-image" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
+        <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ MEDIA_URL }}{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
       </div>
     </div>
     <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">

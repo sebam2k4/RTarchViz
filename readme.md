@@ -121,27 +121,38 @@ The project's settings.py contains production specific settings...
 [https://rtarchviz.herokuapp.com/](https://rtarchviz.herokuapp.com/)
 
 #### Environment Variables
-requires setting the following ENVIRONMENT VARIABLES in Heroku Settings:
+requires setting the following environment variables in Heroku Settings:
 ```
 DATABASE_URL=<link to your provisioned Heroku Postgres db or other>
 ENV=production
-SECRET_KEY=<your django secret key>
-
+SECRET_KEY='<your django secret key>'
 ```
 
 optional ENVIRONMENT VARIABLES:
 ```
-EMAIL_HOST_USER=<email address>
-EMAIL_HOST_PASSWORD=<email password>
+EMAIL_HOST_USER='<email address>'
+EMAIL_HOST_PASSWORD='<email password>'
 ```
 The above is needed for emailing password recovery links to users. May require changing security settings in your email client. If not set, the password recovery links will be printed to console instead.
+
+django-storages
+```
+AWS_STORAGE_BUCKET_NAME='<your S3 bucket name>'
+AWS_S3_REGION_NAME='<your S3 bucket region, ex: eu-west-1'>
+AWS_ACCESS_KEY_ID='<your IAM user access key>'
+AWS_SECRET_ACCESS_KEY='<your IAM user secret access key>'
+```
+for setting up AWS S3 and IAM refer to the 'Amazon S3 Setup' portion of this [tutorial](https://simpleisbetterthancomplex.com/tutorial/2017/08/01/how-to-setup-amazon-s3-in-a-django-project.html)
+
+Once set up, run `python manage.py collectstatic` which is going to copy all static files to your s3 bucket. If you have any user uploaded media files then you may have to copy them to s3 manually. Don't forget to run the command everytime you make changes to your css, js, and static images to update your s3 bucket.
 
 #### Packages
 Some packages that needed to be inmplemented for Production:
 - dj-database-url for Postgresql db connection on Heroku
 - gunicorn for serving the app on Heroku
 - whitenoise to allow the web app to serve its own static
-files
+files (is this needed when using django-storages with AWS S3?)
+- django-storages for storing static files and user uploaded media on AWS S3 bucket
 
 ### Travis CI
 Travis Continous Integrations is used to test builds before they're deployed to Heroku. Automated test will be implemented to run on builds to make sure app's code is performing as expected to minimize the risk of a broken production app. 
