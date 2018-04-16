@@ -156,6 +156,7 @@ TINYMCE_COMPRESSOR = False
 STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
 STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
+# Environment specific settings
 try:
     if os.environ["ENV"] == 'development':
         """
@@ -165,8 +166,8 @@ try:
         print "***You are in development mode"
 
         # Turn on django debug mode
-        print "***debug mode is ON"
         DEBUG = True
+        print "***debug mode is ON"
 
         # Add debug toolbar
         INSTALLED_APPS.append('debug_toolbar')
@@ -174,7 +175,7 @@ try:
         INTERNAL_IPS = ('127.0.0.1',)
         print "***Debug Toolbar is ON"
 
-        # Static files for local decelopment (CSS, JavaScript, Images)
+        # Static files for local development (CSS, JavaScript, Images)
         STATIC_URL = '/static/'
         STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
         STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -183,7 +184,7 @@ try:
 
         if "DATABASE_URL" in os.environ:
             # Use for testing using production db
-            print "***Using production PostgreSQL dtabase providion on Heroku for development"
+            print "***Using production PostgreSQL dtabase provisioned on Heroku for development"
             DATABASES = {
                 'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
             }
@@ -195,7 +196,7 @@ try:
                     'ENGINE': 'django.db.backends.sqlite3',
                     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
                 }
-        }
+            }
 
     elif os.environ["ENV"] == 'production':
         """
@@ -226,8 +227,8 @@ try:
             'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
             'CacheControl': 'max-age=94608000',
         }
-        AWS_STORAGE_BUCKET_NAME = 'rtarchviz'
-        AWS_S3_REGION_NAME = 'eu-west-1'
+        AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+        AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
         AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
         AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
         AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
@@ -235,9 +236,9 @@ try:
         STATICFILES_STORAGE = 'custom_storages.StaticStorage'
         MEDIAFILES_LOCATION = 'media'
         DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+        MEDIA_URL = '//%s/media/' % AWS_S3_CUSTOM_DOMAIN
         STATIC_URL = '/static/'
-        MEDIA_URL = '/media/'
-
+        
         # Add whitenoise for deploying app with static files to Heroku 
         MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
 

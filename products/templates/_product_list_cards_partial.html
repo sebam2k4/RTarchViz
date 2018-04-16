@@ -10,7 +10,7 @@
     <div class="col-md-{{ md }} col-lg-{{ lg }}">
       <div class="card mb-5">
         <a href="{{ product.get_absolute_url }}">
-          <div class="card-img-top" style="background-image: url('{% if product.main_image %}/media/{{ product.main_image }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+          <div class="card-img-top" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
         </a>
         <div class="card-body">
           <h5 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
