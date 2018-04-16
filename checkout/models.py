@@ -53,3 +53,24 @@ class OrderProduct(models.Model):
   # TO STRING METHOD
   def __unicode__(self):
     return "{0} by {1} {2} ---- purchased by {3}".format(self.product.name, self.product.seller.username, self.product.price, self.order.buyer.username)
+
+
+class PurchaseHistory(models.Model):
+  """
+  Purchases History for recording transactional details for each product
+  item at time of purchase. This keeps transaction history accurate as
+  it may otherwise change when user updates product price or removes
+  product. Used for dashboard analytics. Also, this table makes sure
+  that the digital project is still available to user who purchased it
+  even though the seller has deleted the product from the market.
+  """
+  # DATABASE FIELDS
+  product_price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
+  product_name = models.CharField(max_length=200)
+  purchase_date = models.DateTimeField(default=timezone.now)
+  product = models.ForeignKey(Product, null=False)
+  buyer_id = models.IntegerField(blank=False, null=False)
+  seller_id = models.IntegerField(blank=False, null=False)
+  order = models.ForeignKey(Order, null=False)
+  product_file = models.FileField()
+
