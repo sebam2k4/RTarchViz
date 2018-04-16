@@ -37,7 +37,7 @@ def products_list(request):
   options and set 'selected' attribute on the specified option tags.
   """
   products = Product.objects.all()
-  user_owned_products = Order.objects.owned_products(request.user)
+  user_purchased_products = Order.objects.purchased_products(request.user)
 
   # define filter choices and get filtered objects based on user select
   # note: refactor this code as it pretty much uses all hard coded
@@ -94,7 +94,7 @@ def products_list(request):
   context = {'products': products, 'category_choices': category_choices,
              'sort_choices': sort_choices, 'chosen_sort': chosen_sort,
              'chosen_category': chosen_category, 'paginator': paginator,
-             'owned_assets': user_owned_products}
+             'owned_assets': user_purchased_products}
   return render(request, 'products_list.html', context)
 
 def product_detail(request, slug, id):
@@ -119,7 +119,7 @@ def product_detail(request, slug, id):
     already_reviewed = True
 
   # get a list of user's purchased products
-  user_owned_products = Order.objects.owned_products(request.user)
+  user_owned_products = Order.objects.purchased_products(request.user)
 
   # load product review form
   form = ReviewForm()

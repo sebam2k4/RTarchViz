@@ -49,22 +49,24 @@ def checkout(request):
         order.total_amount = total
         order.product_count = product_count
         order.save()
-
+   
         for id in cart:
           product = get_object_or_404(Product, pk=id)
           # count up sold_count for each product
           product.sold_count += 1
           product.save()
-          order_product_item = OrderProduct(order = order, product = product,)
+          order_product_item = OrderProduct(order=order, product=product,)
           order_product_item.save()
           # record purchase transactio history for each product
-          purchase = PurchaseHistory(order=order, product=product,)
+          purchase = PurchaseHistory()
           purchase.product_price = product.price
           purchase.product_name = product.name
           purchase.date = timestamp
           purchase.seller_id = product.seller_id
           purchase.buyer_id = request.user.id
           purchase.product_file = product.product_file
+          purchase.product_id = product.id
+          purchase.order_id = order.id
           purchase.save()
 
         request.session['cart'] = {}

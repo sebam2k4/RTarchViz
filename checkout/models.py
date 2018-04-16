@@ -9,7 +9,7 @@ from django.utils import timezone
 class OrderManager(models.Manager):
   """ define custom manager """
 
-  def owned_products(self, user):
+  def purchased_products(self, user):
     """ get user's purchased products """
     orders = self.get_queryset().filter(buyer_id=user.id)
     owned_assets = []
@@ -29,9 +29,8 @@ class Order(models.Model):
   total_amount = models.DecimalField(editable=False, max_digits=8, decimal_places=2, default=0.00)
   products = models.ManyToManyField(Product, through='OrderProduct', related_name='ordered_products')
 
-  # MANAGERS:
+  # MANAGERS
   objects = OrderManager()
-  #objects = models.Manager()
 
   # TO STRING METHOD
   def __unicode__(self):
@@ -55,6 +54,28 @@ class OrderProduct(models.Model):
     return "{0} by {1} {2} ---- purchased by {3}".format(self.product.name, self.product.seller.username, self.product.price, self.order.buyer.username)
 
 
+class PurchaseManager(models.Manager):
+  """ define custom manager """
+
+  def purchased_products_history(self, user):
+    """ get user's purchased products """
+    purchased_products_qs = self.get_queryset().filter(buyer_id=user.id)
+    #print "purchased products form model: {0}".format(purchased_products_qs)
+    purchased_products_list = []
+    for product in purchased_products_qs:
+      purchased_products_list.append(product)
+    return purchased_products_list
+
+  def sold_products_history(self, user):
+    """ get user's purchased products """
+    sold_products_qs = self.get_queryset().filter(seller_id=user.id)
+    #print "purchased products form model: {0}".format(sold_products_qs)
+    sold_products_list = []
+    for product in sold_products_qs:
+      sold_products_list.append(product)
+    return sold_products_list
+
+
 class PurchaseHistory(models.Model):
   """
   Purchases History for recording transactional details for each product
@@ -68,9 +89,15 @@ class PurchaseHistory(models.Model):
   product_price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
   product_name = models.CharField(max_length=200)
   purchase_date = models.DateTimeField(default=timezone.now)
-  product = models.ForeignKey(Product, null=False)
+  product_id = models.IntegerField(blank=False, null=False)
   buyer_id = models.IntegerField(blank=False, null=False)
   seller_id = models.IntegerField(blank=False, null=False)
-  order = models.ForeignKey(Order, null=False)
+  order_id = models.IntegerField(blank=False, null=False)
   product_file = models.FileField()
 
+  # MANAGERS:
+  objects = PurchaseManager()
+
+  # TO STRING METHOD
+  def __unicode__(self):
+    return '{0} €{1}'.format(self.product_name, self.product_price)

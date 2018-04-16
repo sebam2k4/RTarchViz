@@ -29,8 +29,8 @@ def add_to_cart(request, product_id):
     previous_page = 'products_list'
 
   # get a list of user's purchased products
-  user_owned_products = Order.objects.owned_products(request.user)
-
+  user_owned_products = Order.objects.purchased_products(request.user)
+  
   if product_id in cart:
     messages.error(request, 'Item already in cart')
     return redirect(previous_page)
