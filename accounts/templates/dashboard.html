@@ -3,6 +3,7 @@
 
 {# load custom template tags #}
 {% load product_tags %}
+{% load checkout_tags %}
 
 {# Load required js and css #}
 {% block body_js %}
@@ -59,6 +60,7 @@
 								<td>{{ product.view_count }}</td>
 								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
 								<!-- profit needs to be derived from invoice as user can change product price and affect this data -->
+								{# {% get_total_for_sold_product product %} #}
 								<td>&euro;{% get_total_for_sold_product product %}</td>
 								<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
 							</tr>
@@ -95,8 +97,16 @@
 							{% for asset in owned_assets %}
 							<tr>
 								<th scope="row">{{ forloop.counter }}</th>
-								<td>{{ asset.name }}</td>
-								<td><a class="btn btn-secondary" href="/media/{{ asset.product_file }}">Downlaod</a></td>
+								{# product link to latest file version else last available #}
+								<td>
+									{% if asset.product.name %}
+										{{ asset.product.name }}
+									{% else %}
+										{{ asset.product_name }}
+									{% endif %}
+								</td>
+								{# product link to latest file version else last available #}
+								<td><a class="btn btn-secondary" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}">Downlaod</a></td>
 							</tr>
 							{% endfor %}
 						</tbody>

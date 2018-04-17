@@ -4,15 +4,6 @@ from checkout.models import Order
 
 register = template.Library()
 
-@register.simple_tag
-def get_total_for_sold_product(product):
-  """ 
-  note: ***profit needs to be derived from invoice
-  as user can change product price and affect this data 
-  """
-  total = product.price * product.sold_count
-  return total
-
 @register.filter
 def get_review_count(product):
   count = product.reviews.count()
@@ -43,7 +34,7 @@ def recent_products(context, request, num, md=6, lg=4,):
   context
   """
   products = Product.objects.all().order_by('-added_date')[:num]
-  user_owned_products = Order.objects.owned_products(request.user)
+  user_owned_products = Order.objects.purchased_products(request.user)
 
   return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request']}
 
