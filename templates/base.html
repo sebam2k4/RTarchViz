@@ -1,100 +1,217 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>{% block page_title %}{% endblock %}</title>
-  <!-- Bootstrap CSS: -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!-- Glboal CSS: -->
-  <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
-  <!-- App/page specific CSS: -->
-  {% block head_css %}{% endblock %}
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  {% block head_js %}{% endblock head_js %}
-</head>
-<body>
-  <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'homepage' %}">RTarchViz</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          {% with url_name=request.resolver_match.url_name %}
-            <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
-              <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block page_title %}{% endblock %}</title>
+    <!-- Bootstrap CSS: -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Glboal CSS: -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
+    <!-- App/page specific CSS: -->
+    {% block head_css %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    {% block head_js %}{% endblock head_js %}
+  </head>
+  <body>
+
+    {# Navigation #}
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
+      <div class="container">
+        <a class="navbar-brand font-weight-bold" href="{% url 'homepage' %}">RTarchViz</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+          {# Navigation Links #}
+          <ul class="navbar-nav">
+            {% with url_name=request.resolver_match.url_name %}
+              <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+              </li>
+              <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+              </li>
+              <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
+                <a class="nav-link" href="{% url 'posts_list' %}">News</a>
+              </li>
+              {% if not request.user.is_authenticated %}
+                <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'register' %}">Register</a>
+                </li>
+              {% endif %}
+              {% if request.user.is_authenticated %}
+                <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
+                  <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+              {% endif %}
+                <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'view_cart' %}">
+                    <i class="fas fa-shopping-cart"></i>
+                    {% if product_count != 0 %}
+                      {{ product_count }}
+                    {% endif %}
+                  </a>
+                </li>
+                {% if product_count != 0 %}
+                <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+                  <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+                </li>
+              {% endif %}
+            {% endwith %}
+          </ul>
+          {# /.Navigation Links#}
+          
+        </div>
+      </div>
+    </nav>
+    {# /.Navigation #}
+    
+    {% block header%}
+    {% endblock %}
+
+    {# Flash Messages #}
+    {% if messages %}
+        <div class="auth-messages">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+    {% endif %}
+    {# /.Flash Messages #}
+
+    {# Main Content#}
+    {% block content %}
+    {% endblock %}
+    {# /.Main Content #}
+
+    
+  {# Footer #}
+  <footer class="footer bg-dark pt-0">
+
+    <div class="bg-indigo">
+      <div class="container">
+        <div class="row py-4 d-flex align-items-center">
+          <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+            <h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {# Footer Links #}
+    <div class="container footer-links mt-5 mb-4 text-center text-md-left">
+      <div class="row mt-3">
+        <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+          <h6 class="font-weight-bold">RTarchViz</h6>
+          <hr class="mb-4 mt-0 d-inline-block mx-auto">
+          <p>Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal Engine 4</p>
+        </div>
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase font-weight-bold">Information</h6>
+          <hr class="mb-4 mt-0 d-inline-block mx-auto">
+          <li><a href="#!">FAQ</a></li>
+          <li><a href="#!">About</a></li>
+          <li><a href="#!">Terms</a></li>
+          <li><a href="#!">Privacy</a></li>
+        </div>
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase font-weight-bold">Useful links</h6>
+          <hr class="mb-4 mt-0 d-inline-block mx-auto">
+          <li><a href="#!">Your Dashboard</a></li>
+          <li><a href="#!">Shop</a></li>
+          <li><a href="#!">News</a></li>
+          <li><a href="#!">Register</a></li>
+        </div>
+        <div class="col-md-4 col-lg-3 col-xl-3">
+          <h6 class="text-uppercase font-weight-bold">Contact</h6>
+          <hr class="mb-4 mt-0 d-inline-block mx-auto">
+          <li><i class="fas fa-building fa-fw mr-3"></i> 22 Archviz Street</li>
+          <li><i class="fas fa-map-marker-alt fa-fw mr-3"></i> Castlebar, Ireland</li>
+          <li><i class="fas fa-envelope fa-fw mr-3"></i> info@rtarchviz.com</li>
+          <li><i class="fas fa-phone fa-fw mr-3"></i> +353 87 123 1234</li>
+        </div>
+      </div>
+    </div>
+    {# /.Footer Links #}
+
+    <hr>
+
+    {# Newsletter #}
+    <div class="newsletter text-center py-3">
+        <ul class="list-unstyled list-inline mb-0">
+            <li class="list-inline-item">
+                <h5 class="mb-1">Register for our newsletter</h5>
             </li>
-            <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
-              <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+            <li class="list-inline-item">
+                <a href="#!" class="btn btn-danger">Sign up!</a>
             </li>
-            <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
-              <a class="nav-link" href="{% url 'posts_list' %}">Blog</a>
-            </li>
-            {% if not request.user.is_authenticated %}
-              <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
-                <a class="nav-link" href="{% url 'login' %}">Login</a>
-              </li>
-              <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
-                <a class="nav-link" href="{% url 'register' %}">Register</a>
-              </li>
-            {% endif %}
-            {% if request.user.is_authenticated %}
-              <li class="nav-item {% if url_name == 'profile' %}active{% endif %}">
-                <a class="nav-link" href="{{ user.get_absolute_url }}">Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
-            {% endif %}
-            {% if product_count != 0 %}
-              <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'view_cart' %}">
-                  Cart
-                  <span>Items: {{ product_count }}</span>
-                </a>
-              </li>
-              <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
-              </li>
-            {% endif %}
-          {% endwith %}
         </ul>
+    </div>
+    {# /.Newsletter #}
+
+    <hr>
+
+    {# Social buttons #}
+    <div class="social-buttons text-center py-3 text-indigo">
+      <ul class="list-unstyled list-inline">
+        <li class="list-inline-item">
+          <a class="mx-1" href="#!">
+            <i class="fab fa-facebook-square fa-3x"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+        <a class=" mx-1" href="#!">
+            <i class="fab fa-twitter-square fa-3x"></i>
+        </a>
+        </li>
+        <li class="list-inline-item">
+          <a class="mx-1" href="#!">
+            <i class="fab fa-google-plus-square fa-3x"></i>
+          </a>
+        </li>
+        <li class="list-inline-item">
+          <a class="mx-1" href="#!">
+            <i class="fab fa-linkedin fa-3x"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+    {# /.Social buttons #}
+
+    {# Copyright #}
+    <div class="footer-copyright bg-dark-2 py-3 text-center small-text">
+      <div>
+        <small>© 2018 Copyright <strong>RTarchViz</strong> | Designed and Developed by <strong>Sebastian Kulig</strong></small>
+      </div>
+      <div>
+        <small>Source Files: <a href="https://github.com/sebam2k4/RTarchViz" target="_blank">Github</a></small>
       </div>
     </div>
-  </nav>
-  
-  {% block header%}
-  {% endblock %}
+    {# /.Copyright #}
+    
+  </footer>  
+  {# /.Footer #}                  
 
-  {% if messages %}
-      <div class="auth-messages">
-        {% for message in messages %}
-          {{ message }}
-        {% endfor %}
-      </div>
-  {% endif %}
+    <!-- Bootstrap 4.0 JS and its dependencies: -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Font Awesome 5 -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    <!-- Global JS:  -->
+    <script src="{% static 'js/global-scripts.js' %}"></script>
+    <!-- App/page specific JS: -->
+    {% block body_js %}{% endblock %}
 
-  {% block content %}
-  {% endblock %}
-
-  <footer class="text-white bg-dark p-3 mt-5">
-    <div class="container">
-      Footer
-    </div>
-  </footer>
-
-  <!-- Bootstrap 4.0 JS and its dependencies: -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <!-- GLOBAL JS:  -->
-  <script src="{% static 'js/global-scripts.js' %}"></script>
-  <!-- App/page specific JS: -->
-  {% block body_js %}{% endblock %}
-
-</body>
+  </body>
 </html>

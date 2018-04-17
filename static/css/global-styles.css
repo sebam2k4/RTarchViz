@@ -32,4 +32,42 @@ article {
   margin-bottom: 5em;
 }
 
+.footer,
+.footer a {
+  color: rgba(255,255,255,.86)
+}
 
+.footer a:hover {
+  color: rgba(255,255,255,1);
+}
+.footer-links li {
+  list-style-type: none;
+  margin-bottom: 0.75rem;
+}
+
+.footer hr {
+  border-color: #48455a;
+}
+
+.footer .footer-links hr {
+  width: 60px;
+}
+
+
+
+/* COLORS */
+.bg-indigo {
+  background-color: #6b52f5;
+}
+
+.text-indigo {
+  color: #6b52f5;
+}
+
+.bg-dark {
+  background-color: #302e3a !important;
+}
+
+.bg-dark-2 {
+  background-color: #212129
+}
