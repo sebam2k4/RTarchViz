@@ -69,7 +69,7 @@
 					</table>
 				</div>
 				<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
-				<a class="btn btn-primary disabled" href="#">View Detailed Sales History</a>
+				<a class="btn btn-primary" href="{% url 'sales_history' %}">View Detailed Sales History</a>
 				{% else %}
 				<p>You have no products listed...</p>
 				<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
@@ -90,6 +90,7 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">Product Name</th>
+								<th scope="col">Seller</th>
 								<th scope="col">Download</th>
 							</tr>
 						</thead>
@@ -98,21 +99,16 @@
 							<tr>
 								<th scope="row">{{ forloop.counter }}</th>
 								{# product link to latest file version else last available #}
-								<td>
-									{% if asset.product.name %}
-										{{ asset.product.name }}
-									{% else %}
-										{{ asset.product_name }}
-									{% endif %}
-								</td>
+								<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
 								{# product link to latest file version else last available #}
+								<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
 								<td><a class="btn btn-secondary" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}">Downlaod</a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
 					</table>
 				</div>
-				<a class="btn btn-primary disabled" href="#">View Detailed Purchase History</a>
+				<a class="btn btn-primary" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
 				{% else %}
 				<p>You haven't purchased any products yet.</p>
 				{% endif %}
