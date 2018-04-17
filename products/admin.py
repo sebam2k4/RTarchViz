@@ -5,7 +5,11 @@ from django.contrib import admin
 from .models import Product, Review
 
 class ProductAdmin(admin.ModelAdmin):
-  readonly_fields = ('view_count', 'sold_count', 'added_date')
+  list_display = ("name", "added_date", "seller", "price", "view_count", "sold_count")
+  list_filter = ("seller", "view_count", "sold_count")
+  ordering = ["-sold_count"]
+  
+  readonly_fields = ('view_count', 'added_date')
 # Register your models here.
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Review)
