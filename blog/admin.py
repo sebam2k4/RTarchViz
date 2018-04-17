@@ -27,13 +27,12 @@ class PostAdmin(admin.ModelAdmin):
     (_('Image'),   {'fields': ('image',)}),
     (_('Status'),  {'fields': ('status',)}),
     (_('History'), {'fields': ('created_date', 'published_date', 'updated_date')}),
-    #(_('Views'),   {'fields': ('view_count',)}),
   )
 
   # override all textfields to use the tinyMCE widget
-  formfield_overrides = {
-    models.TextField: {'widget': TinyMCE()},
-  }
+  # formfield_overrides = {
+  #   models.TextField: {'widget': TinyMCE()},
+  # }
 
   inlines = (PostViewCountInline,)
 
