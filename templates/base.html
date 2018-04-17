@@ -98,15 +98,23 @@
   {# Footer #}
   <footer class="footer bg-dark pt-0">
 
+    {# Call to action #}
     <div class="bg-indigo">
       <div class="container">
-        <div class="row py-4 d-flex align-items-center">
-          <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
-            <h6 class="mb-0 white-text">Get connected with us on social networks!</h6>
+        <div class="row py-4">
+          <div class="col text-center text-md-left mb-0">
+            <p class="white-text h6 mb-0">
+              {% if not request.user.is_authenticated %}
+                <a href="{% url 'register' %}">Register, and start selling your assets for free <i class="fas fa-angle-double-right"></i></a>
+              {% else %}
+                <a href="{% url 'dashboard' %}">List your next asset. It's as easy as 1-2-3 <i class="fas fa-angle-double-right"></i></a>
+              {% endif %}
+            </p>
           </div>
         </div>
       </div>
     </div>
+    {# /.Call to action #}
 
     {# Footer Links #}
     <div class="container footer-links mt-5 mb-4 text-center text-md-left">
