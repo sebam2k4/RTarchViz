@@ -11,7 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from .models import User
 from products.models import Product
-from checkout.models import Order
+from checkout.models import Order, PurchaseHistory
 
 
 # Create your views here.
@@ -106,10 +106,11 @@ def dashboard(request):
   user = User.objects.get(email=request.user.email)
 
   # get products user has listed for sale
-  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
-  user_owned_products = Order.objects.owned_products(request.user)
+  user_products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
+  # get producst user purchased from other users
+  user_purchased_products = Order.objects.purchased_products(request.user)
 
-  context = {'user': user, 'products': products, 'owned_assets': user_owned_products}
+  context = {'user': user, 'products': user_products, 'owned_assets': user_purchased_products}
   return render(request, 'dashboard.html', context)
 
 @login_required
@@ -161,3 +162,29 @@ def change_password(request):
 
   context = {'form': form}
   return render(request, 'change_password.html', context)
+
+@login_required
+def purchases_history(request):
+  """
+  A view that show purchase history
+  """
+  user = User.objects.get(email=request.user.email)
+
+  # get producst user purchased from other users
+  user_purchased_products = PurchaseHistory.objects.purchased_products_history(request.user)
+
+  context = {'user': user, 'owned_assets': user_purchased_products}
+  return render(request, 'purchases_history.html', context)
+
+@login_required
+def sales_history(request):
+  """
+  A view that show purchase history
+  """
+  user = User.objects.get(email=request.user.email)
+
+  # get producst user purchased from other users
+  user_purchased_products = PurchaseHistory.objects.sold_products_history(request.user)
+
+  context = {'user': user, 'owned_assets': user_purchased_products}
+  return render(request, 'sales_history.html', context)

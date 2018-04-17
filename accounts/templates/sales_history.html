@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# load custom template tags #}
+{% load product_tags %}
+
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/accounts.js' %}"></script>
+{% endblock %}
+{% block head_css %}
+<link rel="stylesheet" href="{% static 'css/accounts.css' %}">
+<link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{# set page info #}
+{% block page_title %}{{ user.username }}'s Sales History{% endblock %}
+
+{# Profile #}
+{% block content %}
+<main id="userProfile">
+
+	{# Profile Header #}
+	<header class="user-profile-header">
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h1 class="display-4">Your Sales History</h1>
+        <p class="lead">boop</p>
+        <hr>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">Back to Dashbaord</a>
+			</div>
+		</div>
+	</header>
+
+	{# User's Purchase History #}
+	<section class="purchse-history container">
+			<div class="row">
+				<div class="col">
+            <h2 class="mb-3">All of Your Sales</h2>
+            {% if owned_assets %}
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Buyer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for asset in owned_assets %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    {# product link to latest file version else last available #}
+                    <td>{{ asset.product_name }}</td>
+                    <td>&euro;{{ asset.product_price }}</td>
+                    <td>{{ asset.purchase_date }}</td>
+                    <td>{{ asset.buyer_id }}</td>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <p>You haven't sold any products yet.</p>
+            {% endif %}
+				</div>
+			</div>
+		</div>
+	</section>
+
+</main>
+{% endblock %}
