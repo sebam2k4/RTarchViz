@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Order, OrderProduct
+from .models import Order, OrderProduct, PurchaseHistory
 from django.utils.translation import gettext, gettext_lazy as _
   
 class OrderProductAdminInline(admin.TabularInline):
@@ -19,3 +19,4 @@ class OrderAdmin(admin.ModelAdmin):
 
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderProduct)
+admin.site.register(PurchaseHistory)

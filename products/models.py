@@ -50,7 +50,7 @@ class Product(models.Model):
   slug = models.SlugField(editable=False, max_length=254)
   description = models.TextField(max_length=2000)
   price = models.DecimalField(max_digits=6, decimal_places=2)
-  sold_count = models.IntegerField('sold', editable=False, default=0)
+  sold_count = models.IntegerField('sold', default=0)
   view_count = models.IntegerField('views', editable=False, default=0)
   added_date = models.DateTimeField(editable=False, default=timezone.now)
   category = models.CharField(max_length=25, choices=CATEGORY_CHOICES)
