@@ -23,6 +23,10 @@
   bottom: 2rem;
 }
 
+.page-heading {
+  color:#C5B64F
+}
+
 /* GLOBAL - GENERAL LAYOUT */
 section {
   margin-top: 5em;
@@ -45,7 +49,8 @@ article {
   margin-bottom: 0.75rem;
 }
 
-.footer hr {
+.footer hr,
+.jumbotron hr {
   border-color: #48455a;
 }
 
@@ -54,6 +59,28 @@ article {
 }
 
 
+
+/* BUTTONS */
+
+.btn-primary {
+  background-color: #6b52f5;
+  border-color: #6b52f5;
+}
+
+.btn-primary:hover {
+  background-color: #523adf;
+  border-color: #523adf;
+}
+
+.btn-outline-primary {
+  color: #6b52f5;
+  border-color: #6b52f5;
+}
+
+.btn-outline-primary:hover {
+  background-color: #523adf;
+  border-color: #523adf;
+}
 
 /* COLORS */
 .bg-indigo {
@@ -66,6 +93,10 @@ article {
 
 .bg-dark {
   background-color: #302e3a !important;
+}
+
+.bg-light {
+  background-color: #e3e0fd !important;
 }
 
 .bg-dark-2 {
