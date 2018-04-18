@@ -15,20 +15,50 @@
 {# set page info #}
 {% block page_title %}Update User Details{% endblock %}
 
-{# Display the UserEditForm #}
+{# Update User Details content  #}
 {% block content %}
-<section id="login">
-	<div class="container">
-		<h2>Update your account details</h2>
-		<form role="form" method="POST" action="{% url 'update' %}">
-			{% csrf_token %}
-			{% bootstrap_form form %}
+<main id="update">
 
-			{% buttons %}
-			<button type="submit" class="btn btn-primary">Submit</button>
-			<a href="{% url 'dashboard' %}" class="btn btn-primary">Cancel</a>
-			{% endbuttons %}
-		</form>
-	</div>
-</section>
+	{# Update User Details Header #}
+  <header>
+		<div class="jumbotron jumbotron-fluid bg-dark">
+			<div class="container">
+				<div class="page-heading">
+
+					{# Heading Text #}
+					<h1 class="display-4">Update Account Details</h1>
+					{# /.Heading Text #}
+
+				</div>
+				<div class="page-subheading text-white">
+					
+					{# Subheading Text #}
+					<hr class="my-4">
+					<p>Make changes to your personal details below</p>
+					{# /.Subheading Text #}
+
+				</div>
+			</div>
+		</div>
+	</header>
+	{# /.Update User Details Header #}
+
+	{# Update User Details Form (UserEditForm) #}
+	<section>
+		<div class="container">
+			<h2>Update your account details</h2>
+			<hr>
+			<form role="form" method="POST" action="{% url 'update' %}">
+				{% csrf_token %}
+				{% bootstrap_form form %}
+				{% buttons %}
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<a href="{% url 'dashboard' %}" class="btn btn-primary">Cancel</a>
+				{% endbuttons %}
+			</form>
+		</div>
+	</section>
+	{# /.Update User Details Form #}
+
+</main>
 {% endblock %}

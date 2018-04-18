@@ -15,18 +15,48 @@
 {# set page info #}
 {% block page_title %}Registration{% endblock %}
 
-{# Display the UserRegistrationForm #}
+{# Registration content #}
 {% block content %}
-<section id="register">
-  <div class="container">
-    <h2>Create a new account</h2>
-    <form role="form" method="post" action="{% url 'register' %}">
-      {% csrf_token %}
-      {% bootstrap_form form %}
-      {% buttons %}
-        <button type="submit" class="btn btn-primary">Submit</button>
-      {% endbuttons %}
-    </form>
-  </div>
-</section>
+<main="register">
+
+  {# Registration Header #}
+  <header>
+		<div class="jumbotron jumbotron-fluid bg-dark">
+			<div class="container">
+				<div class="page-heading">
+
+					{# Heading Text #}
+					<h1 class="display-4">Register</h1>
+					<p class="lead">One account to buy and sell. You have all the power!</p>
+					{# /.Heading Text #}
+
+				</div>
+				<div class="page-subheading text-white">
+					
+					{# Subheading Text #}
+					<hr class="my-4">
+					<p>Alrady registered?</p>
+					<a class="btn btn-primary btn-lg mb-4 mb-md-0" href="{% url 'login' %}" role="button">Login Now</a>
+					{# /.Subheading Text #}
+
+				</div>
+			</div>
+		</div>
+	</header>
+	{# /.Registration Header #}
+
+  <section>
+    <div class="container">
+      <h2>Create a new account</h2>
+      <hr>
+      <form role="form" method="post" action="{% url 'register' %}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+          <button type="submit" class="btn btn-primary">Submit</button>
+        {% endbuttons %}
+      </form>
+    </div>
+  </section>
+</main>
 {% endblock %}

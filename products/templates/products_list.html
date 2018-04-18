@@ -28,7 +28,7 @@
 
           {# Heading Text #}
           <h1 class="display-4">Products</h1>
-          <p class="lead">Unreal Engine assets for real time arch viz</p>
+          <p class="lead">Unreal Engine assets for real-time arch viz</p>
           {# /.Heading Text #}
 
         </div>
@@ -36,7 +36,7 @@
           
           {# Subheading Text #}
           <hr class="my-4">
-          <p>shop shop shop</p>
+          <p>Find the best assets for your project</p>
           {# /.Subheading Text #}
 
         </div>
@@ -44,8 +44,6 @@
     </div>
   </header>
   {# /.Product List Header #}
-
-  
 
   {# Filter and sort Select Dropdowns #}
   <div class="product-list-filter-category container mt-5">
@@ -85,6 +83,8 @@
 
   {# Product List - Cards #}
   <section class="product-list container">
+    <h2>{% if chosen_category %}{{ chosen_category |title }}{% else %}All Products{% endif %}</h2>
+    <hr>
     {% include '_product_list_cards_partial.html' with request=request md="6" lg="4" %}
   </section>
   {# /.Product List - Cards #}

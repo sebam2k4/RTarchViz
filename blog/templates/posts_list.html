@@ -24,7 +24,7 @@
 
           {# Heading Text #}
           <h1 class="display-4">News</h1>
-          <p class="lead">News and Tutorials </p>
+          <p class="lead">News and Tutorials</p>
           {# /.Heading Text #}
 
         </div>
@@ -32,7 +32,7 @@
           
           {# Subheading Text #}
           <hr class="my-4">
-          <p>Latest and greatest about Unreal Engine arch viz and other exciting technologies.</p>
+          <p>Latest and greatest about Unreal Engine arch viz and other related technologies.</p>
           {# /.Subheading Text #}
 
         </div>
@@ -62,6 +62,8 @@
     
   {# Blog Post List - Cards #}
   <section class="post-list container">
+    <h2>{% if chosen_filter %}{{ chosen_filter|title }}{% else %}Newest{% endif %}</h2>
+    <hr>
     <div class="post-list-cards">
       <div class="row">
         {% for post in posts %}

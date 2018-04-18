@@ -62,12 +62,12 @@
 							<tr>
 								<th scope="col">#</th>
 								<th scope="col">Product Name</th>
-								<th scope="col"></th>
+								<th scope="col">Edit</th>
 								<th scope="col">Sold</th>
 								<th scope="col">Views</th>
 								<th scope="col">Avg. Rating</th>
 								<th scope="col">Total Earned</th>
-								<th scope="col"></th>
+								<th scope="col">Delete</th>
 							</tr>
 						</thead>
 						{# /.Column Titles #}
@@ -78,12 +78,12 @@
 							<tr>
 								<th scope="row">{{ forloop.counter }}</th>
 								<td>{{ product.name }}</td>
-								<td><a class="btn btn-success" href="{{ product.get_edit_product_url }}">Edit</a></td>
+								<td><a class="btn btn-success px-3" href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
 								<td>{{ product.sold_count }}</td>
 								<td>{{ product.view_count }}</td>
 								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
 								<td>&euro;{% get_total_for_sold_product product %}</td>
-								<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
+								<td><a class="btn btn-danger px-3" href="{{ product.get_delete_product_url }}"><i class="far fa-trash-alt"></i></a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -131,7 +131,7 @@
 								<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
 								{# product link to latest file version else last available #}
 								<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
-								<td><a class="btn btn-success" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}">Downlaod</a></td>
+								<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -154,12 +154,7 @@
 		<div class="row">
 			<div class="col">
 				<h2 class="mb-3">Your Personal Details</h2>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>NOTE:</strong> Please make sure your billing details are up to date.
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+				<hr>
 				<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
 				<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
 				{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
