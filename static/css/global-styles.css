@@ -23,6 +23,10 @@
   bottom: 2rem;
 }
 
+.spinner {
+  color: #6b52f5;
+}
+
 .page-heading {
   color:#C5B64F
 }
@@ -77,7 +81,8 @@ section hr {
   border-color: #31922C;
 }
 
-.btn-success.disabled {
+.btn-success.disabled,
+.btn-success:disabled {
   background-color:#31922C;
   border-color: #31922C;
 }

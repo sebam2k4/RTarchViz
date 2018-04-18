@@ -239,7 +239,7 @@ def edit_review(request, product_slug, product_id, review_id):
     form_action = Review.get_edit_review_url(review)
     form_button = "Save Changes"
 
-    context = { 'form': form, 'form_action': form_action, 'form_button': form_button, 'review': review }
+    context = { 'form': form, 'product': product, 'form_action': form_action, 'form_button': form_button, 'review': review }
     return render(request, 'review_form_edit.html', context)
 
   else:

@@ -48,6 +48,8 @@
   {# Edit Review Form #}
   <section class="review-form container">
     {% include '_review_form_partial.html' %}
+    <a href="{{ product.get_absolute_url }}" class="btn btn-primary btn-spinner">Cancel</a>
+    <a href="{{ product.get_delete_product_url }}" class="btn btn-danger btn-spinner">Delete</a>
   </section>
 
 </main>
