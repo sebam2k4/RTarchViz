@@ -50,7 +50,6 @@ section hr {
   color: rgba(255,255,255,1);
 }
 .footer-links li {
-  list-style-type: none;
   margin-bottom: 0.75rem;
 }
 
@@ -62,6 +61,15 @@ section hr {
 .footer .footer-links hr {
   width: 60px;
 }
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 767.98px) {
+  .footer-action-call .back-to-top {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+  }
+}
+
 
 /* Bootstrap 4 BUTTONS overwrite */
 .btn-success {
@@ -120,6 +128,22 @@ section hr {
 .btn-outline-primary:hover {
   background-color: #523adf;
   border-color: #523adf;
+}
+
+.page-item.active .page-link {
+  background-color: #6b52f5;
+  border-color: #6b52f5;
+}
+.page-link {
+  color: #6b52f5
+}
+a {
+  color: #6b52f5;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #6b52f5;
 }
 
 /* COLORS utility classes */

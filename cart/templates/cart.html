@@ -46,7 +46,6 @@
 
   
   <section class="cart-items container">
-    {% if product_count != 0 %}
 
       {# Clear Cart Button #}
       <div class="d-flex flex-row-reverse">
@@ -75,16 +74,15 @@
             </div>
           </div>
         </div>
-      {% endfor %}
-      {# /.Cart items #}
-
-    {% else %}
+      {% empty %}
 
       {# Empty Cart Message #}
       <p>You haven't added any items to your cart</p>
       {# /.Empty Cart Message #}
 
-    {% endif %}
+      {% endfor %}
+      {# /.Cart items #}
+
   </section>
   <section class="cart-summary container d-flex justify-content-between">
 
