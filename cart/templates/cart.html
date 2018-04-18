@@ -15,68 +15,93 @@
 {# set page info #}
 {% block page_title %}Review your items in cart{% endblock %}
 
-{# Display the ProductForm #}
+{# Cart content #}
 {% block content %}
 <main id="Cart">
 
-  {# Product Form Page Header #}
-  <header class="cart-header">
-    <div class="jumbotron jumbotron-fluid">
+  {# Cart Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Cart</h1>
-        <p class="lead">Review your cart's contents</p>
-        <hr class="my-4">
-        <p>yep yep yep</p>
+        
+        {# Heading Text #}
+        <div class="page-heading">
+          <h1 class="display-4">Cart</h1>
+          <p class="lead">Review your cart's contents</p>
+        </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
+        <div class="page-subheading text-white">
+          <hr class="my-4">
+          <p>Once you're ready, continue to checkout to complete your order</p>
+        </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>
+  {# /.Cart Header #}
 
-  {% if product_count != 0 %}
+
+  
   <section class="cart-items container">
-    <div class="d-flex flex-row-reverse">
-      <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
-    </div>
-    {% for item in cart_items %}
-    <div class="list-group-item list-group-item-action flex-row align-items-start">
-      <div class="d-sm-flex justify-content-start">
-        <div class="">
-          <div class="d-flex cart-product-image" style="background-image: url('{% if item.main_image %}{{ item.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
-        </div>
-        <div class="d-flex justify-content-between w-100">
-          <div class="">
-            <div class="d-flex">
-              <h5 class="mb-1 text-primary">{{ item.name }}</h5>
-            </div>
-            <p class="mb-1">Category: {{ item.category }}</p>
-          </div>
-          <div class="d-flex flex-row justify-content-between flex-sm-column align-items-start justify-content-sm-start">
-            <span class="h3">{{ item.euro_price }}</span>
-            <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">Remove Item</a>
-          </div>
-        </div>
+    {% if product_count != 0 %}
+
+      {# Clear Cart Button #}
+      <div class="d-flex flex-row-reverse">
+        <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
       </div>
-    </div>
-    {% endfor %}
-  </section>
+      {# /.Clear Cart Button #}
 
+      {# Cart items #}
+      {% for item in cart_items %}
+        <div class="list-group-item list-group-item-action flex-row align-items-start">
+          <div class="d-sm-flex justify-content-start">
+            <div class="">
+              <div class="d-flex cart-product-image" style="background-image: url('{% if item.main_image %}{{ item.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+            </div>
+            <div class="d-flex justify-content-between w-100">
+              <div class="">
+                <div class="d-flex">
+                  <h5 class="mb-1 text-primary">{{ item.name }}</h5>
+                </div>
+                <p class="mb-1">Category: {{ item.category }}</p>
+              </div>
+              <div class="d-flex flex-row justify-content-between flex-sm-column align-items-start justify-content-sm-start">
+                <span class="h3">{{ item.euro_price }}</span>
+                <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">Remove Item</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      {# /.Cart items #}
+
+    {% else %}
+
+      {# Empty Cart Message #}
+      <p>You haven't added any items to your cart</p>
+      {# /.Empty Cart Message #}
+
+    {% endif %}
+  </section>
   <section class="cart-summary container d-flex justify-content-between">
+
+    {# Total #}
     <div class="total">
       <span class="h2">Total: &euro;{{ total }}</span>
     </div>
+    {# /.Total #}
+
+    {# Checkout button #}
+    {% if product_count != 0 %}
     <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+    {% else %}
+    <a href="{% url 'checkout' %}" class="btn btn-primary disabled">Checkout</a>
+    {% endif %}
+    {# /.Checkout button #}
+    
   </section>
-
-  {% else %}
-  <section class="cart-items container">
-    <p>You haven't added any items to your cart</p>
-  </section>
-  <section class="cart-summary container d-flex justify-content-between">
-    <div class="total">
-      <span class="h2">Total: &euro;{{ total }}</span>
-    </div>
-    <a href="#" class="btn btn-primary disabled">Checkout</a>
-  </section>
-  {% endif %}
-
 </main>
 {% endblock %}

@@ -19,7 +19,7 @@
 {% block content %}
 
 {# Product Detail Carousel #}
-<header class="product-detail-carousel">
+<header class="product-detail-carousel bg-dark">
   <div id="productCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#productCarousel" data-slide-to="0" class="active"></li>
@@ -52,30 +52,37 @@
 
   {# Product Detail Header #}
   <header class="product-detail-header">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
+
+        {# Heading Text #}
+        <div class="page-heading">
         <h1 class="display-4">{{ product.name }}</h1>
-        <hr class="my-4">
-        <p>Sold by: <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
-        <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
-        <p>UE Version: {{ product.ue_version }}</p>
-        <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
-        <p>{{ product.euro_price }}</p>
-        {% if request.user.id == product.seller_id %}
-        <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
-        {% else %}
-          {% if product in owned_assets %}
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg disabled">Owned</a>
-            {% if product.product_file %}
-            <a href="/media/{{ product.product_file }}" class="btn btn-success btn-lg">Download</a>
-            {% endif %}
-          {% elif product in cart_items %}
-          <a href="" class="btn btn-primary btn-lg disabled">Already in Cart</a>
+        </div>
+
+        <div class="page-subheading text-white">
+          <hr class="my-4">
+          <p>Sold by: <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
+          <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
+          <p>UE Version: {{ product.ue_version }}</p>
+          <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
+          <p>{{ product.euro_price }}</p>
+          {% if request.user.id == product.seller_id %}
+          <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
           {% else %}
-          <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
+            {% if product in owned_assets %}
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg disabled">Owned</a>
+              {% if product.product_file %}
+              <a href="/media/{{ product.product_file }}" class="btn btn-success btn-lg">Download</a>
+              {% endif %}
+            {% elif product in cart_items %}
+            <a href="" class="btn btn-primary btn-lg disabled">Already in Cart</a>
+            {% else %}
+            <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
+            {% endif %}
           {% endif %}
-        {% endif %}
+        </div>
       </div>
     </div>
   </header>

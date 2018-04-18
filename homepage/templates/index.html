@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
-{% block page_title %}RTarchViz - Unreal Engine assets for real-time arch viz projects{% endblock %}
+{% block page_title %}Unreal Engine assets for real-time arch viz projects{% endblock %}
 {% block page_heading %}Home Page{% endblock %}
 
 {# Homepage content #}
@@ -34,7 +34,6 @@
           
           {# Subheading Text #}
           <hr class="my-4">
-          <p>Boop</p>
           <a class="btn btn-primary btn-lg mb-4 mb-md-0" href="{% url 'products_list' %}" role="button">Shop All Products Now</a>
           {# /.Subheading Text #}
 
@@ -48,7 +47,7 @@
   <section class="homepage-products">
     <div class="container">
       <h2>Recent Products</h2>
-      <hr class="my-4">
+      <hr>
       {% recent_products request num=6 md='6' lg='4' %}
     </div>
   </section>
@@ -60,7 +59,7 @@
       <div class="row">
         <div class="col-sm-12">
           <h2>Recent Blog Posts</h2>
-          <hr class="my-4">
+          <hr>
           {% home_recent_posts num=4 %}
         </div>
       </div>

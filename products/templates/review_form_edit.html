@@ -15,27 +15,40 @@
 {# set page info #}
 {% block page_title %}Edit Your Review{% endblock %}
 
-{# Display the ProductForm #}
+{# Edit Review content #}
 {% block content %}
 <main id="reviewForm">
 
-  {# Product Form Page Header #}
-  <header class="review-form-header">
-    <div class="jumbotron jumbotron-fluid">
+  {# Edit Review Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Edit Your Review and Rating</h1>
-        <p class="lead">tralalalal</p>
-        <hr class="my-4">
-        <p>Your feedback if valuable.</p>
+        <div class="page-heading">
+
+          {# Heading Text #}
+          <h1 class="display-4">Edit Review</h1>
+          <p class="lead">You are editing your review for <strong>{{review.product.name}}</strong></p>
+          {# /.Heading Text #}
+
+        </div>
+        <div class="page-subheading text-white">
+          
+          {# Subheading Text #}
+          <hr class="my-4">
+          <p>Original review submitted on {{ review.added_date|date:"N d, Y" }}</p>
+          <p>We value your feedback</p>
+          {# /.Subheading Text #}
+
+        </div>
       </div>
     </div>
   </header>
+  {# /.Edit Review Header #}
 
+  {# Edit Review Form #}
   <section class="review-form container">
-
-    {# Review Edit Form #}
     {% include '_review_form_partial.html' %}
-
   </section>
+
 </main>
 {% endblock %}

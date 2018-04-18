@@ -15,31 +15,45 @@
 {# set page info #}
 {% block page_title %}Add Product Form{% endblock %}
 
-{# Display the ProductForm #}
+{# New Product content #}
 {% block content %}
 <main id="productForm">
 
-  {# Product Form Page Header #}
-  <header class="product-form-header">
-    <div class="jumbotron jumbotron-fluid">
+  {# New Product Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Add New Product</h1>
-        <p class="lead">Add new product or modify existing</p>
-        <hr class="my-4">
-        <p>yep yep yep</p>
+        <div class="page-heading">
+
+          {# Heading Text #}
+          <h1 class="display-4">Add New Product</h1>
+          <p class="lead">awesome!</p>
+          {# /.Heading Text #}
+        </div>
+        <div class="page-subheading text-white">
+        
+          {# Subheading Text #}
+          <hr class="my-4">
+          <p>Fill out the form below to add your product</p>
+          {# /.Subheading Text #}
+
+        </div>
       </div>
     </div>
   </header>
+  {# /.New Product Header #}
 
+  {# New Product Form #}
   <section class="product-form container">
     <form enctype="multipart/form-data" role="form" method="POST" action="{% url 'new_product' %}">
 			{% csrf_token %}
 			{% bootstrap_form form %}
-
 			{% buttons %}
 			<button type="submit" class="btn btn-primary">Add Product</button>
 			{% endbuttons %}
 		</form>
   </section>
+  {# /.New Product Form #}
+
 </main>
 {% endblock %}

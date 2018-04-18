@@ -17,6 +17,10 @@ main {
 .product-detail-carousel {
   background-color: #aaa;
 }
+.product-list {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+}
 @media (min-width: 576px) {
   .carousel {
     height: 23em;

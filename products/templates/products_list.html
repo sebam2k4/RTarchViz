@@ -20,89 +20,106 @@
 {% block content %}
 <main id="productList">
 
-  {# Product List Page Header #}
-  <header class="product-list-header">
-    <div class="jumbotron jumbotron-fluid">
+  {# Product List Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Products</h1>
-        <p class="lead">Unreal Engine assets for real time arch viz</p>
-        <hr class="my-4">
-        <p>shop shop shop</p>
+        <div class="page-heading">
+
+          {# Heading Text #}
+          <h1 class="display-4">Products</h1>
+          <p class="lead">Unreal Engine assets for real time arch viz</p>
+          {# /.Heading Text #}
+
+        </div>
+        <div class="page-subheading text-white">
+          
+          {# Subheading Text #}
+          <hr class="my-4">
+          <p>shop shop shop</p>
+          {# /.Subheading Text #}
+
+        </div>
       </div>
     </div>
   </header>
+  {# /.Product List Header #}
 
-  <section class="product-list container">
+  
 
-    {# Filter and sort Select Dropdowns #}
-    <div class="product-list-filter-category mb-5">
-      <form action="{% url 'products_list' %}" method="GET">
-        <div class="form-row">
-          <div class="col-md-6 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <label for="category-select" class="input-group-text">Category</label>
-              </div>
-              <select class="custom-select" id="category-select" name="product-category-select">
-                {# match user choice with available select options to set 'selected' attribute #}
-                {% for choice in category_choices %}
+  {# Filter and sort Select Dropdowns #}
+  <div class="product-list-filter-category container mt-5">
+    <form action="{% url 'products_list' %}" method="GET">
+      <div class="form-row">
+        <div class="col-md-6 mb-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label for="category-select" class="input-group-text">Category</label>
+            </div>
+            <select class="custom-select" id="category-select" name="product-category-select">
+              {# match user choice with available select options to set 'selected' attribute #}
+              {% for choice in category_choices %}
                 <option {% if chosen_category == choice %}selected{% endif %}>{{ choice }}</option>
-                {% endfor%}
-              </select>
-            </div>
-          </div>
-          <div class="col-md-6 mb-3">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <label for="sort-select" class="input-group-text">Sort by</label>
-              </div>
-              <select class="custom-select" id="sort-select" name="product-sort-select">
-                {# match user choice with available select options to set 'selected' attribute #}
-                {% for choice in sort_choices %}
-                <option {% if chosen_sort == choice %}selected{% endif %}>{{ choice }}</option>
-                {% endfor %}
-              </select>
-            </div>
+              {% endfor%}
+            </select>
           </div>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-      </form>
-    </div>
+        <div class="col-md-6 mb-3">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label for="sort-select" class="input-group-text">Sort by</label>
+            </div>
+            <select class="custom-select" id="sort-select" name="product-sort-select">
+              {# match user choice with available select options to set 'selected' attribute #}
+              {% for choice in sort_choices %}
+                <option {% if chosen_sort == choice %}selected{% endif %}>{{ choice }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+  </div>
+  {# /.Filter and sort Select Dropdowns #}
 
-    {# Product List - Cards #}
+  {# Product List - Cards #}
+  <section class="product-list container">
     {% include '_product_list_cards_partial.html' with request=request md="6" lg="4" %}
+  </section>
+  {# /.Product List - Cards #}
 
-    {# Pagination #}
-    <nav class="product-list-pagination" aria-label="pagination">
-      <ul class="pagination justify-content-center">
-        {% if products.has_previous %}
+  {# Pagination #}
+  <nav class="product-list-pagination container pb-5" aria-label="pagination">
+    <ul class="pagination justify-content-center">
+      {% if products.has_previous %}
         <li class="page-item">
           <a class="page-link" href="?page={{ products.previous_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             <span>Previous</span>
           </a>
         </li>
-        {% endif %}
-        {% if products.has_previous or products.has_next %}
-          {% for num in paginator.page_range %}
-            {% if products.number == num %}
+      {% endif %}
+      {% if products.has_previous or products.has_next %}
+        {% for num in paginator.page_range %}
+          {% if products.number == num %}
             <li class="page-item active"><a class="page-link" href="#">{{ num }}<span class="sr-only">(current)</span></a></li>
-            {% else %}
+          {% else %}
             <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}">{{ num }}</a></li>
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-        {% if products.has_next %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% if products.has_next %}
         <li class="page-item">
           <a class="page-link" href="?page={{ products.next_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Next">
-              <span>Next</span>
+            <span>Next</span>
             <span aria-hidden="true">&raquo;</span>
           </a>
         </li>
-        {% endif %}
-      </ul>
-    </nav>
+      {% endif %}
+    </ul>
+  </nav>
+  {# /.Pagination #}
 
-  </section>
 </main>
 {% endblock %}

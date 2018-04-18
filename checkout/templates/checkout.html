@@ -24,35 +24,48 @@
 {# set page info #}
 {% block page_title %}Checkout{% endblock %}
 
-{# Display the ProductForm #}
+{# Checkout content #}
 {% block content %}
 <main id="productForm">
 
-  {# Product Form Page Header #}
-  <header class="checkout-header">
-    <div class="jumbotron jumbotron-fluid">
+  {# Checkout Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <h1 class="display-4">Checkout</h1>
-        <p class="lead">Download link will be provided once you pay (feature coming soon)</p>
-        <hr class="my-4">
-        <p>use 4x4242 for credit card number</p>
+        
+        {# Heading Text #}
+        <div class="page-heading">
+          <h1 class="display-4">Checkout</h1>
+          <p class="lead">Please provide your payment details below</p>
+        </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
+        <div class="page-subheading text-white">
+          <hr class="my-4">
+          <p>Download link will be waiting for you after you submit your payment details</p>
+        </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>
+  {# /.Checkout Header #}
 
+  {# Payment Form #}
   <section class="checkout-form container">
     <form role="form" method="POST" id="payment-form" action="{% url 'checkout' %}">
       <div id="credit-card-errors" style="display:none">
         <div class="alert-message block-message error" id="stripe-error-message"></div>
       </div>
-
 			{% csrf_token %}
       {% bootstrap_form payment_form %}
-
 			{% buttons %}
 			<button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
 			{% endbuttons %}
 		</form>
   </section>
+  {# /.Payment Form #}
+
 </main>
 {% endblock %}
