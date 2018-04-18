@@ -34,6 +34,10 @@
     top: -8em;
     background-color: white;
   }
+  .post-detail-comments {
+    position: relative;
+    top: -5em;
+  }
 }
 @media (min-width: 768px) {
   .post-detail-content{
