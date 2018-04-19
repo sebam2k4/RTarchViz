@@ -10,9 +10,11 @@
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
+{% block body_js %}
+<script src="{% static 'js/products.js' %}"></script>
+{% endblock %}
 
 {% block page_title %}Unreal Engine assets for real-time arch viz projects{% endblock %}
-{% block page_heading %}Home Page{% endblock %}
 
 {# Homepage content #}
 {% block content %}

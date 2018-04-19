@@ -8,6 +8,8 @@
     <title>RTarchViz - {% block page_title %}{% endblock %}</title>
     <!-- Bootstrap CSS: -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Font Awesome 5 CSS: -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
     <!-- Glboal CSS: -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
     <!-- App/page specific CSS: -->
@@ -16,7 +18,10 @@
     {% block head_js %}{% endblock head_js %}
   </head>
   <body>
-
+    <script>
+        // required setting to use Font Awesome 5 with pseudo elements
+        FontAwesomeConfig = { searchPseudoElements: true };
+    </script>
     {# Navigation #}
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
       <div class="container">
@@ -228,7 +233,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Font Awesome 5 -->
+    <!-- Font Awesome 5 JS:-->
     <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
     <!-- Global JS:  -->
     <script src="{% static 'js/global-scripts.js' %}"></script>
