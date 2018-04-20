@@ -25,5 +25,25 @@ $(document).ready(function() {
     $(this).addClass("disabled");
     $("<span class='ml-1 spinner'><i class='fas fa-circle-notch fa-spin'</span></i>").insertAfter(this)
   })
+  
+  // Show sticky cart icon on screens wider than 700
+  if (document.location.href.indexOf('cart') === -1
+      && document.location.href.indexOf('checkout') === -1){ 
+    if ($(window).width() > 700) {
+      $(document).scroll(function () {
+        var y = $(this).scrollTop();
+        if (y > 500) {
+            $('#sticky-cart').fadeIn();
+        } else {
+            $('#sticky-cart').fadeOut();
+        }
+      });
+    }
+  }
+
+
+  
+
+
 
 });

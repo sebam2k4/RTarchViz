@@ -105,132 +105,144 @@
     {# /.Main Content #}
 
     
-  {# Footer #}
-  <footer class="footer bg-dark pt-0">
+    {# Footer #}
+    <footer class="footer bg-dark pt-0">
 
-    {# Call to action #}
-    <div class="footer-action-call bg-indigo">
-      <div class="container">
-        <div class="row py-4 d-flex align-items-center">
-          <div class="col-md-6 col-lg-5 text-center text-md-left mb-0">
-            <p class="white-text h6 mb-0">
-              {% if not request.user.is_authenticated %}
-                <a href="{% url 'register' %}">Register, and start selling your assets for free <i class="fas fa-angle-double-right"></i></a>
-              {% else %}
-                <a href="{% url 'dashboard' %}">List your next asset. It's as easy as 1-2-3 <i class="fas fa-angle-double-right"></i></a>
-              {% endif %}
-            </p>
-          </div>
-          <div class="back-to-top col-md-6 col-lg-7 text-center text-md-right">
-            <a href="#"><i class="fas fa-angle-double-up"></i> Back to top</a>
+      {# Call to action #}
+      <div class="footer-action-call bg-indigo">
+        <div class="container">
+          <div class="row py-4 d-flex align-items-center">
+            <div class="col-md-6 col-lg-5 text-center text-md-left mb-0">
+              <p class="white-text h6 mb-0">
+                {% if not request.user.is_authenticated %}
+                  <a href="{% url 'register' %}">Register, and start selling your assets for free <i class="fas fa-angle-double-right"></i></a>
+                {% else %}
+                  <a href="{% url 'dashboard' %}">List your next asset. It's as easy as 1-2-3 <i class="fas fa-angle-double-right"></i></a>
+                {% endif %}
+              </p>
+            </div>
+            <div class="back-to-top col-md-6 col-lg-7 text-center text-md-right">
+              <a href="#"><i class="fas fa-angle-double-up"></i> Back to top</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {# /.Call to action #}
+      {# /.Call to action #}
 
-    {# Footer Links #}
-    <div class="container footer-links mt-5 mb-4 text-center text-md-left">
-      <div class="row mt-3">
-        <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
-          <h6 class="font-weight-bold">RTarchViz</h6>
-          <hr class="mb-4 mt-0 d-inline-block mx-auto">
-          <p>Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal Engine 4</p>
-        </div>
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-          <h6 class="text-uppercase font-weight-bold">Info</h6>
-          <hr class="mb-4 mt-0 d-inline-block mx-auto">
-          <ul class="list-unstyled">
-            <li><a href="#!">FAQ</a></li>
-            <li><a href="#!">About</a></li>
-            <li><a href="#!">Terms</a></li>
-            <li><a href="#!">Privacy</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-          <h6 class="text-uppercase font-weight-bold">Useful links</h6>
-          <hr class="mb-4 mt-0 d-inline-block mx-auto">
-          <ul class="list-unstyled">
-            <li><a href="{% url 'dashboard' %}">Your Dashboard</a></li>
-            <li><a href="{% url 'products_list' %}">Shop</a></li>
-            <li><a href="{% url 'posts_list' %}">News</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
-          </ul>
-        </div>
-        <div class="col-md-4 col-lg-3 col-xl-3">
-          <h6 class="text-uppercase font-weight-bold">Contact</h6>
-          <hr class="mb-4 mt-0 d-inline-block mx-auto">
-          <ul class="list-unstyled">
-            <li><i class="fas fa-building fa-fw mr-3"></i> 22 Archviz Street</li>
-            <li><i class="fas fa-map-marker-alt fa-fw mr-3"></i> Castlebar, Ireland</li>
-            <li><i class="fas fa-envelope fa-fw mr-3"></i> info@rtarchviz.com</li>
-            <li><i class="fas fa-phone fa-fw mr-3"></i> +353 87 123 1234</li>
-          </ul>
+      {# Footer Links #}
+      <div class="container footer-links mt-5 mb-4 text-center text-md-left">
+        <div class="row mt-3">
+          <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+            <h6 class="font-weight-bold">RTarchViz</h6>
+            <hr class="mb-4 mt-0 d-inline-block mx-auto">
+            <p>Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal Engine 4</p>
+          </div>
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <h6 class="text-uppercase font-weight-bold">Info</h6>
+            <hr class="mb-4 mt-0 d-inline-block mx-auto">
+            <ul class="list-unstyled">
+              <li><a href="#!">FAQ</a></li>
+              <li><a href="#!">About</a></li>
+              <li><a href="#!">Terms</a></li>
+              <li><a href="#!">Privacy</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <h6 class="text-uppercase font-weight-bold">Useful links</h6>
+            <hr class="mb-4 mt-0 d-inline-block mx-auto">
+            <ul class="list-unstyled">
+              <li><a href="{% url 'dashboard' %}">Your Dashboard</a></li>
+              <li><a href="{% url 'products_list' %}">Shop</a></li>
+              <li><a href="{% url 'posts_list' %}">News</a></li>
+              <li><a href="{% url 'register' %}">Register</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4 col-lg-3 col-xl-3">
+            <h6 class="text-uppercase font-weight-bold">Contact</h6>
+            <hr class="mb-4 mt-0 d-inline-block mx-auto">
+            <ul class="list-unstyled">
+              <li><i class="fas fa-building fa-fw mr-3"></i> 22 Archviz Street</li>
+              <li><i class="fas fa-map-marker-alt fa-fw mr-3"></i> Castlebar, Ireland</li>
+              <li><i class="fas fa-envelope fa-fw mr-3"></i> info@rtarchviz.com</li>
+              <li><i class="fas fa-phone fa-fw mr-3"></i> +353 87 123 1234</li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    {# /.Footer Links #}
+      {# /.Footer Links #}
 
-    <hr>
+      <hr>
 
-    {# Newsletter #}
-    <div class="newsletter text-center py-3">
-        <ul class="list-unstyled list-inline mb-0">
-            <li class="list-inline-item">
-                <h5 class="mb-1">Join our newsletter</h5>
-            </li>
-            <li class="list-inline-item">
-                <a href="#!" class="btn btn-danger">Sign up!</a>
-            </li>
+      {# Newsletter #}
+      <div class="newsletter text-center py-3">
+          <ul class="list-unstyled list-inline mb-0">
+              <li class="list-inline-item">
+                  <h5 class="mb-1">Join our newsletter</h5>
+              </li>
+              <li class="list-inline-item">
+                  <a href="#!" class="btn btn-danger">Sign up!</a>
+              </li>
+          </ul>
+      </div>
+      {# /.Newsletter #}
+
+      <hr>
+
+      {# Social buttons #}
+      <div class="social-buttons text-center py-3 text-indigo">
+        <ul class="list-unstyled list-inline">
+          <li class="list-inline-item">
+            <a class="mx-1" href="#!">
+              <i class="fab fa-facebook-square fa-3x"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+          <a class=" mx-1" href="#!">
+              <i class="fab fa-twitter-square fa-3x"></i>
+          </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="mx-1" href="#!">
+              <i class="fab fa-google-plus-square fa-3x"></i>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a class="mx-1" href="#!">
+              <i class="fab fa-linkedin fa-3x"></i>
+            </a>
+          </li>
         </ul>
-    </div>
-    {# /.Newsletter #}
-
-    <hr>
-
-    {# Social buttons #}
-    <div class="social-buttons text-center py-3 text-indigo">
-      <ul class="list-unstyled list-inline">
-        <li class="list-inline-item">
-          <a class="mx-1" href="#!">
-            <i class="fab fa-facebook-square fa-3x"></i>
-          </a>
-        </li>
-        <li class="list-inline-item">
-        <a class=" mx-1" href="#!">
-            <i class="fab fa-twitter-square fa-3x"></i>
-        </a>
-        </li>
-        <li class="list-inline-item">
-          <a class="mx-1" href="#!">
-            <i class="fab fa-google-plus-square fa-3x"></i>
-          </a>
-        </li>
-        <li class="list-inline-item">
-          <a class="mx-1" href="#!">
-            <i class="fab fa-linkedin fa-3x"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-    {# /.Social buttons #}
-
-    {# Copyright #}
-    <div class="footer-copyright bg-dark-2 py-3 text-center small-text">
-      <div>
-        <small>© 2018 Copyright <strong>RTarchViz</strong> | Designed and Developed by <strong>Sebastian Kulig</strong></small>
       </div>
-      <div>
-        <small>Source Files: <a href="https://github.com/sebam2k4/RTarchViz" target="_blank">Github</a></small>
+      {# /.Social buttons #}
+
+      {# Copyright #}
+      <div class="footer-copyright bg-dark-2 py-3 text-center small-text">
+        <div>
+          <small>&copy; 2018 Copyright <strong>RTarchViz</strong> | Designed and Developed by <strong>Sebastian Kulig</strong></small>
+        </div>
+        <div>
+          <small>Source Files: <a href="https://github.com/sebam2k4/RTarchViz" target="_blank">Github</a></small>
+        </div>
       </div>
-    </div>
-    {# /.Copyright #}
+      {# /.Copyright #}
+      
+    </footer>  
+    {# /.Footer #}                  
+
+    {% if product_count != 0 %}
+    <!-- Sticky Cart Icon -->
+    <a class="btn btn-primary" id="sticky-cart" href="{% url 'view_cart' %}">
+      <i class="fas fa-shopping-cart"></i>{{ product_count }}
+    </a>
+    {% endif %}
     
-  </footer>  
-  {# /.Footer #}                  
+  
 
     <!-- Bootstrap 4.0 JS and its dependencies: -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Font Awesome 5 JS:-->

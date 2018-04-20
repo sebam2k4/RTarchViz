@@ -171,3 +171,14 @@ a {
 .bg-dark-2 {
   background-color: #212129
 }
+
+
+/* STICKY CART ICON */
+#sticky-cart {
+  display: none;
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  z-index: 100;
+  text-decoration: none;
+}
