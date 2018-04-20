@@ -24,7 +24,7 @@
 
 	{# Dashboard Header #}
 	<header>
-		<div class="jumbotron jumbotron-fluid bg-dark">
+		<div class="jumbotron jumbotron-fluid bg-dark mb-0">
 			<div class="container">
 				<div class="page-heading">
 
@@ -45,6 +45,26 @@
 				</div>
 			</div>
 		</div>
+
+		{# Account Balance #}
+		<div class="account-balance text-white bg-indigo text-center text-sm-left pt-5 pb-4 py-sm-3">
+			<div class="container">
+				<div class="row">							
+					<div class="col-sm-12">
+						<h5 class="text-uppercase font-weight-bold">Account Balance</h5>
+						<div class="euro-balance">
+							&euro;{% get_account_balance request.user %}
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary active" data-toggle="modal" data-target="#payoutModal">
+								Payout
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# /.Account Balance #}
+
 	</header>
 	{# /.Dashboard Header #}
 	
@@ -170,4 +190,27 @@
 	{# /.Personal Details #}
 
 </main>
+
+
+<!-- Modal -->
+<div class="modal fade" id="payoutModal" tabindex="-1" role="dialog" aria-labelledby="payoutModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Account Balance Payout</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h3>We wish we could!</h3>
+				<p>As RTarchViz is a fictional company with fictional products we cannot make a payout :)</p>
+				<p class="italic-font">If you're really interested in this service then drop me an email on info@rtarchviz.com (it's a real email address) Who knows, maybe one day this project will become a reality</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 {% endblock %}

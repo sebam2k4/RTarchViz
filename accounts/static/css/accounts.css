@@ -1,0 +1,20 @@
+.account-balance .euro-balance {
+  font-size: 4rem;
+}
+
+@media (min-width: 576px) {
+
+  .account-balance {
+    vertical-align:middle
+  }
+  .account-balance h5 {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 1.5rem;
+  }
+  .account-balance .euro-balance {
+    display: inline-block;
+    padding-left: 3.5rem;
+  }
+
+}
