@@ -15,22 +15,55 @@
 {# set page info #}
 {% block page_title %}Login{% endblock %}
 
-{# Display the #}
+{# Login Page content #}
 {% block content %}
-<section id="login">
-	<div class="container">
-		<h2>Login to your account</h2>
-		<form role="form" method="POST" action="{% url 'login' %}">
-			{% csrf_token %}
-			{% bootstrap_form form %}
+<main id="login">
+	
+	{# Login Header #}
+	<header>
+		<div class="jumbotron jumbotron-fluid bg-dark">
+			<div class="container">
+				<div class="page-heading">
 
-			{% buttons %}
-			<button type="submit" class="btn btn-primary">Submit</button>
-			{% endbuttons %}
-			<div>
-				<a href="{% url 'password_reset' %}">Forgot password</a>
+					{# Heading Text #}
+					<h1 class="display-4">Login</h1>
+					<p class="lead">Access your account and dashboard</p>
+					{# /.Heading Text #}
+
+				</div>
+				<div class="page-subheading text-white">
+					
+					{# Subheading Text #}
+					<hr class="my-4">
+					<p>Don't have an account yet?</p>
+					<a class="btn btn-danger btn-lg mb-4 mb-md-0" href="{% url 'register' %}" role="button">Register Now</a>
+					{# /.Subheading Text #}
+
+				</div>
 			</div>
-		</form>
-	</div>
-</section>
+		</div>
+	</header>
+	{# /.Login Header #}
+		
+	{# Login Form #}
+	<section>
+		<div class="container">
+			<h2>Login to your account</h2>
+			<hr>
+			<form role="form" method="POST" action="{% url 'login' %}">
+				{% csrf_token %}
+				{% bootstrap_form form %}
+
+				{% buttons %}
+				<button type="submit" class="btn btn-primary">Submit</button>
+				{% endbuttons %}
+				<div>
+					<a href="{% url 'password_reset' %}">Forgot password</a>
+				</div>
+			</form>
+		</div>
+	</section>
+	{# /.Login Form #}
+
+</main>
 {% endblock %}

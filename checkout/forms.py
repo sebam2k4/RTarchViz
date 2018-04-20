@@ -11,7 +11,7 @@ class MakePaymentForm(forms.Form):
   """
 
   # CHOICES
-  MONTH_CHOICES= [(i,i) for i in range(1,12)]
+  MONTH_CHOICES= [(i,i) for i in range(1,13)]
   CURRENT_YEAR = timezone.localtime().year
   YEAR_CHOICES = [(i,i) for i in range(CURRENT_YEAR, CURRENT_YEAR + 10)]
 

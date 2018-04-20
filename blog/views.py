@@ -45,7 +45,7 @@ def posts_list(request):
   if chosen_filter == 'news':
     published_posts = published_posts.filter(category='news')
   if chosen_filter == 'most popular':
-    published_posts = published_posts.order_by('view_count')
+    published_posts = published_posts.order_by('-postviewcount__view_count')
   
   # set up pagination (4 posts per page)
   paginator = Paginator(published_posts, 4)

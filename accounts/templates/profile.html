@@ -7,6 +7,7 @@
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/accounts.js' %}"></script>
+<script src="{% static 'js/products.js' %}"></script>
 {% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
@@ -21,18 +22,28 @@
 <main id="userProfile">
 
 	{# Profile Header #}
-	<header class="user-profile-header">
-		<div class="jumbotron jumbotron-fluid">
+  <header>
+		<div class="jumbotron jumbotron-fluid bg-dark">
 			<div class="container">
-				<h1 class="display-4">{% if user == request.user %}Your Profile{% else %}{{ user.username }}'s Profile{% endif %}</h1>
-				<p class="lead">member since {{ user.date_joined|date:"N d, Y" }}</p>
-				{% if request.user.is_authenticated and request.user == user %}
-					<hr>
-					<a class="btn btn-primary" href="{% url 'dashboard' %}">View Your Dashbaord</a>
-				{% endif %}
+				<div class="page-heading">
+
+					{# Heading Text #}
+					<h1 class="display-4">
+						{% if user == request.user %}
+							Your Profile
+						{% else %}
+							{{ user.username }}'s Profile
+						{% endif %}
+					</h1>
+					<p class="lead">member since {{ user.date_joined|date:"N d, Y" }}</p>
+					<a class="btn btn-primary btn-lg" href="{% url 'dashboard' %}">Access Your Dashbaord</a>
+					{# /.Heading Text #}
+
+				</div>
 			</div>
 		</div>
 	</header>
+	{# /.Homepage Header #}
 
 	{# Profile User Bio #}
 	<section class="user-profile container">
@@ -49,17 +60,16 @@
 			</div>
 		</div>
 	</section>
+	{# /.Profile User Bio #}
 
-	{# Profile User Products List #}
-	
+	{# Profile User Product List #}
 	<section class="user-profile-products container">
 		<div class="user-profile-product-cards">
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
 		{% user_product_list user md='6' lg='4' %}
 		</div>
-	</section> 
-	
-
+	</section>
+	{# /.Profile User Product List #}
 
 	<!-- Links to other Users.   for testing - remove when done -->
 	<section class="user-profile-others container">
@@ -71,5 +81,6 @@
 			</div>
 		</div>
 	</section>
+
 </main>
 {% endblock %}

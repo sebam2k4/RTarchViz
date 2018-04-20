@@ -3,7 +3,6 @@ main {
   background-color: white;
 }
 
-
 /* PRODUCTS - CAROUSEL */
 .carousel {
   height: 20em;
@@ -16,6 +15,10 @@ main {
 }
 .product-detail-carousel {
   background-color: #aaa;
+}
+.product-list {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
 }
 @media (min-width: 576px) {
   .carousel {
@@ -58,6 +61,16 @@ main {
   }
 }
 
+.product-detail-header a {
+  color: white;
+}
+.product-detail-header .product-details li {
+  margin-top: .75rem;
+  margin-bottom: .75rem;
+}
+.product-detail-header .product-price {
+  font-size: 2rem;
+}
 
 /* PRODUCTS - REUSABLE _product_list_cards_partial.html TEMPLATE */
 .product-list-cards .card-img-top {
@@ -66,6 +79,7 @@ main {
   background-position: center;
   background-size: cover;
 }
+
 @media (max-width: 380px) {
   .product-list-cards .card-img-top {
     height: 12em;
@@ -80,4 +94,50 @@ main {
   .product-list-cards .card-img-top {
     height: 15em;
   }
+}
+
+/* PRODUCT STAR RATINGS */
+.rating-count {
+  display: inline-block;
+}
+.stars-outer {
+  position: relative;
+  display: inline-block;
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-outer::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #ccc;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  color: #6b52f5;
+}
+
+.product-detail-header .stars-inner::before {
+  color: #edb867;
+}
+
+/* PRODUCT REVIEWS */
+.review {
+  border-left: 4px solid #6b52f5;
+  padding-left: 1rem;
+}
+
+.review>p {
+  margin-bottom: .5rem;
 }

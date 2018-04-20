@@ -19,7 +19,7 @@
 {% block content %}
 
 {# Product Detail Carousel #}
-<header class="product-detail-carousel">
+<header class="product-detail-carousel bg-dark">
   <div id="productCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#productCarousel" data-slide-to="0" class="active"></li>
@@ -52,30 +52,55 @@
 
   {# Product Detail Header #}
   <header class="product-detail-header">
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
+
+        {# Heading Text #}
+        <div class="page-heading">
         <h1 class="display-4">{{ product.name }}</h1>
-        <hr class="my-4">
-        <p>Sold by: <a href="{% url 'profile' product.seller %}">{{ product.seller }}</a></p>
-        <p>Added: {{ product.added_date|date:"N d, Y" }}</p>
-        <p>UE Version: {{ product.ue_version }}</p>
-        <p>{% if product|get_average_rating != 0 %}Rating: {{ product|get_average_rating }}{% else %}not yet rated{% endif %}</p>
-        <p>{{ product.euro_price }}</p>
-        {% if request.user.id == product.seller_id %}
-        <a href="{{ product.get_edit_product_url }}" class="btn btn-primary btn-lg">Edit Your Product</a>
-        {% else %}
-          {% if product in owned_assets %}
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg disabled">Owned</a>
-            {% if product.product_file %}
-            <a href="/media/{{ product.product_file }}" class="btn btn-success btn-lg">Download</a>
+        </div>
+
+        <div class="page-subheading text-white">
+          <hr>
+
+          {# Product Details #}
+          <ul class="list-unstyled product-details">
+            <li>Sold by: <a href="{% url 'profile' product.seller.username %}">{{ product.seller.username }}</a></li>
+            <li>Added: {{ product.added_date|date:"N d, Y" }}</li>
+            <li>UE Version: {{ product.ue_version }}</li>
+            {% if product|get_average_rating != 0 %}
+              <li class="average-rating">
+                <div class="stars-outer">
+                  <div class="stars-inner" data-average-rating="{{ product|get_average_rating }}"></div>
+                </div>
+              </li>
+            {% else %}
+              <li class="font-italic">
+                not yet rated
+              </li>
             {% endif %}
-          {% elif product in cart_items %}
-          <a href="" class="btn btn-primary btn-lg disabled">Already in Cart</a>
+            <li class="product-price"><strong>{{ product.euro_price }}</strong></li>
+          </ul>
+          
+          {# /.Product Details #}
+
+          {# Product Buttons #}
+          {% if request.user.id == product.seller_id %}
+            <a href="#!" class="btn btn-success btn-lg disabled">Your Product</a>
           {% else %}
-          <a href="#" class="btn btn-primary btn-lg">Buy Now</a>
-          <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
+            {% if product in owned_assets %}
+              {% if product.product_file %}
+                <a href="/media/{{ product.product_file }}" class="btn btn-success btn-lg">Owned - Download Now</a>
+              {% endif %}
+            {% elif product in cart_items %}
+              <a href="" class="btn btn-primary btn-lg disabled">Already in Cart</a>
+            {% else %}
+              <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg">Add to Cart</a>
+            {% endif %}
           {% endif %}
-        {% endif %}
+          {# /.Product Buttons #}
+
+        </div>
       </div>
     </div>
   </header>
@@ -83,7 +108,7 @@
   {# Product Description #}
   <section class="product-detail-info container">
     <h2>Description</h2>
-    <hr class="my-4">
+    <hr>
       <p>{{ product.description|linebreaks }}</p>
   </section>
 
@@ -95,25 +120,34 @@
     {# Product Reviews #}
     <div class="product-detail-review-entries pb-4">
       <h2>Reviews <small>{% if product|get_review_count != 0 %} ({{ product|get_review_count }}){% endif %}</small></h2>
-      <hr class="my-4">
+      <hr>
       {% if product_reviews %}
         {% for review in product_reviews %}
-        <p>By {{ review.buyer.username }}</p>
-        <p>Rating: {{ review.rating }}</p>
-        {% if review.review_text %}
-        <p>Review: {{ review.review_text }}</p>
-        {% endif %}
-        <p>
-          {% if review.buyer_id == request.user.id %}
-          <a href="{{ review.get_edit_review_url }}" class="btn btn-primary">Edit Your Review</a>
-          <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger">Delete Your Review</a>
-          {% endif %}
-        </p>
+        <div class="row my-4">
+          <div class="col">
+            <div class="review">
+              <div class="rating stars-outer mb-1">
+                <div class="stars-inner" data-average-rating="{{ review.rating }}"></div>
+              </div>
+              {% if review.review_text %}
+                <p class="review-text">{{ review.review_text }}</p>
+              {% endif %}
+              <div class="mb-2">By <a href="{% url 'profile' review.buyer.username %}">{{ review.buyer.username }}</a><small class="pl-2 text-muted font-italic"> {{ review.added_date|date:"N d, Y" }}</small></div>
+            </div>
+            <div>
+              {% if review.buyer_id == request.user.id %}
+                <a href="{{ review.get_edit_review_url }}" class="btn btn-primary btn-spinner">Edit Your Review</a>
+                <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger btn-spinner">Delete Your Review</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
         {% endfor %}
       {% else %}
         <p>No review yet.</p>
       {% endif %}
     </div>
+    {# /.Product Reviews #}
 
     {# Display ReviewForm #}
     {% if request.user.is_authenticated and not already_reviewed and not product.seller == request.user %}
@@ -126,7 +160,8 @@
       {% endif %}
     </div>
     {% endif %}
-  </section>
+    {# /.Display ReviewForm #}
 
+  </section>
 </main>
 {% endblock %}
