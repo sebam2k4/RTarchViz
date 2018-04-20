@@ -15,3 +15,13 @@ def get_total_for_sold_product(product):
     total += item.product_price
   return total
 
+@register.simple_tag
+def get_account_balance(user):
+  """
+  total from all sales
+  """
+  total = 0
+  all_sales = PurchaseHistory.objects.filter(seller_id=user.id)
+  for sales in all_sales:
+    total += sales.product_price
+  return total

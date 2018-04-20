@@ -16,21 +16,59 @@
 {# set page info #}
 {% block page_title %}Dashboard{% endblock %}
 
-{# Dashboard #}
+
+{# Dashboard Content #}
 {% block content %}
+
 <main id="userDashboard">
+
 	{# Dashboard Header #}
-	<header class="user-dashboard-header">
-		<div class="jumbotron jumbotron-fluid">
+	<header>
+		<div class="jumbotron jumbotron-fluid bg-dark mb-0">
 			<div class="container">
-				<h1 class="display-4">Your Dashboard</h1>
-				<p class="lead">You are logged in as: {{ request.user.username }}</p>
-				<p class="lead">your email: {{ request.user.email}}</p>
+				<div class="page-heading">
+
+					{# Heading Text #}
+					<h1 class="display-4">Your Dashboard</h1>
+					<p class="lead">Manage your account, sales, and purchases</p>
+					{# /.Heading Text #}
+
+				</div>
+				<div class="page-subheading text-white">
+					
+					{# Subheading Text #}
+					<hr class="my-4">
+					<p>You are logged in as {{ request.user.username }}</p>
+					<p class="">your email is {{ request.user.email}}</p>
+					{# /.Subheading Text #}
+
+				</div>
 			</div>
 		</div>
+
+		{# Account Balance #}
+		<div class="account-balance text-white bg-indigo text-center text-sm-left pt-5 pb-4 py-sm-3">
+			<div class="container">
+				<div class="row">							
+					<div class="col-sm-12">
+						<h5 class="text-uppercase font-weight-bold">Account Balance</h5>
+						<div class="euro-balance">
+							&euro;{% get_account_balance request.user %}
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-primary active" data-toggle="modal" data-target="#payoutModal">
+								Payout
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{# /.Account Balance #}
+
 	</header>
+	{# /.Dashboard Header #}
 	
-	{# Dashboard Sales #}
+	{# Sales Table #}
 	<section class="user-dashboard-sales container">
 		<div class="row">
 			<div class="col">
@@ -38,6 +76,8 @@
 				{% if products %}
 				<div class="table-responsive">
 					<table class="table table-hover">
+
+						{# Column Titles #}
 						<thead>
 							<tr>
 								<th scope="col">#</th>
@@ -50,22 +90,25 @@
 								<th scope="col">Delete</th>
 							</tr>
 						</thead>
+						{# /.Column Titles #}
+
+						{# Rows #}
 						<tbody>
 							{% for product in products %}
 							<tr>
 								<th scope="row">{{ forloop.counter }}</th>
 								<td>{{ product.name }}</td>
-								<td><a class="btn btn-secondary" href="{{ product.get_edit_product_url }}">Edit</a></td>
+								<td><a class="btn btn-success px-3" href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
 								<td>{{ product.sold_count }}</td>
 								<td>{{ product.view_count }}</td>
 								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
-								<!-- profit needs to be derived from invoice as user can change product price and affect this data -->
-								{# {% get_total_for_sold_product product %} #}
 								<td>&euro;{% get_total_for_sold_product product %}</td>
-								<td><a class="btn btn-danger" href="{{ product.get_delete_product_url }}">Delete</a></td>
+								<td><a class="btn btn-danger px-3" href="{{ product.get_delete_product_url }}"><i class="far fa-trash-alt"></i></a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
+						{# /.Rows #}
+
 					</table>
 				</div>
 				<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
@@ -77,8 +120,9 @@
 			</div>
 		</div>
 	</section>
+	{# /.Sales Table #}
 
-	{# Dashboard Purchases #}
+	{# Purchases Table #}
 	<section class="user-dashboard-purchases container">
 		<div class="row">
 			<div class="col">
@@ -86,6 +130,8 @@
 				{% if owned_assets %}
 				<div class="table-responsive">
 					<table class="table table-hover">
+
+						{# Column Titles #}
 						<thead>
 							<tr>
 								<th scope="col">#</th>
@@ -94,6 +140,9 @@
 								<th scope="col">Download</th>
 							</tr>
 						</thead>
+						{# /.Column Titles #}
+
+						{# Rows #}
 						<tbody>
 							{% for asset in owned_assets %}
 							<tr>
@@ -102,10 +151,12 @@
 								<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
 								{# product link to latest file version else last available #}
 								<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
-								<td><a class="btn btn-secondary" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}">Downlaod</a></td>
+								<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
 							</tr>
 							{% endfor %}
 						</tbody>
+						{# /.Rows #}
+
 					</table>
 				</div>
 				<a class="btn btn-primary" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
@@ -116,18 +167,14 @@
 			</div>
 		</div>
 	</section>
+	{# /.Purchases Table #}
 
-	{# Dashboard Personal Details #}
+	{# Personal Details #}
 	<section class="user-dashboard-details container">
 		<div class="row">
 			<div class="col">
 				<h2 class="mb-3">Your Personal Details</h2>
-				<div class="alert alert-warning alert-dismissible fade show" role="alert">
-					<strong>NOTE:</strong> Please make sure your billing details are up to date.
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
+				<hr>
 				<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
 				<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
 				{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
@@ -140,6 +187,31 @@
 			</div>
 		</div>
 	</section>
+	{# /.Personal Details #}
 
 </main>
+
+
+<!-- Modal -->
+<div class="modal fade" id="payoutModal" tabindex="-1" role="dialog" aria-labelledby="payoutModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="payoutModalLabel">Account Balance Payout</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<h3>We wish we could!</h3>
+				<p>As RTarchViz is a fictional company with fictional products we cannot make a payout :)</p>
+				<p class="italic-font">If you're really interested in this service then drop me an email on info@rtarchviz.com (it's a real email address) Who knows, maybe one day this project will become a reality</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 {% endblock %}

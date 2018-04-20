@@ -1,8 +1,8 @@
 // required by Stripe
 // links up django forms to Stripe API
 
-$(function() {
-  $("#payment-form").submit(function() {
+$(document).ready(function() {
+  $("#paymentForm").submit(function() {
     var form = this;
     var card = {
       number: $("#id_credit_card_number").val(),
@@ -11,9 +11,9 @@ $(function() {
       cvc: $("#id_cvv").val()
     };
 
-    // disable 'validate card' button to prevent subming card details again
+    // disable 'make payment' button to prevent submitng card details again
     // while waiting for Stripe to assign a token/id
-    $("#validate_card_btn").attr("disabled", true);
+    
 
     Stripe.createToken(card, function(status, response) {
       if (status === 200) {
@@ -21,11 +21,11 @@ $(function() {
         $("#credit-card-errors").hide();
         $("#id_stripe_id").val(response.id);
 
-        // Prevent the Credit Card Details from being submitted to our server
-        // $("#id_credit_card_number").removeAttr('name');
-        // $("#id_cvv").removeAttr('name');
-        // $("#id_expiry_month").removeAttr('name')
-        // $("#id_expiry_year").removeAttr('name')
+        //Prevent the Credit Card Details from being submitted to our server
+        $("#id_credit_card_number").removeAttr('name');
+        $("#id_cvv").removeAttr('name');
+        $("#id_expiry_month").removeAttr('name')
+        $("#id_expiry_year").removeAttr('name')
 
         form.submit();
 
@@ -34,11 +34,9 @@ $(function() {
         // ids are given from Stripe API (required)
         $("#stripe-error-message").text(response.error.message);
         $("#credit-card-error").show();
-        $("#validate_card_btn").attr("disabled", false);
+        $("#validate_card_btn").removeClass("disabled");
       }
-
     });
     return false;
   });
-
 });

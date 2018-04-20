@@ -30,13 +30,13 @@ def recent_products(context, request, num, md=6, lg=4,):
   """
   Return the specified number of recent products in a reusable partial
   template. Can optionaly define column width for medium and large
-  devices. ALso, make 'request' object available in the template's
-  context
+  devices. ALso, make 'request' and 'cart-items' contexts available for
+  the partial template
   """
   products = Product.objects.all().order_by('-added_date')[:num]
   user_owned_products = Order.objects.purchased_products(request.user)
 
-  return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request']}
+  return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request'], 'cart_items': context['cart_items']}
 
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
 def user_product_list(context, user, md=6, lg=4):

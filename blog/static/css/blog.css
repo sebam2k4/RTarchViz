@@ -20,6 +20,10 @@
   background-position: center;
   background-size: cover;
 }
+.post-list {
+  margin-top: 3.5rem;
+  margin-bottom: 1.5rem;
+}
 @media (min-width: 576px) {
   .post-image {
     height: 35em;
@@ -29,6 +33,10 @@
     position: relative;
     top: -8em;
     background-color: white;
+  }
+  .post-detail-comments {
+    position: relative;
+    top: -5em;
   }
 }
 @media (min-width: 768px) {
