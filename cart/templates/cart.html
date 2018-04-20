@@ -47,11 +47,13 @@
   
   <section class="cart-items container">
 
-      {# Clear Cart Button #}
+    {# Clear Cart Button #}
+    {% if cart_items %}
       <div class="d-flex flex-row-reverse">
         <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
       </div>
-      {# /.Clear Cart Button #}
+    {% endif %}
+    {# /.Clear Cart Button #}
 
       {# Cart items #}
       {% for item in cart_items %}
