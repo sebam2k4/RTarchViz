@@ -98,7 +98,7 @@
 							<tr>
 								<th scope="row">{{ forloop.counter }}</th>
 								<td>{{ product.name }}</td>
-								<td><a class="btn btn-success px-3" href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
+								<td><a class="btn btn-success px-3 " href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
 								<td>{{ product.sold_count }}</td>
 								<td>{{ product.view_count }}</td>
 								<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
@@ -111,11 +111,11 @@
 
 					</table>
 				</div>
-				<a class="btn btn-primary" href="{% url 'new_product' %}">List New Product</a>
-				<a class="btn btn-primary" href="{% url 'sales_history' %}">View Detailed Sales History</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">List New Product</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'sales_history' %}">View Detailed Sales History</a>
 				{% else %}
 				<p>You have no products listed...</p>
-				<a class="btn btn-primary" href="{% url 'new_product' %}">Start Selling!</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">Start Selling!</a>
 				{% endif %}
 			</div>
 		</div>
@@ -159,7 +159,7 @@
 
 					</table>
 				</div>
-				<a class="btn btn-primary" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
 				{% else %}
 				<p>You haven't purchased any products yet.</p>
 				{% endif %}
@@ -182,8 +182,8 @@
 				<p>Post Code: {{ user.post_code }}</p>
 				<p>Country: {{ user.country }}</p>
 				{# Dashboard Account Utility Links #}
-				<a class="btn btn-primary" href="{% url 'update' %}">Update Personal Details</a>
-				<a class="btn btn-primary" href="{% url 'change_password' %}">Change Password</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'update' %}">Update Personal Details</a>
+				<a class="btn btn-primary btn-block-xs" href="{% url 'change_password' %}">Change Password</a>
 			</div>
 		</div>
 	</section>

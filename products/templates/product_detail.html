@@ -8,6 +8,12 @@
 {% block body_js %}
 <script src="{% static 'js/products.js' %}"></script>
 {% endblock %}
+{% block head_js %}
+<script>
+  // required setting to use Font Awesome 5 with pseudo elements
+  FontAwesomeConfig = { searchPseudoElements: true };
+</script>
+{% endblock %}
 {% block head_css %}
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
@@ -136,8 +142,8 @@
             </div>
             <div>
               {% if review.buyer_id == request.user.id %}
-                <a href="{{ review.get_edit_review_url }}" class="btn btn-primary btn-spinner">Edit Your Review</a>
-                <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger btn-spinner">Delete Your Review</a>
+                <a href="{{ review.get_edit_review_url }}" class="btn btn-primary btn-spinner">Edit</a>
+                <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger btn-spinner">Delete</a>
               {% endif %}
             </div>
           </div>

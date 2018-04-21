@@ -14,14 +14,15 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
     <!-- App/page specific CSS: -->
     {% block head_css %}{% endblock %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- Scripts taht need to laod in the head -->
+    <script
+  src="http://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
     {% block head_js %}{% endblock head_js %}
   </head>
   <body>
-    <script>
-        // required setting to use Font Awesome 5 with pseudo elements
-        FontAwesomeConfig = { searchPseudoElements: true };
-    </script>
+
     {# Navigation #}
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
       <div class="container">
@@ -60,6 +61,7 @@
                     <a class="dropdown-item {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
                     <a class="dropdown-item {% if url_name == 'profile' %}active{% endif %}" href="{{ user.get_absolute_url }}">Profile</a>
                     <a class="dropdown-item {% if url_name == 'new_product' %}active{% endif %}" href="{% url 'new_product'%}">List a Product</a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item {% if url_name == 'logout' %}active{% endif %}" href="{% url 'logout' %}">Logout</a>
                   </div>
                 </li>
@@ -239,10 +241,6 @@
   
 
     <!-- Bootstrap 4.0 JS and its dependencies: -->
-    <script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Font Awesome 5 JS:-->
