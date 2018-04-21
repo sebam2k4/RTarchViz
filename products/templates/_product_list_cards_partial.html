@@ -1,84 +1,91 @@
 {# Reusable product list cards partial template #}
 
+{% block head_js %}
+<script>
+  // required setting to use Font Awesome 5 with pseudo elements
+  FontAwesomeConfig = { searchPseudoElements: true };
+</script>
+{% endblock %}
+
 {# load custom template tags #}
 {% load product_tags %}
 
 {% if products %}
-<div class="product-list-cards">
-  <div class="row">
-    {% for product in products %}
-    <div class="col-md-{{ md }} col-lg-{{ lg }}">
-      <div class="card mb-5">
+  <div class="product-list-cards">
+    <div class="row">
+      {% for product in products %}
+        <div class="col-md-{{ md }} col-lg-{{ lg }}">
+          <div class="card mb-5">
 
-        {# Product Image #}
-        <a href="{{ product.get_absolute_url }}">
-          <div class="card-img-top" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
-        </a>
-        {# /.Product Image #}
+            {# Product Image #}
+            <a href="{{ product.get_absolute_url }}">
+              <div class="card-img-top" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+            </a>
+            {# /.Product Image #}
 
-        <div class="card-body">
+            <div class="card-body">
 
-          {# Product Name & seller #}
-          <h5 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h5>
-          <p class="card-text">Sold by <a href="{% url 'profile' product.seller.username %}">{{ product.seller.username }}</a></p>
-          {# /.Product Name & seller #}
+              {# Product Name & seller #}
+              <h5 class="card-title">
+                <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+              </h5>
+              <p class="card-text">Sold by
+                <a href="{% url 'profile' product.seller.username %}">{{ product.seller.username }}</a>
+              </p>
+              {# /.Product Name & seller #}
 
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex w-100 justify-content-between">
-            
-            {# Product Version #}
-            <span class="product-version">UE Version: {{ product.ue_version }}</span>
-            {# /.Product Version #}
-            
-            {# Product Rating #}
-            {% if product|get_average_rating != 0 %}
-            <div class="average-rating">
-              <div class="stars-outer">
-                <div class="stars-inner" data-average-rating="{{ product|get_average_rating }}"></div>
-              </div>
-              <div class="rating-count">({{ product|get_review_count }})</div>
             </div>
-                  <!-- <span class="product-rating" data-rateyo-rating="{{ product|get_average_rating }}">{{ product|get_average_rating }}</span>
-                <span>({{ product|get_review_count }})</span> -->
-            {% else %}
-              <span>not yet rated</span>
-            {% endif %}
-            {# ./Product Rating #}
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex w-100 justify-content-between">
 
-          </li>
-          <li class="list-group-item d-flex w-100 justify-content-between">
+                {# Product Version #}
+                <span class="product-version">UE Version: {{ product.ue_version }}</span>
+                {# /.Product Version #}
+                
+                {# Product Rating #}
+                {% if product|get_average_rating != 0 %}
+                  <div class="average-rating">
+                    <div class="stars-outer">
+                      <div class="stars-inner" data-average-rating="{{ product|get_average_rating }}"></div>
+                    </div>
+                    <div class="rating-count">({{ product|get_review_count }})</div>
+                  </div>
+                {% else %}
+                  <span>not yet rated</span>
+                {% endif %}
+                {# ./Product Rating #}
 
-            {# Product Category #}
-            <span class="product-category">Category: {{ product.category|capfirst }}</span>
-            <span class="product-price">{{ product.euro_price }}</span>
-            {# /.Product Category #}
+              </li>
+              <li class="list-group-item d-flex w-100 justify-content-between">
 
-          </li>
-        </ul>
-        <div class="card-body">
+                {# Product Category #}
+                <span class="product-category">Category: {{ product.category|capfirst }}</span>
+                <span class="product-price">{{ product.euro_price }}</span>
+                {# /.Product Category #}
 
-          {# Product Card Buttons #}
-          <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
-          {% if product in owned_assets %}
-            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
-          {% elif product in cart_items %}
-            <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
-          {% elif request.user.id == product.seller_id %}
-            <a href="#" class="btn btn-success btn-lg btn-block disabled">Your Product</a>
-          {% else %}
-            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
-          {% endif %}
-          {# /.Product Card Buttons #}
+              </li>
+            </ul>
+            <div class="card-body">
 
+              {# Product Card Buttons #}
+              <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
+              {% if product in owned_assets %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
+              {% elif product in cart_items %}
+                <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
+              {% elif request.user.id == product.seller_id %}
+                <a href="#" class="btn btn-success btn-lg btn-block disabled">Your Product</a>
+              {% else %}
+                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+              {% endif %}
+              {# /.Product Card Buttons #}
+
+            </div>
+          </div>
         </div>
-      </div>
+      {% endfor %}
     </div>
-    
-    {% endfor %}
   </div>
-</div>
 {% else %}
-<p>No products listed</p>
+  <p>No products listed</p>
 {% endif %}
-

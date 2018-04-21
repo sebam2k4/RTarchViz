@@ -16,10 +16,10 @@ $(document).ready(function() {
   // Disables form buttons on submit and shows a loading spinner
   $('form').submit(function() {
     $("form button[type=submit]").attr("disabled", true).addClass("disabled");
-    $("<span class='ml-1 spinner'><i class='fas fa-circle-notch fa-spin'</span></i>").insertAfter('form button')
+    $("<span class='ml-1 spinner'><i class='fas fa-circle-notch fa-spin'</span></i>").insertAfter('form button[type=submit]')
   })
 
-  // Disables button and shows a loading spinner on button click
+  // Disables button after clicking it and shows a loading spinner on button click
   // Used for some non-form buttons throughout the site, like 'Cancel' and 'Delete'
   $('.btn-spinner').click(function() {
     $(this).addClass("disabled");
