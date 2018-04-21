@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     #'tinymce',
     'disqus',
+    'django_social_share',
 ]
 
 MIDDLEWARE = [

@@ -3,6 +3,7 @@
 
 {# load custom template tags #}
 {% load product_tags %}
+{% load social_share %}
 
 {# Load required js and css #}
 {% block body_js %}
@@ -117,10 +118,32 @@
     <hr>
       <p>{{ product.description|linebreaks }}</p>
   </section>
+  {# /.Product Description #}
 
-  <section class="product-detail-social">
-    <!-- placeholder for social share actions -->
+  {# Social Share #}
+  <section class="product-detail-social container">
+    <ul class="list-unstyled list-inline">
+      <li class="list-inline-item">
+        Share this product: 
+      </li>
+      <li class="list-inline-item">
+        {% post_to_facebook product "Share of Facebook" %}
+      </li>
+      <li class="list-inline-item">
+        {% post_to_twitter "I found this awesome asset on RTarchViz: {{product.name}}. Check it out!" product "Share on Twitter" %}
+      </li>
+      <li class="list-inline-item">
+        {% post_to_gplus product "Share on Google+" %}
+      </li>
+      <li class="list-inline-item">
+          {% post_to_linkedin product.name product "Share on LinkedIn" %}
+      </li>
+      <li class="list-inline-item">
+        {% send_email product.name "I found this awesome asset on RTarchViz: {{product.name}}. Check it out!" product "Share via email" %}
+      </li>
+    </ul>
   </section>
+  {# /.Social Share #}
 
   <section class="product-detail-review container">
     {# Product Reviews #}
