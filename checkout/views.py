@@ -69,9 +69,12 @@ def checkout(request):
           purchase.order_id = order.id
           purchase.save()
 
+        # copy cart session into purchase session storage
+        request.session['purchase'] = request.session['cart']
+        # clear cart session
         request.session['cart'] = {}
-        messages.success(request, "Your purchase was successful! You'll get your product link soon.")
-        return redirect(reverse('profile', args=[request.user.username]))
+        messages.success(request, "Your purchase was successful!")
+        return redirect('thank_you')
       else:
         messages.error(request, "Unable to take payment")
     
@@ -84,3 +87,20 @@ def checkout(request):
   context = {'payment_form': payment_form, 'publishable': settings.STRIPE_PUBLISHABLE}
 
   return render(request, "checkout.html", context)
+
+@login_required
+def thank_you(request):
+  """
+  Displays thank you page. Uses purchase session to list purchased
+  products.
+  """
+  purchase = request.session.get('purchase')
+  purchase_items = []
+  for id in purchase:
+    product = get_object_or_404(Product, pk=id)
+    purchase_items.append(product)
+
+  request.session['purchase'] = {}
+
+  context = {'purchase_items': purchase_items}
+  return render(request, "thank_you.html", context)
