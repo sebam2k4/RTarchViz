@@ -96,7 +96,8 @@ section hr {
   border-color: #523adf;
 }
 
-.btn-primary.disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   background-color: #6e5eff;
   border-color: #6e5eff;
 }
