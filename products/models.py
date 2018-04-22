@@ -60,6 +60,7 @@ class Product(models.Model):
                                  blank=True, null=True, validators=[validate_file_size])
   product_file = models.FileField('Product File', upload_to=user_directory_path, null=False,
                                   validators=[validate_file_extension, validate_file_size])
+  active = models.BooleanField(blank=False, null=False, default=True)
  
   # META CLASS:
   class Meta:

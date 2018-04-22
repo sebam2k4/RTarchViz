@@ -59,21 +59,11 @@ class PurchaseManager(models.Manager):
 
   def purchased_products_history(self, user):
     """ get user's purchased products """
-    purchased_products_qs = self.get_queryset().filter(buyer_id=user.id)
-    #print "purchased products form model: {0}".format(purchased_products_qs)
-    purchased_products_list = []
-    for product in purchased_products_qs:
-      purchased_products_list.append(product)
-    return purchased_products_list
+    return self.get_queryset().filter(buyer_id=user.id).order_by('-purchase_date')
 
   def sold_products_history(self, user):
     """ get user's purchased products """
-    sold_products_qs = self.get_queryset().filter(seller_id=user.id)
-    #print "purchased products form model: {0}".format(sold_products_qs)
-    sold_products_list = []
-    for product in sold_products_qs:
-      sold_products_list.append(product)
-    return sold_products_list
+    return self.get_queryset().filter(seller_id=user.id).order_by('-purchase_date')
 
 
 class PurchaseHistory(models.Model):

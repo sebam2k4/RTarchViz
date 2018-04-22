@@ -36,7 +36,7 @@ def products_list(request):
   select options in the template have to be matched with user selected
   options and set 'selected' attribute on the specified option tags.
   """
-  products = Product.objects.all()
+  products = Product.objects.all().filter(active=True)
   user_purchased_products = Order.objects.purchased_products(request.user)
 
   # define filter choices and get filtered objects based on user select
@@ -107,49 +107,56 @@ def product_detail(request, slug, id):
   """
   # get product object
   product = get_object_or_404(Product, slug=slug, pk=id)
-  # get all reviews for product
-  product_reviews = product.reviews.all()
-  
-  # clock up the number of product views
-  product.view_count += 1
-  product.save()
-  # check if user already reviewed. Only 1 review/product allowed
-  already_reviewed = False
-  if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
-    already_reviewed = True
+  # check if product is active
+  if product.active:
 
-  # get a list of user's purchased products
-  user_owned_products = Order.objects.purchased_products(request.user)
+    # get all reviews for product
+    product_reviews = product.reviews.all()
+    
+    # clock up the number of product views
+    product.view_count += 1
+    product.save()
+    # check if user already reviewed. Only 1 review/product allowed
+    already_reviewed = False
+    if product_reviews.filter(buyer_id=request.user.id).count() >= 1:
+      already_reviewed = True
 
-  # load product review form
-  form = ReviewForm()
-  form_action = Product.get_absolute_url(product)
-  form_button = "Add Review"
-  if request.method == "POST":
-    if product in user_owned_products:
-      if not already_reviewed:
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-          review = form.save(commit=False)
-          review.buyer = request.user
-          review.product = product
-          review.save()
-          messages.success(request, 'You have successfully added a product review')
-          # redirect back to the product
+    # get a list of user's purchased products
+    user_owned_products = Order.objects.purchased_products(request.user)
+
+    # load product review form
+    form = ReviewForm()
+    form_action = Product.get_absolute_url(product)
+    form_button = "Add Review"
+    if request.method == "POST":
+      if product in user_owned_products:
+        if not already_reviewed:
+          form = ReviewForm(request.POST)
+          if form.is_valid():
+            review = form.save(commit=False)
+            review.buyer = request.user
+            review.product = product
+            review.save()
+            messages.success(request, 'You have successfully added a product review')
+            # redirect back to the product
+            return redirect(Product.get_absolute_url(product))
+        else:
+          messages.success(request, 'You have already reviewed this product')
           return redirect(Product.get_absolute_url(product))
       else:
-        messages.success(request, 'You have already reviewed this product')
+        messages.success(request, 'You need to have purchase the product to leave a review')
         return redirect(Product.get_absolute_url(product))
-    else:
-      messages.success(request, 'You need to have purchase the product to leave a review')
-      return redirect(Product.get_absolute_url(product))
 
-  context = {"product": product, "product_reviews": product_reviews,
-             "form": form, "already_reviewed": already_reviewed,
-             "form_action": form_action, "form_button": form_button,
-             "owned_assets": user_owned_products}
+    context = {"product": product, "product_reviews": product_reviews,
+              "form": form, "already_reviewed": already_reviewed,
+              "form_action": form_action, "form_button": form_button,
+              "owned_assets": user_owned_products}
 
-  return render(request, "product_detail.html", context)
+    return render(request, "product_detail.html", context)
+
+  else:
+    messages.error(request, 'Product is no longer available')
+    return redirect('products_list')
 
 @login_required
 def new_product(request):
@@ -177,45 +184,64 @@ def edit_product(request, slug, id):
   A view for editing user's existing product
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
-  # make sure user is the product owner
-  if request.user.id == product.seller_id:
-    if request.method == "POST":
-      # Create instance of ProductForm & bind file data and form data
-      form = ProductForm(request.POST, request.FILES, instance=product)
-      if form.is_valid():
-        product = form.save(commit=False)
-        product.seller = request.user
-        product.save()
-        messages.success(request, 'You have successfully updated your product')
-        return redirect(Product.get_absolute_url(product))
-    else:
-      # Render the edited product
-      form = ProductForm(instance=product)
+  # check if product is active
+  if product.active:
+    # make sure user is the product owner
+    if request.user.id == product.seller_id:
+      if request.method == "POST":
+        # Create instance of ProductForm & bind file data and form data
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+          product = form.save(commit=False)
+          product.seller = request.user
+          product.save()
+          messages.success(request, 'You have successfully updated your product')
+          return redirect(Product.get_absolute_url(product))
+      else:
+        # Render the edited product
+        form = ProductForm(instance=product)
 
-    context = {'form': form, 'product': product}
-    return render(request, 'product_form_edit.html', context)
+      context = {'form': form, 'product': product}
+      return render(request, 'product_form_edit.html', context)
+
+    else:
+      # if not product owner, raise 403 forbidden exception and render
+      # 403.html template
+      messages.error(request, 'You cannot edit this product')
+      raise PermissionDenied
+
   else:
-    # if not product owner, raise 403 forbidden exception and render
-    # 403.html template
-    messages.error(request, 'You cannot edit this product')
-    raise PermissionDenied
+    messages.error(request, 'Product is no longer available')
+    return redirect('products_list')
 
 @login_required
 def delete_product(request, slug, id):
   """
-  A view that handles deleting user's existing product
+  A view that handles deleting user's existing product. Instead of
+  actually deleting the product from db, set it's active field to False.
+  This will ensure that buyers will still have access to the product
+  files even though the product has been removed from market.
   """
   product = get_object_or_404(Product, slug=slug, pk=id)
-  # make sure user is the product owner
-  if request.user.id == product.seller_id:
-    product.delete()
-    messages.success(request, 'You have successfully deleted your product')
-    return redirect('dashboard')
+  # check if product is active
+  if product.active:
+    # make sure user is the product owner
+    if request.user.id == product.seller_id:
+      # set product to inactive
+      product.active = False
+      product.save()
+      messages.success(request, 'You have successfully deleted your product')
+      return redirect('dashboard')
+      
+    else:
+      # if not product owner, raise 403 forbidden exception and render
+      # 403.html template
+      messages.error(request, 'You cannot delete this product')
+      raise PermissionDenied
+
   else:
-    # if not product owner, raise 403 forbidden exception and render
-    #  403.html template
-    messages.error(request, 'You cannot delete this product')
-    raise PermissionDenied
+    messages.error(request, 'Product is no longer available')
+    return redirect('products_list')
 
 @login_required
 def edit_review(request, product_slug, product_id, review_id):
