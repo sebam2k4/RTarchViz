@@ -92,7 +92,7 @@
 
     {# Flash Messages #}
     {% if messages %}
-      <ul class="auth-messages list-unstyled">
+      <ul class="auth-messages list-unstyled alert-link">
         {% for message in messages %}
           <li class="alert {{message.tags}} py-4">{{ message }}</li>
         {% endfor %}
