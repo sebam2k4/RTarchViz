@@ -6,7 +6,7 @@ $(document).ready(function() {
       note: 3rd parameter of the setTimeout function is
       sent as parameter to the internal function at
       end of the timer */
-    setTimeout(clearMessage, 3000, '.auth-messages');
+    setTimeout(clearMessage, 3500, '.auth-messages');
   }
   // Clear Messages reusable method
   function clearMessage(message){

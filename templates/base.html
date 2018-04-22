@@ -92,11 +92,11 @@
 
     {# Flash Messages #}
     {% if messages %}
-        <div class="auth-messages">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        </div>
+      <ul class="auth-messages list-unstyled">
+        {% for message in messages %}
+          <li class="alert {{message.tags}} py-4">{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
     {# /.Flash Messages #}
 
@@ -105,7 +105,6 @@
     {% endblock %}
     {# /.Main Content #}
 
-    
     {# Footer #}
     <footer class="footer bg-dark pt-0">
 

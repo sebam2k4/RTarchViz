@@ -15,6 +15,7 @@ import dj_database_url
 # import environmental variables set locally
 if os.path.exists('env.py'):
     import env
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -129,6 +130,16 @@ USE_TZ = True
 DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_WEBSITE_SHORTNAME')
 DISQUS_API_KEY = os.environ.get('DISQUS_API_KEY')
 SITE_ID = 1
+
+# define custom class names for messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
 
 # getting too many request from TinyMCE for S3 storage
 # TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
