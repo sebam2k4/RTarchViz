@@ -39,12 +39,6 @@ def products_list(request):
   products = Product.objects.all().filter(active=True)
   user_purchased_products = Order.objects.purchased_products(request.user)
 
-  # define filter choices and get filtered objects based on user select
-  # note: refactor this code as it pretty much uses all hard coded
-  #       values. See if can fill a tuple from list of the actual
-  #       available categories? This would be useful for when categories
-  #       are added or modified.
-
   # get all choices from Model's category field into a list
   categories_list = []
   for field in Product._meta.get_field('category').choices:

@@ -37,7 +37,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,7 +130,7 @@ DISQUS_WEBSITE_SHORTNAME = os.environ.get('DISQUS_WEBSITE_SHORTNAME')
 DISQUS_API_KEY = os.environ.get('DISQUS_API_KEY')
 SITE_ID = 1
 
-# define custom class names for messages
+# define custom class names for django messages
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert-info',
     messages.INFO: 'alert-info',
