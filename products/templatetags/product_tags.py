@@ -33,7 +33,7 @@ def recent_products(context, request, num, md=6, lg=4,):
   devices. ALso, make 'request' and 'cart-items' contexts available for
   the partial template
   """
-  products = Product.objects.all().order_by('-added_date')[:num]
+  products = Product.objects.all().filter(active=True).order_by('-added_date')[:num]
   user_owned_products = Order.objects.purchased_products(request.user)
 
   return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request'], 'cart_items': context['cart_items']}
@@ -50,5 +50,5 @@ def user_product_list(context, user, md=6, lg=4):
   argument for the 'num' parameter. Otherwise all user products will
   be displayed
   """
-  products = Product.objects.filter(seller_id = user.id).order_by('-added_date')
+  products = Product.objects.filter(seller_id = user.id).filter(active=True).order_by('-added_date')
   return {'products': products, 'md': md, 'lg': lg, 'request': context['request']}

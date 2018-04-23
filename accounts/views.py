@@ -166,12 +166,12 @@ def change_password(request):
 @login_required
 def purchases_history(request):
   """
-  A view that show purchase history
+  A view that shows purchase history
   """
-  user = User.objects.get(email=request.user.email)
+  user = request.user
 
   # get producst user purchased from other users
-  user_purchased_products = PurchaseHistory.objects.purchased_products_history(request.user)
+  user_purchased_products = PurchaseHistory.objects.purchased_products_history(user)
 
   context = {'user': user, 'owned_assets': user_purchased_products}
   return render(request, 'purchases_history.html', context)
@@ -179,12 +179,12 @@ def purchases_history(request):
 @login_required
 def sales_history(request):
   """
-  A view that show purchase history
+  A view that shows user's sales history
   """
-  user = User.objects.get(email=request.user.email)
+  user = request.user
 
   # get producst user purchased from other users
-  user_purchased_products = PurchaseHistory.objects.sold_products_history(request.user)
-
+  user_purchased_products = PurchaseHistory.objects.sold_products_history(user)
+  print user_purchased_products
   context = {'user': user, 'owned_assets': user_purchased_products}
   return render(request, 'sales_history.html', context)

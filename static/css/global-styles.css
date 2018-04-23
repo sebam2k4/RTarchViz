@@ -13,14 +13,24 @@
 
 /* GLOBAL - SERVER MESSAGES */
 .auth-messages {
-  background-color: lightgray;
   display: inline-block;
-  padding: 2rem;
-  border-radius: 3px;
-  z-index: 100;
+  z-index: 101;
   position: fixed;
-  left: 2rem;
-  bottom: 2rem;
+  bottom: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+.auth-messages li {
+  margin-bottom: 0;
+}
+@media (min-width: 576px) {
+  .auth-messages {
+    margin: 2rem;
+    width: auto
+  }
+.auth-messages li {
+  padding: 2rem !important;
+}
 }
 
 .spinner {
@@ -214,4 +224,17 @@ a {
     margin-bottom: 1rem;
     white-space: normal;
   }
+}
+
+/* FORMS */
+:placeholder-shown {
+  font-style: italic;
+  opacity: .6;
+}
+.form-control {
+  border-color: #555;
+}
+
+.custom-select.is-invalid, .form-control.is-invalid, .was-validated .custom-select:invalid, .was-validated .form-control:invalid {
+  background-color: #ffeded
 }

@@ -28,14 +28,14 @@ class UserEditForm(forms.ModelForm):
     user.
     Checks if username already registered by case insensitive check
     """
-    username = self.cleaned_data.get('username')
-    current_user = User.objects.filter(username__iexact=self.instance).first()
-    if current_user is not None and current_user.username.lower() == username.lower():
-      return username
-    elif User.objects.filter(username__iexact=username):
-      message = "Username already registered!"
-      raise ValidationError(message)
-    return username
+    current_user = self.instance
+    new_username = self.cleaned_data.get('username')
+    if current_user.username.lower() != new_username.lower():
+      if User.objects.filter(username__iexact=new_username):
+        message = "Username already registered!"
+        raise ValidationError(message)
+    else:
+      return new_username
 
   class Meta:
     model = User
