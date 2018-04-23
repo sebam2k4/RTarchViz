@@ -8,7 +8,7 @@
 {% block body_js %}
 
 {% endblock %}
-{% block head_css %}
+{% block css %}
 <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 {% endblock %}
 
@@ -60,22 +60,25 @@
         <div class="list-group-item list-group-item-action flex-row align-items-start">
           <div class="d-sm-flex justify-content-start">
             <div class="">
-              <div class="d-flex cart-product-image" style="background-image: url('{% if item.main_image %}{{ item.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+              <div class="cart-product-image" style="background-image: url('{% if item.main_image %}{{ item.main_image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
             </div>
             <div class="d-flex justify-content-between w-100">
               <div class="">
                 <div class="d-flex">
-                  <h5 class="mb-1 text-primary">{{ item.name }}</h5>
+                  <h5 class="mb-1 text-primary"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></h5>
                 </div>
-                <p class="mb-1">Category: {{ item.category }}</p>
+                <p class="mb-1">{{ item.category }}</p>
+                <p class="mb-1">by <a href="{% url 'profile' item.seller.username %}">{{ item.seller.username }}</a></p>
               </div>
-              <div class="d-flex flex-row justify-content-between flex-sm-column align-items-start justify-content-sm-start">
-                <span class="h3">{{ item.euro_price }}</span>
+              <div class="d-flex justify-content-between flex-column align-items-start justify-content-start align-items-end">
+                <span class="h3 ">{{ item.euro_price }}</span>
                 <a href="{% url 'remove_cart_item' item.id %}" class="btn btn-danger">Remove Item</a>
               </div>
             </div>
           </div>
         </div>
+        {# /.Cart items #}
+
       {% empty %}
 
       {# Empty Cart Message #}
@@ -83,23 +86,25 @@
       {# /.Empty Cart Message #}
 
       {% endfor %}
-      {# /.Cart items #}
+      
 
   </section>
   <section class="cart-summary container d-flex justify-content-between">
 
     {# Total #}
-    <div class="total">
+    <div class="total ">
       <span class="h2">Total: &euro;{{ total }}</span>
     </div>
     {# /.Total #}
 
     {# Checkout button #}
-    {% if product_count != 0 %}
-    <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
-    {% else %}
-    <a href="{% url 'checkout' %}" class="btn btn-primary disabled">Checkout</a>
-    {% endif %}
+    <div class="align-self-start">
+      {% if product_count != 0 %}
+      <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a>
+      {% else %}
+      <a href="{% url 'checkout' %}" class="btn btn-primary disabled">Checkout</a>
+      {% endif %}
+    </div>
     {# /.Checkout button #}
     
   </section>

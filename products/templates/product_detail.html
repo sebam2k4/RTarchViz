@@ -3,12 +3,19 @@
 
 {# load custom template tags #}
 {% load product_tags %}
+{% load social_share %}
 
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/products.js' %}"></script>
 {% endblock %}
-{% block head_css %}
+{% block head_js %}
+<script>
+  // required setting to use Font Awesome 5 with pseudo elements
+  FontAwesomeConfig = { searchPseudoElements: true };
+</script>
+{% endblock %}
+{% block css %}
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
 {% endblock %}
 
@@ -111,10 +118,30 @@
     <hr>
       <p>{{ product.description|linebreaks }}</p>
   </section>
+  {# /.Product Description #}
 
-  <section class="product-detail-social">
-    <!-- placeholder for social share actions -->
+  {# Social Share #}
+  <section class="social-share container">
+    <p>Share:</p>
+    <ul class="list-unstyled list-inline">
+      <li class="list-inline-item">
+        {% post_to_facebook product "Share of Facebook" %}
+      </li>
+      <li class="list-inline-item">
+        {% post_to_twitter "I found this awesome asset on RTarchViz: {{product.name}}. Check it out!" product "Share on Twitter" %}
+      </li>
+      <li class="list-inline-item">
+        {% post_to_gplus product "Share on Google+" %}
+      </li>
+      <li class="list-inline-item">
+          {% post_to_linkedin product.name product "Share on LinkedIn" %}
+      </li>
+      <li class="list-inline-item">
+        {% send_email product.name "I found this awesome asset on RTarchViz: {{product.name}}. Check it out!" product "Share via email" %}
+      </li>
+    </ul>
   </section>
+  {# /.Social Share #}
 
   <section class="product-detail-review container">
     {# Product Reviews #}
@@ -136,8 +163,8 @@
             </div>
             <div>
               {% if review.buyer_id == request.user.id %}
-                <a href="{{ review.get_edit_review_url }}" class="btn btn-primary btn-spinner">Edit Your Review</a>
-                <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger btn-spinner">Delete Your Review</a>
+                <a href="{{ review.get_edit_review_url }}" class="btn btn-primary btn-spinner">Edit</a>
+                <a href="{% url 'delete_review' product.slug product.id review.id %}" class="btn btn-danger btn-spinner">Delete</a>
               {% endif %}
             </div>
           </div>

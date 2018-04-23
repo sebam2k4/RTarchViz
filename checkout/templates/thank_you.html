@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{# set page info #}
+{% block page_title %}Thank You For Your Purchase{% endblock %}
+
+{# Checkout content #}
+{% block content %}
+<main id="productForm">
+
+  {# Checkout Header #}
+  <header>
+    <div class="jumbotron jumbotron-fluid bg-dark">
+      <div class="container">
+        
+        {# Heading Text #}
+        <div class="page-heading">
+          <h1 class="display-4">Thank You!</h1>
+        </div>
+        {# /.Heading Text #}
+
+        </div>
+      </div>
+    </div>
+  </header>
+  {# /.Checkout Header #}
+
+  {# Payment Form #}
+  <section class="checkout-form container">
+    {% if purchase_items %}
+      <h2>Downloads</h2>
+      <hr>
+      <p>Thank you for purchasing:</p>
+      <ul class="list-unstyled">
+      {% for item in purchase_items %}
+        <li>{{ item }}</li>
+      {% endfor %}
+      </ul>
+      <p>Your products are now available to download from your dashboard</p>
+      <a class="btn btn-primary" href="{% url 'dashboard' %}">Access Your Dashboard</a>
+    {% else %}
+      <p>Hi there! Thank you for being an awesome user!</p>
+      <a class="btn btn-primary" href="{% url 'products_list' %}">Shop Now</a>
+    {% endif %}
+  </section>
+  {# /.Payment Form #}
+
+</main>
+{% endblock %}

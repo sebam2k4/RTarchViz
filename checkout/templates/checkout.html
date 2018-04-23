@@ -14,12 +14,6 @@
 </script>
 <script type="text/javascript" src="{% static 'js/stripe.js' %}"></script>
 {% endblock %}
-{% block body_js %}
-
-{% endblock %}
-{% block head_css %}
-
-{% endblock %}
 
 {# set page info #}
 {% block page_title %}Checkout{% endblock %}
@@ -43,7 +37,7 @@
         {# Subheading Text #}
         <div class="page-subheading text-white">
           <hr class="my-4">
-          <p>Download link will be waiting for you after you submit your payment details</p>
+          <p>Download link will be provided after you submit your payment details</p>
         </div>
         {# /.Subheading Text #}
 
@@ -55,9 +49,13 @@
   {# Payment Form #}
   <section class="checkout-form container">
     <form role="form" method="POST" name="payment_form" id="paymentForm" action="{% url 'checkout' %}">
-      <div id="credit-card-errors" style="display:none">
-        <div class="alert-message block-message error" id="stripe-error-message"></div>
+
+      {# Stripe errors #}
+      <div class="alert alert-danger" id="credit-card-errors" role="alert" style="display:none;">
+        <span id="stripe-error-message"></span>
       </div>
+      {# /.Stripe errors #}
+
 			{% csrf_token %}
       {% bootstrap_form payment_form %}
 			{% buttons %}

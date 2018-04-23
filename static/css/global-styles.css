@@ -13,14 +13,24 @@
 
 /* GLOBAL - SERVER MESSAGES */
 .auth-messages {
-  background-color: lightgray;
   display: inline-block;
-  padding: 2rem;
-  border-radius: 3px;
-  z-index: 100;
+  z-index: 101;
   position: fixed;
-  left: 2rem;
-  bottom: 2rem;
+  bottom: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+.auth-messages li {
+  margin-bottom: 0;
+}
+@media (min-width: 576px) {
+  .auth-messages {
+    margin: 2rem;
+    width: auto
+  }
+.auth-messages li {
+  padding: 2rem !important;
+}
 }
 
 .spinner {
@@ -96,7 +106,8 @@ section hr {
   border-color: #523adf;
 }
 
-.btn-primary.disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   background-color: #6e5eff;
   border-color: #6e5eff;
 }
@@ -151,6 +162,27 @@ a {
   background-color: #6b52f5;
 }
 
+/* SOCIAL SHARE ICONS */
+.social-share {
+  text-align: center;
+}
+.social-share ul {
+  font-size: 2rem;
+}
+
+@media (min-width: 576px) {
+  .social-share p {
+    display: inline-block
+  }
+  .social-share>ul {
+    display: inline-block;
+    font-size: 1rem;
+    padding-left: 1rem;
+  }
+  .social-share {
+    text-align: left;
+  }
+}
 /* COLORS utility classes */
 .bg-indigo {
   background-color: #6b52f5;
@@ -181,4 +213,28 @@ a {
   right: 30px;
   z-index: 100;
   text-decoration: none;
+}
+
+/* change some bootstrap 4 buttons to block on small screens */
+@media (max-width: 575.98px) {
+  .btn-block-xs {
+    width: 100%;
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    white-space: normal;
+  }
+}
+
+/* FORMS */
+:placeholder-shown {
+  font-style: italic;
+  opacity: .6;
+}
+.form-control {
+  border-color: #555;
+}
+
+.custom-select.is-invalid, .form-control.is-invalid, .was-validated .custom-select:invalid, .was-validated .form-control:invalid {
+  background-color: #ffeded
 }

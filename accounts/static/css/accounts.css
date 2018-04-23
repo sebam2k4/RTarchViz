@@ -3,7 +3,6 @@
 }
 
 @media (min-width: 576px) {
-
   .account-balance {
     vertical-align:middle
   }
@@ -14,7 +13,14 @@
   }
   .account-balance .euro-balance {
     display: inline-block;
+    padding-left: 1rem;
+  }
+}
+@media (min-width: 768px) {
+  .account-balance .euro-balance {
     padding-left: 3.5rem;
   }
-
+}
+.product-inactive {
+  opacity: .4;
 }

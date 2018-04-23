@@ -1,4 +1,5 @@
 {% load staticfiles %}
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -13,15 +14,14 @@
     <!-- Glboal CSS: -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/global-styles.css' %}">
     <!-- App/page specific CSS: -->
-    {% block head_css %}{% endblock %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    {% block css %}{% endblock %}
+    <!-- Scripts that need to laod First -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- App/page specific JS: -->
     {% block head_js %}{% endblock head_js %}
   </head>
   <body>
-    <script>
-        // required setting to use Font Awesome 5 with pseudo elements
-        FontAwesomeConfig = { searchPseudoElements: true };
-    </script>
+
     {# Navigation #}
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark nav-underline">
       <div class="container">
@@ -33,34 +33,34 @@
 
           {# Navigation Links #}
           <ul class="navbar-nav">
-            {% with url_name=request.resolver_match.url_name %}
-              <li class="nav-item {% if url_name == 'homepage'  %}active{% endif %}">
+              <li class="nav-item {% if request.path == '/' %}active{% endif %}">
                 <a class="nav-link" href="{% url 'homepage' %}">Home</a>
               </li>
-              <li class="nav-item {% if url_name == 'products_list'  %}active{% endif %}">
+              <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
                 <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
               </li>
-              <li class="nav-item {% if url_name == 'posts_list'  %}active{% endif %}">
+              <li class="nav-item {% if 'blog' in request.path %}active{% endif %}">
                 <a class="nav-link" href="{% url 'posts_list' %}">News</a>
               </li>
               {% if not request.user.is_authenticated %}
-                <li class="nav-item {% if url_name == 'login'  %}active{% endif %}">
+                <li class="nav-item {% if 'login' in request.path %}active{% endif %}">
                   <a class="nav-link" href="{% url 'login' %}">Login</a>
                 </li>
-                <li class="nav-item {% if url_name == 'register'  %}active{% endif %}">
+                <li class="nav-item {% if 'register' in request.path %}active{% endif %}">
                   <a class="nav-link" href="{% url 'register' %}">Register</a>
                 </li>
               {% endif %}
               {% if request.user.is_authenticated %}
-                <li class="nav-item dropdown {% if url_name == 'dashboard' %}active{% endif %}">
+                <li class="nav-item dropdown {% if 'accounts' in request.path %}active{% endif %}">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Account
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item {% if url_name == 'dashboard' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
-                    <a class="dropdown-item {% if url_name == 'profile' %}active{% endif %}" href="{{ user.get_absolute_url }}">Profile</a>
-                    <a class="dropdown-item {% if url_name == 'new_product' %}active{% endif %}" href="{% url 'new_product'%}">List a Product</a>
-                    <a class="dropdown-item {% if url_name == 'logout' %}active{% endif %}" href="{% url 'logout' %}">Logout</a>
+                    <a class="dropdown-item {% if 'dashboard' in request.path %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+                    <a class="dropdown-item {% if 'profile' in request.path %}active{% endif %}" href="{{ user.get_absolute_url }}">Profile</a>
+                    <a class="dropdown-item {% if '/products/new/' == request.path %}active{% endif %}" href="{% url 'new_product'%}">List a Product</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                   </div>
                 </li>
               {% endif %}
@@ -77,7 +77,6 @@
                   <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
                 </li>
               {% endif %}
-            {% endwith %}
           </ul>
           {# /.Navigation Links#}
           
@@ -91,11 +90,11 @@
 
     {# Flash Messages #}
     {% if messages %}
-        <div class="auth-messages">
-          {% for message in messages %}
-            {{ message }}
-          {% endfor %}
-        </div>
+      <ul class="auth-messages list-unstyled alert-link">
+        {% for message in messages %}
+          <li class="alert {{message.tags}} py-4">{{ message }}</li>
+        {% endfor %}
+      </ul>
     {% endif %}
     {# /.Flash Messages #}
 
@@ -104,7 +103,6 @@
     {% endblock %}
     {# /.Main Content #}
 
-    
     {# Footer #}
     <footer class="footer bg-dark pt-0">
 
@@ -239,10 +237,6 @@
   
 
     <!-- Bootstrap 4.0 JS and its dependencies: -->
-    <script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Font Awesome 5 JS:-->

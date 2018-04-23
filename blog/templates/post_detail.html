@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
+{# load custom template tags #}
+{% load social_share %}
+
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/blog.js' %}"></script>
 {% endblock %}
-{% block head_css %}
+{% block css %}
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
 
@@ -34,16 +37,35 @@
         {% autoescape off %}{{ post.content }}{% endautoescape %}
     </div>
 
-    <div class="post-detail-social">
-      <!-- placeholder for social share actions -->
-    </div>
-
     {# Blog Post Updated Date #}
     {% if post.updated_date %}
-    <div class="post-detail-updated">
-      <p class="font-italic pt-5">Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
+    <div class="post-detail-updated mt-5">
+      <p class="font-italic" >Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
     </div>
     {% endif %}
+
+    {# Social Share #}
+    <div class="social-share mt-4">
+      <p>Share:</p>
+      <ul class="list-unstyled list-inline">
+        <li class="list-inline-item">
+          {% post_to_facebook post "Share of Facebook" %}
+        </li>
+        <li class="list-inline-item">
+          {% post_to_twitter "I found this awesome {{post.category}} on RTarchViz: {{post.title}}. Check it out!" post "Share on Twitter" %}
+        </li>
+        <li class="list-inline-item">
+          {% post_to_gplus post "Share on Google+" %}
+        </li>
+        <li class="list-inline-item">
+            {% post_to_linkedin post.title post "Share on LinkedIn" %}
+        </li>
+        <li class="list-inline-item">
+          {% send_email post.title "I found this awesome {{post.category}} on RTarchViz: {{product.name}}. Check it out!" post "Share via email" %}
+        </li>
+      </ul>
+    </div>
+    {# /.Social Share #}
 
     {# Blog Post Detail Next/Prev Navigation #}
     <nav class="post-detail-nav mt-5">
