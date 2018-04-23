@@ -3,23 +3,28 @@
 [![Build Status](https://travis-ci.org/sebam2k4/RTarchViz.svg?branch=master)](https://travis-ci.org/sebam2k4/RTarchViz)
 ![Test Coverage](./coverage.svg)
 
+## Overview
 
-**In Early Development**
+### Introduction
 
-## Introduction
+RTarchViz is a (fictional) marketplace for high quality assets specially created for use in real-time architectural visualizations in Unreal Engine. These assets can consist of, but are not limited to, in-engine 3d models, sounds, blueprints, scripts, and full environments.
 
-(Real-Time Architectural Visualizations)
+RTarchViz stands for: Real-Time Architectural Visualizations
 
-Market for 3d assets in Unreal Engine for arch viz
+### Overview
+Built with Django, Python based full-stack web framework, and uses PostgreSQL database to store user info, products, orders, transaction history and more. Registered have the ability to buy and list their own digital products as well as have access to a dashboard containing a list of their listed products for easy management (edit or remove product), their sales analytics, total profit, and download links to any product they may have purchased from other users.
 
-Users can register and then both buy and sell assets using the application
+## Initial Planning
+The following is a list of documents and aids I've prepared as initial planning of the project before starting any development:
 
-### Target Audience
-
+- Project oberview, objectives, and user stories - [link](https://docs.google.com/document/d/1-eduWsa66LwbZy3K1NvCp19e98N5x2WGsnXL32zCHBE/edit#)
+- Initial Database Design - [link](https://drive.google.com/file/d/1gwDZj5uqMsBzC_gA1S25YVLqELmQa6zC/view?usp=drive_web)
+- Interactive Prototype created in Adobe XD: [link](https://xd.adobe.com/view/c8d0be9e-8251-4f8b-84d9-ca2848a9b181/)
 
 ## APPS
+
 ### Account App
-Reused accounts app created in one of the Lessons
+Reused accounts app created in one of the Stream 3 Lessons from the Code Institute's LMS
 It included a custom Email Authentication Backend for authenticating users based on email address instead of django's default username. Also, it contained views and templates for login, registration, profile, and logout as well as forms for registration and login.
 
 I extended the app in the following ways:
@@ -29,7 +34,6 @@ I extended the app in the following ways:
 - Integrated password reset via email for cases when user forgets their password and cannot login. Also, created custom templates for the password reset stages
 - User profile pages now accessible by other users
 - Added a private user dashboard for sale and purchase stats
-
 
 #### Validation
 - Password: Using Django's Built in Password validation
@@ -41,12 +45,6 @@ I extended the app in the following ways:
   - case sensitive, but unique in a way that no two users can have same letters usernames no matter what letter case. If a user has a username 'JoHn' then another user cannot register or change their username to 'john'.
 - Email:
   - email is always saved in db in lowercase no matter how it was entered at registration and all validation checks against it are case insensitive.
-
-#### ToDo
-- prevent password_reset access to logged in users. Currently using django's built in password reset views and not sure how to do this without rewriting the views using `is_authenticated`
-- Split the long registration into two forms or use ajax to split it up for better user experience. As it is now, the registration form requires user to fill in lots of fields in one go. 1st page: email, username, password. 2nd page: bio, dob, address.
-
-#### Issues/Bugs
 
 ### Homepage App
 The project's homepage that uses custom inclusion tags to display most recent products and blog posts.
@@ -66,15 +64,8 @@ Post filtering available to user on blog list page. options: newset, oldest, mos
 
 Custom model save method - Overriding the save method to generate datetime stamps for published date and updated date for posts. Published date gets stamped when posts is actually published (status is initially changed from 'draft' to 'published'). Once a post is published then saving it again will add updated date. Any consequent saves to the post will update the updated date with current date and time. Published date stays the same and indicates the date when post was originally published.
 
-#### ToDo:
-- Create model level slug validation or overwrite admin save method to check if slug exists (don't think admin save calls clean() and I'm not using a custom form for model)
-
-#### Useful Docs:
-- https://docs.djangoproject.com/en/1.11/ref/contrib/admin/#django.contrib.admin.ModelAdmin.formfield_for_foreignkey
-
 #### Issues/Bugs
 - title model field is unique but case sensitive. Can accept both 'Post 1' and 'post 1' but if both added will get MultipleObjectsReturned exception. (clean title by changing first letters to uppercase except for 'the', 'a', etc.)
-- getting 2 duplicated sql queries in post_detail view for selecting "accounts_user"."id" = "id" ??? - investigate
 
 ### Products App
 Products app for displaying listed products as well as providing means for users to add, edit, and delete products as well as product reviews.
@@ -91,23 +82,13 @@ There are two checks done to validate product file uploads. First, the product f
 
 The product file and image filenames are generated using a custom method to include the product's slug value and palce the files into user's product folder.
 
-#### To Do:
-- uploading multiple files for product images
-- Add optional fields to product such as: No of materials, no of modesl, no of triangles... etc.
-- Consider moving Add Review Form logic from product_detail view into its own
-
-#### Useful Docs:
-- https://docs.djangoproject.com/en/2.0/topics/http/file-uploads/
-- https://www.allbuttonspressed.com/projects/django-filetransfers
-
-#### Issues/Bugs
-- Change or modify the Product Detail carousel to make displaying product images more uniform. User may upload images with different measurements and they may display cropped depending on screen size/browser size. Currently Images are diaplay using css background-image. Don't want users restricted to having to uplaod a very specific image resolution sieze. Explore this maybe: http://kenwheeler.github.io/slick/ for responsive slider
-
 ### Cart App
 Session based cart
 
 ### Checkout App
-Stripe payments
+Stripe payments - Stripe v2 API
+Purchase History - keep accurate record of all transactions.
+Thank You Page - copy cart session contents to purchase session to list purchased products on thank you page.
 
 ## LOCAL DEVELOPMENT SETUP
 
@@ -158,9 +139,10 @@ files (is this needed when using django-storages with AWS S3?)
 Travis Continous Integrations is used to test builds before they're deployed to Heroku. Automated test will be implemented to run on builds to make sure app's code is performing as expected to minimize the risk of a broken production app. 
 
 ## 3RD PARTY APPS USED:
-- django-bootstrap4: used for forms [docs](http://django-bootstrap4.readthedocs.io/en/latest/index.html)
-- Disqus: used for blog post comments
-- TinyMCE: WYSIWYG text editor used in project's admin site used by staff members to write blog posts.
+- [django-bootstrap4](http://django-bootstrap4.readthedocs.io/en/latest/index.html): used for forms
+- [Disqus](https://django-disqus.readthedocs.io/en/latest/): used for comments on blog posts
+- [TinyMCE](http://django-tinymce.readthedocs.io/en/latest/): Provides a WYSIWYG text editor for writing blog posts by staff members in the admin site. 
+- [django-social-share](https://pypi.org/project/django-social-share/): provides template tags for sharing object data on popular social media networks. I've overriden the templates to implement font-awesome 5 icons and to fit the style of my website.
 
 ## Other Todo/issues
 
