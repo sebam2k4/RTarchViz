@@ -105,7 +105,7 @@ def product_detail(request, slug, product_id):
   ReviewForm and rendering it in a partial template
   """
   # get product object
-  product = get_object_or_404(Product, slug=slug, pk=produt_id)
+  product = get_object_or_404(Product, slug=slug, pk=product_id)
   # check if product is active
   if product.active:
 
@@ -178,11 +178,11 @@ def new_product(request):
   return render(request, 'product_form_new.html', context)
 
 @login_required
-def edit_product(request, slug, id):
+def edit_product(request, slug, product_id):
   """
   A view for editing user's existing product
   """
-  product = get_object_or_404(Product, slug=slug, pk=id)
+  product = get_object_or_404(Product, slug=slug, pk=product_id)
   # check if product is active
   if product.active:
     # make sure user is the product owner
@@ -214,14 +214,14 @@ def edit_product(request, slug, id):
     return redirect('products_list')
 
 @login_required
-def delete_product(request, slug, id):
+def delete_product(request, slug, product_id):
   """
   A view that handles deleting user's existing product. Instead of
   actually deleting the product from db, set it's active field to False.
   This will ensure that buyers will still have access to the product
   files even though the product has been removed from market.
   """
-  product = get_object_or_404(Product, slug=slug, pk=id)
+  product = get_object_or_404(Product, slug=slug, pk=product_id)
   # check if product is active
   if product.active:
     # make sure user is the product owner
