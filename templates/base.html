@@ -130,22 +130,12 @@
       {# Footer Links #}
       <div class="container footer-links mt-5 mb-4 text-center text-md-left">
         <div class="row mt-3">
-          <div class="col-md-3 col-lg-4 col-xl-3 mb-4">
+          <div class="col-md-4 col-lg-4 col-xl-5 mb-4">
             <h6 class="font-weight-bold">RTarchViz</h6>
             <hr class="mb-4 mt-0 d-inline-block mx-auto">
             <p>Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal Engine 4</p>
           </div>
-          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-            <h6 class="text-uppercase font-weight-bold">Info</h6>
-            <hr class="mb-4 mt-0 d-inline-block mx-auto">
-            <ul class="list-unstyled">
-              <li><a href="#!">FAQ</a></li>
-              <li><a href="#!">About</a></li>
-              <li><a href="#!">Terms</a></li>
-              <li><a href="#!">Privacy</a></li>
-            </ul>
-          </div>
-          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mb-4">
             <h6 class="text-uppercase font-weight-bold">Useful links</h6>
             <hr class="mb-4 mt-0 d-inline-block mx-auto">
             <ul class="list-unstyled">
@@ -172,40 +162,43 @@
       <hr>
 
       {# Newsletter #}
-      <div class="newsletter text-center py-3">
-          <ul class="list-unstyled list-inline mb-0">
-              <li class="list-inline-item">
-                  <h5 class="mb-1">Join our newsletter</h5>
-              </li>
-              <li class="list-inline-item">
-                  <a href="#!" class="btn btn-danger">Sign up!</a>
-              </li>
-          </ul>
+      <div class="newsletter text-center py-3 container">
+        <h5>Join Our Newsletter</h5>
+        <form class="form" action="{% url 'newsletter_signup' %}" method="POST">
+          {% csrf_token %}
+          <div class="d-inline-flex flex-row justify-content-center">
+            <div class="form-group mx-sm-3 mb-2">
+              <label for="newsletterSignup" class="sr-only">Email Adress</label>
+              <input type="email" name="newsletter_signup_email" class="form-control" id="newsletterSignup" placeholder="name@example.com" required>
+            </div>
+            <button type="submit" class="btn btn-danger mb-2">Sign up!</button>
+          </div>
+        </form>
       </div>
       {# /.Newsletter #}
 
       <hr>
 
       {# Social buttons #}
-      <div class="social-buttons text-center py-3 text-indigo">
+      <div class="social-buttons text-center py-3 text-indigo container">
         <ul class="list-unstyled list-inline">
           <li class="list-inline-item">
-            <a class="mx-1" href="#!">
+            <a class="mx-1" href="#">
               <i class="fab fa-facebook-square fa-3x"></i>
             </a>
           </li>
           <li class="list-inline-item">
-          <a class=" mx-1" href="#!">
+          <a class=" mx-1" href="#">
               <i class="fab fa-twitter-square fa-3x"></i>
           </a>
           </li>
           <li class="list-inline-item">
-            <a class="mx-1" href="#!">
+            <a class="mx-1" href="#">
               <i class="fab fa-google-plus-square fa-3x"></i>
             </a>
           </li>
           <li class="list-inline-item">
-            <a class="mx-1" href="#!">
+            <a class="mx-1" href="#">
               <i class="fab fa-linkedin fa-3x"></i>
             </a>
           </li>
@@ -216,7 +209,7 @@
       {# Copyright #}
       <div class="footer-copyright bg-dark-2 py-3 text-center small-text">
         <div>
-          <small>&copy; 2018 Copyright <strong>RTarchViz</strong> | Designed and Developed by <strong>Sebastian Kulig</strong></small>
+          <small>&copy; 2018 Copyright <strong>RTarchViz</strong> | Designed and Developed by <strong>Sebastian Kulig</strong> using Django</small>
         </div>
         <div>
           <small>Source Files: <a href="https://github.com/sebam2k4/RTarchViz" target="_blank">Github</a></small>
@@ -234,8 +227,6 @@
     </a>
     {% endif %}
     
-  
-
     <!-- Bootstrap 4.0 JS and its dependencies: -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
