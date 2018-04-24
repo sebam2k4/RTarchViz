@@ -106,13 +106,13 @@
 								{% else %}
 									<tr class="product-inactive">
 										<th scope="row">{{ forloop.counter }}</th>
-										<td>{{ product.name }}</td>
+										<td>{{ product.name }} <strong>(Deleted)</strong></td>
 										<td></td>
 										<td>{{ product.sold_count }}</td>
 										<td>{{ product.view_count }}</td>
 										<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not rated{% endif %}</td>
 										<td>&euro;{% get_total_for_sold_product product %}</td>
-										<td></td>
+										<td><a class="btn btn-success px-3" href="{{ product.get_undelete_product_url }}">Relist</a></td>
 									</tr>
 								{% endif %}
 							{% endfor %}
@@ -158,18 +158,14 @@
 								{% if asset.active %}
 									<tr>
 										<th scope="row">{{ forloop.counter }}</th>
-										{# product link to latest file version else last available #}
 										<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
-										{# product link to latest file version else last available #}
 										<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
 										<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
 									</tr>
 								{% else %}
 									<tr>
 										<th scope="row">{{ forloop.counter }}</th>
-										{# product link to latest file version else last available #}
 										<td>{{ asset.name }}</td>
-										{# product link to latest file version else last available #}
 										<td>{{ asset.seller.username }}</td>
 										<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
 									</tr>

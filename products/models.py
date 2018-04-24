@@ -90,6 +90,9 @@ class Product(models.Model):
   def get_delete_product_url(self):
     return reverse('delete_product', args=[self.slug, self.id])
 
+  def get_undelete_product_url(self):
+    return reverse('undelete_product', args=[self.slug, self.id])
+
   # MODEL METHODS
   def euro_price(self):
     return '€{0}'.format(self.price)

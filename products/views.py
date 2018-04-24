@@ -243,6 +243,32 @@ def delete_product(request, slug, id):
     return redirect('products_list')
 
 @login_required
+def undelete_product(request, slug, product_id):
+  """
+  relist a product
+  """
+  product = get_object_or_404(Product, slug=slug, pk=product_id)
+  # check product is not active
+  if not product.active:
+    # make sure user is the product owner
+    if request.user.id == product.seller_id:
+      # set product back to active
+      product.active = True
+      product.save()
+      messages.success(request, 'You have re-listed your product')
+      return redirect('dashboard')
+      
+    else:
+      # if not product owner, raise 403 forbidden exception and render
+      # 403.html template
+      messages.error(request, 'You cannot access the product')
+      raise PermissionDenied
+
+  else:
+    messages.error(request, 'Product is already listed and active')
+    return redirect('products_list')
+
+@login_required
 def edit_review(request, product_slug, product_id, review_id):
   """
   A view for editing user's product review
