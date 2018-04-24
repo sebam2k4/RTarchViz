@@ -4,10 +4,7 @@
 {# load custom template tags #}
 {% load bootstrap4 %}
 
-{# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/accounts.js' %}"></script>
-{% endblock %}
+{# Load required css #}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
@@ -55,7 +52,7 @@
 				{% bootstrap_form form %}
 
 				{% buttons %}
-				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="submit" class="btn btn-primary">Login</button>
 				{% endbuttons %}
 				<div>
 					<a href="{% url 'password_reset' %}">Forgot password</a>

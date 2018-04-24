@@ -58,7 +58,7 @@ class Product(models.Model):
                                 choices=UE_VERSION_CHOICES, default=UE_VERSION_CHOICES[0])
   main_image = models.ImageField('Main Product Image', upload_to=user_directory_path,
                                  blank=True, null=True, validators=[validate_file_size])
-  product_file = models.FileField('Product File', upload_to=user_directory_path, null=False,
+  product_file = models.FileField('Product File', upload_to=user_directory_path, blank=False, null=False,
                                   validators=[validate_file_extension, validate_file_size])
   active = models.BooleanField(blank=False, null=False, default=True)
  

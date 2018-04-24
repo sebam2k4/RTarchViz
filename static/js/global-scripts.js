@@ -1,6 +1,10 @@
 $(document).ready(function() {
 
-  // Display Django Messages in front-end
+  // Add * to required form fields
+  $('form input, form select, form textarea').filter('[required]').prev().after('<span> *</span>');
+  $('label[for=id_product_file]').after('<span> *</span>');
+
+  // Fade away Django Messages in front-end
   if ($('.auth-messages')) {
     /* Clear Error Message after delay
       note: 3rd parameter of the setTimeout function is

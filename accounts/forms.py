@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth import password_validation
+from django.forms import TextInput, Textarea
 
 class UserLoginForm(forms.Form):
   email = forms.EmailField(widget=forms.EmailInput(attrs={'autofocus': True}),)
@@ -42,21 +44,42 @@ class UserEditForm(forms.ModelForm):
     fields = ['email', 'username', 'first_name', 'last_name', 'bio', 'birth_date', 'address1',
               'address2', 'city_town', 'county_state', 'post_code', 'country']
 
+
 class UserRegistrationForm(UserCreationForm):
   """
   Extending UserCreationForm
   Performs case insensitive check for email and username to make sure
   they're not already registered.
   """
-  password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-
-  password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)
+  password1 = forms.CharField(
+    label = 'Password',
+    help_text = password_validation.password_validators_help_text_html(),
+    widget=forms.PasswordInput(
+      attrs={'placeholder': 'Enter a hard to guess password'}))
+                
+  password2 = forms.CharField(
+    label='Password Confirmation',
+    widget=forms.PasswordInput(
+      attrs={'placeholder': 'Confirm your password'}))
 
   class Meta:
     model = User
     fields = ['email', 'username', 'password1', 'password2', 'first_name', 'last_name', 'bio',
               'birth_date', 'address1', 'address2', 'city_town', 'county_state', 'post_code',
               'country']
+    widgets = {
+      'email': TextInput(attrs={'placeholder': 'ex. john@gmail.com'}),
+      'username': TextInput(attrs={'placeholder': 'Create a unique username for yourself'}),
+      'first_name': TextInput(attrs={'placeholder': 'ex. John'}),
+      'last_name': TextInput(attrs={'placeholder': 'ex. Wick'}),
+      'bio': Textarea(attrs={'placeholder': 'Let us know a bit about youself'}),
+      'birth_date': TextInput(attrs={'placeholder': 'When you were born'}),
+      'address1': TextInput(attrs={'placeholder': 'ex. 121 Main St.'}),
+      'address2': TextInput(attrs={'placeholder': 'extra address line if you need it'}),
+      'city_town': TextInput(attrs={'placeholder': 'ex. Castlebar'}),
+      'county_state': TextInput(attrs={'placeholder': 'ex. Mayo'}),
+      'post_code': TextInput(attrs={'placeholder': 'ex. F23 A111'}),
+    }
 
   def clean_email(self):
     """
