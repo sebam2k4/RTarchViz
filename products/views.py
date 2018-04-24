@@ -15,7 +15,7 @@ from blog.models import Post
 
 def products_list(request):
   """
-  This view does three things:
+  show a paginated list of all products and filter and order options
 
   1. Provides filtering by category and various ordering choices
   to user through 2 select fields in the template: When user selects
@@ -39,17 +39,29 @@ def products_list(request):
   products = Product.objects.all().filter(active=True)
   user_purchased_products = Order.objects.purchased_products(request.user)
 
-  # get all choices from Model's category field into a list
+  # get all choices from Model's category field into a list for template
   categories_list = []
   for field in Product._meta.get_field('category').choices:
     categories_list.append(field[0])
   # insert 'all products' to beginning of list
   categories_list.insert(0, 'all products')
-  category_choices = (categories_list)
+  category_choices = categories_list
 
-  # define sort choices
-  sort_choices = ('newest', 'oldest', 'most popular', 'a-z', 'z-a')
+  # define sort dictionary
+  sort_order = {
+      'newest': '-added_date',
+      'oldest': 'added_date',
+      'most popular': '-sold_count',
+      'a-z': 'name',
+      'z-a': '-name'
+    }
 
+  # get a list of sort keys for template select menu
+  sort_choices = list(sort_order.keys())
+  # sort the lsit so 'newest' choice is always first
+  sort_choices_sorted = sorted(sort_choices, key=lambda x:(x!='newest'))
+
+  # filter and sort products according to user choices
   if request.method == 'GET':
     chosen_category = request.GET.get('product-category-select')
     chosen_sort = request.GET.get('product-sort-select')
@@ -61,20 +73,13 @@ def products_list(request):
         products_by_category = products.filter(category=chosen_category)
 
     if chosen_sort:
-      if chosen_sort == 'newest':
-        products_by_sort = products_by_category.order_by('-added_date')
-      elif chosen_sort == 'oldest':
-        products_by_sort  = products_by_category.order_by('added_date')
-      elif chosen_sort == 'most popular':
-        products_by_sort = products_by_category.order_by('-sold_count')
-      elif chosen_sort == 'a-z':
-        products_by_sort = products_by_category.order_by('name')
-      elif chosen_sort == 'z-a':
-        products_by_sort = products_by_category.order_by('-name')
+      sort_order = sort_order[chosen_sort]
+      products_by_sort = products_by_category.order_by(sort_order)
       products = products_by_sort
 
   # paginate the products list
-  paginator = Paginator(products, 9)
+  PRODUCTS_PER_PAGE = 12
+  paginator = Paginator(products, PRODUCTS_PER_PAGE)
   products_page = request.GET.get('page')
   try:
     products = paginator.page(products_page)
@@ -86,12 +91,12 @@ def products_list(request):
     products = paginator.page(paginator.num_pages)
 
   context = {'products': products, 'category_choices': category_choices,
-             'sort_choices': sort_choices, 'chosen_sort': chosen_sort,
+             'sort_choices': sort_choices_sorted, 'chosen_sort': chosen_sort,
              'chosen_category': chosen_category, 'paginator': paginator,
              'owned_assets': user_purchased_products}
   return render(request, 'products_list.html', context)
 
-def product_detail(request, slug, id):
+def product_detail(request, slug, product_id):
   """
   A view that returns a single product object based on product's
   slug and id and its user reviews and renders it to the
@@ -100,7 +105,7 @@ def product_detail(request, slug, id):
   ReviewForm and rendering it in a partial template
   """
   # get product object
-  product = get_object_or_404(Product, slug=slug, pk=id)
+  product = get_object_or_404(Product, slug=slug, pk=produt_id)
   # check if product is active
   if product.active:
 
