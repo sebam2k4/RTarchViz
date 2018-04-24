@@ -121,7 +121,7 @@ def logout(request):
   return redirect(reverse('homepage'))
 
 @login_required
-def update(request):
+def update_profile(request):
   """
   Update User profile details. Uses an instance of user data to fill in
   the form fields with current data.
@@ -188,3 +188,4 @@ def sales_history(request):
   print user_purchased_products
   context = {'user': user, 'owned_assets': user_purchased_products}
   return render(request, 'sales_history.html', context)
+  

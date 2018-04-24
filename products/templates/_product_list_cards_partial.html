@@ -70,11 +70,11 @@
               {# Product Card Buttons #}
               <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
               {% if product in owned_assets %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
+                <a href="#" class="btn btn-secondary btn-lg btn-block disabled">Owned</a>
               {% elif product in cart_items %}
                 <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
               {% elif request.user.id == product.seller_id %}
-                <a href="#" class="btn btn-success btn-lg btn-block disabled">Your Product</a>
+                <a href="#" class="btn btn-secondary btn-lg btn-block disabled">Your Product</a>
               {% else %}
                 <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
               {% endif %}

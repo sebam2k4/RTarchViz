@@ -5,7 +5,7 @@ from . import url_reset
 
 urlpatterns = [
   url(r'^register/$', views.register, name='register'),
-  url(r'^profile/update/$', views.update, name='update'),
+  url(r'^profile/update/$', views.update_profile, name='update'),
   url(r'^profile/password_change/$', views.change_password, name='change_password'),
   url(r'^login/$', views.login, name='login'),
   url(r'^logout/$', views.logout, name='logout'),

@@ -28,9 +28,9 @@
     margin: 2rem;
     width: auto
   }
-.auth-messages li {
-  padding: 2rem !important;
-}
+  .auth-messages li {
+    padding: 2rem !important;
+  }
 }
 
 .spinner {
@@ -235,6 +235,9 @@ a {
   border-color: #555;
 }
 
-.custom-select.is-invalid, .form-control.is-invalid, .was-validated .custom-select:invalid, .was-validated .form-control:invalid {
+.custom-select.is-invalid,
+.form-control.is-invalid,
+.was-validated .custom-select:invalid,
+.was-validated .form-control:invalid {
   background-color: #ffeded
 }
