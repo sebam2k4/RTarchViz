@@ -39,8 +39,9 @@ $(document).ready(function() {
       $("#id_cvv").removeAttr('name');
       $("#id_expiry_month").removeAttr('name');
       $("#id_expiry_year").removeAttr('name');
-      // Submit the form:
-      form.submit();
+      // Submit the form (use form[0] to avoid re-triggering
+      // the initial submit listener and getting into infinite loop):
+      form[0].submit();
     }
   }
 });
