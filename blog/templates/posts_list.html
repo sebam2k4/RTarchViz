@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/blog.js' %}"></script>
-{% endblock %}
+{# Load requiredcss #}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
@@ -20,22 +17,21 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
+        
+        {# Heading Text #}
         <div class="page-heading">
-
-          {# Heading Text #}
           <h1 class="display-4">News</h1>
           <p class="lead">News and Tutorials</p>
-          {# /.Heading Text #}
-
         </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
         <div class="page-subheading text-white">
-          
-          {# Subheading Text #}
           <hr class="my-4">
           <p>Latest and greatest about Unreal Engine arch viz and other related technologies.</p>
-          {# /.Subheading Text #}
-
         </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>
@@ -49,9 +45,9 @@
           <label for="filterSelect" class="input-group-text">Filter Posts by</label>
         </div>
         <select id="filterSelect" class="custom-select" name="post-filter-select">
-          {# match user choice with available select options to set 'selected' #}
+        {# match user choice with available select options to set 'selected' #}
           {% for choice in filter_choices %}
-          <option {% if chosen_filter == choice %} selected {% endif %}>{{choice}}</option>
+            <option {% if chosen_filter == choice %} selected {% endif %}>{{choice}}</option>
           {% endfor %}
         </select>
       </div>
@@ -67,21 +63,21 @@
     <div class="post-list-cards">
       <div class="row">
         {% for post in posts %}
-        <div class="col-lg-6">
-          <div class="card mb-5">
-            <a href="{{ post.get_absolute_url }}">
-              <div class="card-img-top" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
-            </a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
-              <p class="card-text">{{ post.get_short_content|striptags }}</p>
-              <div class="d-flex w-100 justify-content-between">
-                <p class="card-text"><small class="text-muted">{{ post.published_date|date:"N d, Y" }}</small></p>
-                <p class="card-text"><small class="text-muted">{{ post.category|capfirst }}</small></p>
+          <div class="col-lg-6">
+            <div class="card mb-5">
+              <a href="{{ post.get_absolute_url }}">
+                <div class="card-img-top" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
+              </a>
+              <div class="card-body">
+                <h5 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h5>
+                <p class="card-text">{{ post.get_short_content|striptags }}</p>
+                <div class="d-flex w-100 justify-content-between">
+                  <p class="card-text"><small class="text-muted">{{ post.published_date|date:"N d, Y" }}</small></p>
+                  <p class="card-text"><small class="text-muted">{{ post.category|capfirst }}</small></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         {% endfor %}
       </div>
     </div>

@@ -7,7 +7,6 @@
   background-size: cover;
 }
 
-/* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px) {
   .cart-product-image {
     height: 12em;

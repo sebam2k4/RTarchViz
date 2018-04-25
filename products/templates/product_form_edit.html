@@ -23,21 +23,21 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <div class="page-heading">
-
-          {# Heading Text #}
-          <h1 class="display-4">Edit Product</h1>
-          <p class="lead">You are editing <strong>{{ product.name }}</strong></p>
-          {# /.Heading Text #}
-        </div>
-        <div class="page-subheading text-white">
         
-          {# Subheading Text #}
-          <hr class="my-4">
-          <p>Make changes to your product in the form below</p>
-          {# /.Subheading Text #}
-
+        {# Heading Text #}
+        <div class="page-heading">
+        <h1 class="display-4">Edit Product</h1>
+          <p class="lead">You are editing <strong>{{ product.name }}</strong></p>
         </div>
+        {# /.Heading Text #}
+        
+        {# Subheading Text #}
+        <div class="page-subheading text-white">
+          <hr class="my-4">
+        <p>Make changes to your product in the form below</p>
+        </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>
@@ -49,10 +49,10 @@
 			{% csrf_token %}
 			{% bootstrap_form form %}
 			{% buttons %}
-			<button type="submit" class="btn btn-primary">Save Changes</button>
-			<a href="{% url 'dashboard' %}" class="btn btn-primary btn-spinner">Cancel</a>
-      <a href="{{ product.get_delete_product_url }}" class="btn btn-danger btn-spinner">Delete</a>
-      <span class="spinner"></span>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-spinner">Cancel</a>
+        <a href="{{ product.get_delete_product_url }}" class="btn btn-danger btn-spinner">Delete</a>
+        <span class="spinner"></span>
 			{% endbuttons %}
 		</form>
   </section>

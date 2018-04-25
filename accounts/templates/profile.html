@@ -39,18 +39,17 @@
 			</div>
 		</div>
 	</header>
-	{# /.Homepage Header #}
+	{# /.Profile Header #}
 
 	{# Profile User Bio #}
 	<section class="user-profile container">
 			<div class="row">
 				<div class="col">
-					
 					<h2 class="mb-3">Bio</h2>
 					{% if user.bio %}
-					<p>{{ user.bio }}</p>
+						<p>{{ user.bio }}</p>
 					{% else %}
-					<p>Real-Time ArchViz Enthusiast</p>
+						<p>Real-Time ArchViz Enthusiast</>
 					{% endif %}
 				</div>
 			</div>

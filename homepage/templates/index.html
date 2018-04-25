@@ -24,22 +24,21 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
+        
+        {# Heading Text #}
         <div class="page-heading">
-
-          {# Heading Text #}
           <h1 class="display-4">Welcome to <strong class="font-weight-bold">RTarchViz</strong></h1>
           <p class="lead">Marketplace for high quality assets specially created for Real-Time Architectural Visualizations in Unreal&nbsp;Engine&nbsp;4</p>
-          {# /.Heading Text #}
-
         </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
         <div class="page-subheading text-white">
-          
-          {# Subheading Text #}
           <hr class="my-4">
           <a class="btn btn-primary btn-lg mb-4 mb-md-0" href="{% url 'products_list' %}" role="button">Shop All Products Now</a>
-          {# /.Subheading Text #}
-
         </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>
@@ -50,7 +49,7 @@
     <div class="container">
       <h2>Recent Products</h2>
       <hr>
-      {% recent_products request num=6 md='6' lg='4' %}
+      {% recent_products request num=6 %}
     </div>
   </section>
   {# /.Recent Products #}

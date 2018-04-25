@@ -55,12 +55,12 @@
         <span id="stripe-error-message"></span>
       </div>
       {# /.Stripe errors #}
-
-			{% csrf_token %}
-      {% bootstrap_form payment_form %}
-			{% buttons %}
-			<button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
-			{% endbuttons %}
+      
+        {% csrf_token %}
+        {% bootstrap_form payment_form %}
+        {% buttons %}
+          <button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
+        {% endbuttons %}
 		</form>
   </section>
   {# /.Payment Form #}

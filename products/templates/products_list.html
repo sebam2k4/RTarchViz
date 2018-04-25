@@ -24,22 +24,22 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <div class="page-heading">
+        
 
-          {# Heading Text #}
+        {# Heading Text #}
+        <div class="page-heading">
           <h1 class="display-4">Products</h1>
           <p class="lead">Unreal Engine assets for real-time arch viz</p>
-          {# /.Heading Text #}
-
         </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
         <div class="page-subheading text-white">
-          
-          {# Subheading Text #}
           <hr class="my-4">
           <p>Find the best assets for your project</p>
+        </div>
           {# /.Subheading Text #}
 
-        </div>
       </div>
     </div>
   </header>
@@ -85,7 +85,7 @@
   <section class="product-list container">
     <h2>{% if chosen_category %}{{ chosen_category |title }}{% else %}All Products{% endif %}</h2>
     <hr>
-    {% include '_product_list_cards_partial.html' with request=request md="6" lg="4" %}
+    {% include '_product_list_cards_partial.html' %}
   </section>
   {# /.Product List - Cards #}
 

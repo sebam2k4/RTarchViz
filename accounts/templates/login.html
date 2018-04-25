@@ -20,23 +20,22 @@
 	<header>
 		<div class="jumbotron jumbotron-fluid bg-dark">
 			<div class="container">
-				<div class="page-heading">
 
-					{# Heading Text #}
+				{# Heading Text #}
+				<div class="page-heading">
 					<h1 class="display-4">Login</h1>
 					<p class="lead">Access your account and dashboard</p>
-					{# /.Heading Text #}
-
 				</div>
+				{# /.Heading Text #}
+
+				{# Subheading Text #}
 				<div class="page-subheading text-white">
-					
-					{# Subheading Text #}
 					<hr class="my-4">
 					<p>Don't have an account yet?</p>
 					<a class="btn btn-danger btn-lg mb-4 mb-md-0" href="{% url 'register' %}" role="button">Register Now</a>
-					{# /.Subheading Text #}
-
 				</div>
+				{# /.Subheading Text #}
+	
 			</div>
 		</div>
 	</header>
@@ -52,7 +51,7 @@
 				{% bootstrap_form form %}
 
 				{% buttons %}
-				<button type="submit" class="btn btn-primary">Login</button>
+					<button type="submit" class="btn btn-primary">Login</button>
 				{% endbuttons %}
 				<div>
 					<a href="{% url 'password_reset' %}">Forgot password</a>

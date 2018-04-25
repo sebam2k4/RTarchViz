@@ -23,23 +23,22 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
+
+        {# Heading Text #}
         <div class="page-heading">
-
-          {# Heading Text #}
-          <h1 class="display-4">Edit Review</h1>
+        <h1 class="display-4">Edit Review</h1>
           <p class="lead">You are editing your review for <strong>{{review.product.name}}</strong></p>
-          {# /.Heading Text #}
-
         </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
         <div class="page-subheading text-white">
-          
-          {# Subheading Text #}
           <hr class="my-4">
           <p>Original review submitted on {{ review.added_date|date:"N d, Y" }}</p>
           <p>We value your feedback</p>
-          {# /.Subheading Text #}
-
         </div>
+        {# /.Subheading Text #}
+
       </div>
     </div>
   </header>

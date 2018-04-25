@@ -66,7 +66,6 @@
             {% endif %}
             <li class="product-price"><strong>{{ product.euro_price }}</strong></li>
           </ul>
-          
           {# /.Product Details #}
 
           {# Product Buttons #}
@@ -156,14 +155,14 @@
 
     {# Display ReviewForm #}
     {% if request.user.is_authenticated and not already_reviewed and not product.seller == request.user %}
-    <div class="product-detail-review-form">
-      <h5>Leave a Reveiw</h5>
-      {% if product in owned_assets %}
-      {% include '_review_form_partial.html' %}
-      {% else %}
-      <p>You need to have purchased the product to be able to leave a review.</p>
-      {% endif %}
-    </div>
+      <div class="product-detail-review-form">
+        <h5>Leave a Reveiw</h5>
+        {% if product in owned_assets %}
+          {% include '_review_form_partial.html' %}
+        {% else %}
+          <p>You need to have purchased the product to be able to leave a review.</p>
+        {% endif %}
+      </div>
     {% endif %}
     {# /.Display ReviewForm #}
 

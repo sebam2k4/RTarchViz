@@ -23,25 +23,25 @@
 	<header>
 		<div class="jumbotron jumbotron-fluid bg-dark mb-0">
 			<div class="container">
+				
+				{# Heading Text #}
 				<div class="page-heading">
-
-					{# Heading Text #}
 					<h1 class="display-4">Your Dashboard</h1>
 					<p class="lead">Manage your account, sales, and purchases</p>
-					{# /.Heading Text #}
-
 				</div>
+				{# /.Heading Text #}
+
+				{# Subheading Text #}
 				<div class="page-subheading text-white">
-					
-					{# Subheading Text #}
 					<hr class="my-4">
 					<p>You are logged in as {{ request.user.username }}</p>
 					<p class="">your email is {{ request.user.email}}</p>
-					{# /.Subheading Text #}
-
 				</div>
+				{# /.Subheading Text #}
+
 			</div>
 		</div>
+		{# /.Dashboard Header #}
 
 		{# Account Balance #}
 		<div class="account-balance text-white bg-indigo text-center text-sm-left pt-5 pb-4 py-sm-3">
@@ -51,7 +51,7 @@
 						<h5 class="text-uppercase font-weight-bold">Account Balance</h5>
 						<div class="euro-balance">
 							&euro;{% get_account_balance request.user %}
-							<!-- Button trigger modal -->
+							<!-- Payout - trigger modal -->
 							<button type="button" class="btn btn-primary active" data-toggle="modal" data-target="#payoutModal">
 								Payout
 							</button>
@@ -91,36 +91,37 @@
 
 							{# Sales Rows #}
 							<tbody>
-								{% for product in products %}
-									{% if product.active %}
-										<tr>
-											<th scope="row">{{ forloop.counter }}</th>
-											<td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
-											<td><a class="btn btn-success px-3 " href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
-											<td>{{ product.sold_count }}</td>
-											<td>{{ product.view_count }}</td>
-											<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
-											<td>&euro;{% get_total_for_sold_product product %}</td>
-											<td><a class="btn btn-danger px-3" href="{{ product.get_delete_product_url }}"><i class="far fa-trash-alt"></i></a></td>
-										</tr>
-									{% else %}
-										<tr class="product-inactive">
-											<th scope="row">{{ forloop.counter }}</th>
-											<td>{{ product.name }} <strong>(Deleted)</strong></td>
-											<td></td>
-											<td>{{ product.sold_count }}</td>
-											<td>{{ product.view_count }}</td>
-											<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not rated{% endif %}</td>
-											<td>&euro;{% get_total_for_sold_product product %}</td>
-											<td><a class="btn btn-success px-3" href="{{ product.get_undelete_product_url }}">Relist</a></td>
-										</tr>
-									{% endif %}
-								{% endfor %}
+							{% for product in products %}
+								{% if product.active %}
+									<tr>
+										<th scope="row">{{ forloop.counter }}</th>
+										<td><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></td>
+										<td><a class="btn btn-success px-3 " href="{{ product.get_edit_product_url }}"><i class="fas fa-pencil-alt"></a></td>
+										<td>{{ product.sold_count }}</td>
+										<td>{{ product.view_count }}</td>
+										<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not yet rated{% endif %}</td>
+										<td>&euro;{% get_total_for_sold_product product %}</td>
+										<td><a class="btn btn-danger px-3" href="{{ product.get_delete_product_url }}"><i class="far fa-trash-alt"></i></a></td>
+									</tr>
+								{% else %}
+									<tr class="product-inactive">
+										<th scope="row">{{ forloop.counter }}</th>
+										<td>{{ product.name }} <strong>(Deleted)</strong></td>
+										<td></td>
+										<td>{{ product.sold_count }}</td>
+										<td>{{ product.view_count }}</td>
+										<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not rated{% endif %}</td>
+										<td>&euro;{% get_total_for_sold_product product %}</td>
+										<td><a class="btn btn-success px-3" href="{{ product.get_undelete_product_url }}">Relist</a></td>
+									</tr>
+								{% endif %}
+							{% endfor %}
 							</tbody>
 							{# /.Sales Rows #}
 
 						</table>
 					</div>
+					{# Sales buttons #}
 					<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">List New Product</a>
 					<a class="btn btn-primary btn-block-xs" href="{% url 'sales_history' %}">View Detailed Sales History</a>
 				{% else %}
@@ -167,6 +168,7 @@
 											<th scope="row">{{ forloop.counter }}</th>
 											<td>{{ asset.name }}</td>
 											<td>{{ asset.seller.username }}</td>
+											{# Purchases buttons #}
 											<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
 										</tr>
 									{% endif %}
@@ -216,7 +218,7 @@
 
 					</table>
 				</div>
-					{# Dashboard Account Utility Links #}
+				{# Dashboard Account Utility Links #}
 				<a class="btn btn-primary btn-block-xs" href="{% url 'update' %}">Update Personal Details</a>
 				<a class="btn btn-primary btn-block-xs" href="{% url 'change_password' %}">Change Password</a>
 			</div>
