@@ -71,6 +71,10 @@ class Product(models.Model):
   def __unicode__(self):
     return self.name
     
+  def clean(self):
+    """ clean data before saving in db """
+    self.name = self.name.capitalize()
+
   # SAVE METHOD:
   def save(self, *args, **kwargs):
     """
