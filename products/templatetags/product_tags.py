@@ -26,7 +26,7 @@ def get_average_rating(product):
   return '{0}'.format(round(average_rating, 2))
   
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
-def recent_products(context, request, num, md=6, lg=4,):
+def recent_products(context, request, num):
   """
   Return the specified number of recent products in a reusable partial
   template. Can optionaly define column width for medium and large
@@ -36,10 +36,10 @@ def recent_products(context, request, num, md=6, lg=4,):
   products = Product.objects.all().filter(active=True).order_by('-added_date')[:num]
   user_owned_products = Order.objects.purchased_products(request.user)
 
-  return {'products': products, 'owned_assets': user_owned_products, 'md': md, 'lg': lg, 'request': context['request'], 'cart_items': context['cart_items']}
+  return {'products': products, 'owned_assets': user_owned_products, 'request': context['request'], 'cart_items': context['cart_items']}
 
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
-def user_product_list(context, user, md=6, lg=4):
+def user_product_list(context, user):
   """
   Return the specified number or all user products in a reusable partial
   template. Can optionaly define column width for medium and large
@@ -51,4 +51,4 @@ def user_product_list(context, user, md=6, lg=4):
   be displayed
   """
   products = Product.objects.filter(seller_id = user.id).filter(active=True).order_by('-added_date')
-  return {'products': products, 'md': md, 'lg': lg, 'request': context['request']}
+  return {'products': products, 'request': context['request'], 'cart_items': context['cart_items']}
