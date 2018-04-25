@@ -53,6 +53,7 @@
                   <th scope="col">Product Name</th>
                   <th scope="col">Price</th>
                   <th scope="col">Date</th>
+                  <th scope="col">Order</th>
                   <th scope="col">Seller</th>
                 </tr>
               </thead>
@@ -60,12 +61,11 @@
                 {% for asset in owned_assets %}
                 <tr>
                   <th scope="row">{{ forloop.counter }}</th>
-                  {# product link to latest file version else last available #}
                   <td>{{ asset.product_name }}</td>
                   <td>&euro;{{ asset.product_price }}</td>
                   <td>{{ asset.purchase_date }}</td>
-                  <td>{{ asset.seller_id }}</td>
-
+                  <td>#{{ asset.order_id }}</td>
+                  <td>{{ asset.product.seller.username }}</td>
                 {% endfor %}
               </tbody>
             </table>
