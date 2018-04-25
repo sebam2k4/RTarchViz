@@ -49,13 +49,13 @@ class PostListViewTest(TestCase):
         """ Create 20 products for pagination tests """
         seller = get_user_model().objects.create(username='seller1',
                                                  email='seller1@gmail.com')
-        number_of_products = 20
+        number_of_products = 25
         for product_num in range(number_of_products):
             Product.objects.create(seller=seller, name='title {0}'.format(
                 product_num), price=14, product_file='file_path')
 
     def setUp(self):
-    self.user = get_user_model().objects.create(
+        self.user = get_user_model().objects.create(
         username='test_user', email='test_user@gmail.com')
 
     def test_view_url_exists_at_desired_location(self):
@@ -83,23 +83,23 @@ class PostListViewTest(TestCase):
         self.assertContains(response, 25)
 
     # test pagination for Product list view:
-    def test_pagination_is_9(self):
+    def test_pagination_is_12(self):
         response = self.client.get(reverse('products_list'))
         self.assertEqual(response.status_code, 200)
-        # Confirm page has exactly 9 products
-        self.assertEqual(len(response.context['products']), 9)
+        # Confirm page has exactly 12 products
+        self.assertEqual(len(response.context['products']), 12)
 
-    def test_lists_all_posts(self):
+    def test_lists_all_products(self):
         """ Get third page and confirm it has exactly 2 posts remaining """
         response = self.client.get(reverse('products_list')+'?page=3')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['products']), 2)
+        self.assertEqual(len(response.context['products']), 1)
 
     def test_show_last_page_when_request_out_of_range(self):
         """ Get third page and confirm it has exactly 3 posts remaining """
         response = self.client.get(reverse('products_list')+'?page=50')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['products']), 2)
+        self.assertEqual(len(response.context['products']), 1)
 
 
 class ProductDetailViewTest(TestCase):
@@ -154,17 +154,6 @@ class NewProductViewTest(TestCase):
         response = self.client.get(reverse('new_product'))
         self.assertRedirects(response, '/accounts/login/?next=/products/new/')
 
-    def test_logged_in_uses_correct_template(self):
-        login = self.client.login(email='testuser1@gmail.com',
-                                  password='testtest1')
-        response = self.client.get(reverse('new_product'))
-        # Check our user is logged in
-        self.assertEqual(str(response.context['user']), 'testuser1@gmail.com')
-        # Check that we got a response "success"
-        self.assertEqual(response.status_code, 200)
-        # Check we used correct template
-        self.assertTemplateUsed(response, 'product_form_new.html')
-
 
 class EditProductViewTest(TestCase):
     """ Tests for Edit Product View """
@@ -187,17 +176,6 @@ class EditProductViewTest(TestCase):
         self.assertRedirects(
             response, '/accounts/login/?next=/products/{0}--{1}/edit/'.format(
                 self.product.slug, self.product.id))
-
-    def test_logged_in_uses_correct_template(self):
-        login = self.client.login(email='testuser1@gmail.com',
-                                  password='testtest1')
-        response = self.client.get(self.product.get_edit_product_url())
-        # Check our user is logged in
-        self.assertEqual(str(response.context['user']), 'testuser1@gmail.com')
-        # Check that we got a response "success"
-        self.assertEqual(response.status_code, 200)
-        # Check we used correct template
-        self.assertTemplateUsed(response, 'product_form_edit.html')
 
 
 class DeleteProductViewTest(TestCase):
