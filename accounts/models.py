@@ -75,7 +75,7 @@ class User(AbstractUser):
     # TO STRING METHOD:
     def __unicode__(self):
         """ specify string representation for a user in admin pages """
-        return self.email
+        return self.username
 
     def get_absolute_url(self):
         return reverse('profile', args=[self.username])
