@@ -58,15 +58,13 @@ def checkout(request):
           order_product_item = OrderProduct(order=order, product=product,)
           order_product_item.save()
           # record purchase transactio history for each product
-          purchase = PurchaseHistory()
+          purchase = PurchaseHistory(order=order, product=product,)
           purchase.product_price = product.price
           purchase.product_name = product.name
           purchase.date = timestamp
           purchase.seller_id = product.seller_id
           purchase.buyer_id = request.user.id
           purchase.product_file = product.product_file
-          purchase.product_id = product.id
-          purchase.order_id = order.id
           purchase.save()
 
         # copy cart session into purchase session storage

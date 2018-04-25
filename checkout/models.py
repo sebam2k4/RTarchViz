@@ -34,7 +34,7 @@ class Order(models.Model):
 
   # TO STRING METHOD
   def __unicode__(self):
-    return "Order #{0}, {1} ----- Order made by: {2}".format(self.id, self.ordered_date, self.buyer.username)
+    return "Order #{0}".format(self.id)
 
   # MODEL METHODS
   def order_total(self):
@@ -43,7 +43,10 @@ class Order(models.Model):
 
 # Intermediate model for m-m relationship between Order and Product
 class OrderProduct(models.Model):
-  """ Defining Order Product models """
+  """ 
+  Defining Order Product models
+  (Intermediate Table for Order-Product relationship)
+  """
 
   # DATABASE FIELDS
   order = models.ForeignKey(Order, null=False)
@@ -51,10 +54,10 @@ class OrderProduct(models.Model):
 
   # TO STRING METHOD
   def __unicode__(self):
-    return "{0} by {1} {2} ---- purchased by {3}".format(self.product.name, self.product.seller.username, self.product.price, self.order.buyer.username)
+    return "{0} from (Order #{1}) - seller: {2}".format(self.product.name, self.order_id, self.product.seller.username)
 
 
-class PurchaseManager(models.Manager):
+class PurchaseHistoryManager(models.Manager):
   """ define custom manager """
 
   def purchased_products_history(self, user):
@@ -62,7 +65,7 @@ class PurchaseManager(models.Manager):
     return self.get_queryset().filter(buyer_id=user.id).order_by('-purchase_date')
 
   def sold_products_history(self, user):
-    """ get user's purchased products """
+    """ get user's sold products """
     return self.get_queryset().filter(seller_id=user.id).order_by('-purchase_date')
 
 
@@ -70,23 +73,20 @@ class PurchaseHistory(models.Model):
   """
   Purchases History for recording transactional details for each product
   item at time of purchase. This keeps transaction history accurate as
-  it may otherwise change when user updates product price or removes
-  product. Used for dashboard analytics. Also, this table makes sure
-  that the digital project is still available to user who purchased it
-  even though the seller has deleted the product from the market.
+  it may otherwise change when user updates product price, name or
+  removes product. Used for dashboard analytics.
   """
   # DATABASE FIELDS
   product_price = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
   product_name = models.CharField(max_length=200)
   purchase_date = models.DateTimeField(default=timezone.now)
-  product_id = models.IntegerField(blank=False, null=False)
+  product = models.ForeignKey(Product, null=False)
   buyer_id = models.IntegerField(blank=False, null=False)
   seller_id = models.IntegerField(blank=False, null=False)
-  order_id = models.IntegerField(blank=False, null=False)
-  product_file = models.FileField()
+  order = models.ForeignKey(Order, null=False)
 
   # MANAGERS:
-  objects = PurchaseManager()
+  objects = PurchaseHistoryManager()
 
   # TO STRING METHOD
   def __unicode__(self):
