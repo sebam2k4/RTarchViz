@@ -31,9 +31,9 @@ class PostAdmin(admin.ModelAdmin):
   )
 
   # override all textfields to use the tinyMCE widget
-  # formfield_overrides = {
-  #   models.TextField: {'widget': TinyMCE()},
-  # }
+  formfield_overrides = {
+    models.TextField: {'widget': TinyMCE()},
+  }
 
   inlines = (PostViewCountInline,)
 

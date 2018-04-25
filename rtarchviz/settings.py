@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'checkout',
     # 3rd party apps:
     'bootstrap4',
-    #'tinymce',
+    'tinymce',
     'disqus',
     'django_social_share',
 ]
@@ -140,29 +140,28 @@ MESSAGE_TAGS = {
 }
 
 
-# getting too many request from TinyMCE for S3 storage
-# TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
-# TINYMCE_DEFAULT_CONFIG = {
-#     'theme': "modern",
-#     'language': 'en_GB',
-#     'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
-#                 anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
-#                 code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
-#                 contextmenu, directionality, emoticons, template, paste, textcolor,     \
-#                 colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
-#                 autosave',
-#     'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
-#                  alignleft aligncenter alignright alignjustify |    \
-#                  bullist numlist outdent indent | link image',  
-#     'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
-#     }
+TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "modern",
+    'language': 'en_GB',
+    'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
+                anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
+                code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
+                contextmenu, directionality, emoticons, template, paste, textcolor,     \
+                colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
+                autosave',
+    'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
+                 alignleft aligncenter alignright alignjustify |    \
+                 bullist numlist outdent indent | link image',  
+    'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
+    }
 
-# # The following causes 'Synchronous SMLHttpRequest warning
-# # when set to True and the tinyMCE editor stops working
-# # the compressor is supposed to gzip all js and make the
-# # tinyMCE editor load faster and result in fewer requests
-# # Investigate!
-# TINYMCE_COMPRESSOR = True
+# The following causes 'Synchronous SMLHttpRequest warning
+# when set to True and the tinyMCE editor stops working
+# the compressor is supposed to gzip all js and make the
+# tinyMCE editor load faster and result in fewer requests
+# Investigate!
+TINYMCE_COMPRESSOR = False
 
 # STRIPE Payments settings
 STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
