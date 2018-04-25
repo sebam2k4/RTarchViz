@@ -3,61 +3,41 @@ main {
   background-color: white;
 }
 
-/* PRODUCTS - CAROUSEL */
-.carousel {
+/* PRODUCT IMAGE */
+.product-detail-image {
   height: 20em;
-}
-.carousel-item .carousel-image {
-  height: 20em;
+  width: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-}
-.product-detail-carousel {
-  background-color: #aaa;
 }
 .product-list {
   margin-top: 3.5rem;
   margin-bottom: 1.5rem;
 }
 @media (min-width: 576px) {
-  .carousel {
+  .product-detail-image {
     height: 23em;
-  }
-  .carousel-item .carousel-image {
-    height: 23em;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
   }
 }
 @media (min-width: 768px) {
-  .carousel {
-    height: 28em;
-    max-width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .carousel-item .carousel-image {
+  .product-detail-image {
     height: 28em;
   }
 }
 @media (min-width: 992px) {
-  .carousel {
-    height: 32em;
-    max-width: 960px;
-  }
-  .carousel-item .carousel-image {
-    height: 32em;
+  .product-detail-image {
+    height: 34em;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 @media (min-width: 1200px) {
-  .carousel {
+  .product-detail-image  {
     height: 40em;
-    max-width: 1140px;
-  }
-  .carousel-item .carousel-image {
-    height: 40em;
+    width: 85%;
+    
   }
 }
 
