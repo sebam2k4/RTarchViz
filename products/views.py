@@ -162,6 +162,12 @@ def new_product(request):
   """
   A view for creatubg a new product
   """
+  # get previous page
+  if request.META.get('HTTP_REFERER') is not None:
+    previous_page = request.META.get('HTTP_REFERER')
+  else:
+    previous_page = 'dashboard'
+
   if request.method == "POST":
     form = ProductForm(request.POST, request.FILES)
     if form.is_valid():
@@ -174,7 +180,7 @@ def new_product(request):
   else:
     form = ProductForm()
 
-  context = {'form': form}
+  context = {'form': form, 'previous_page': previous_page}
   return render(request, 'product_form_new.html', context)
 
 @login_required

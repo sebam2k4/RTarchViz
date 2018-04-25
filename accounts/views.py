@@ -54,7 +54,8 @@ def login(request):
   """
   # redirect to profile page is user already authenticated
   if request.user.is_authenticated:
-    return redirect(User.get_absolute_url(request.user))
+    messages.warning(request, "You're already logged in!")
+    return redirect('homepage')
 
   if request.method == 'POST':
     # use Django's built in auth.login method for user login
@@ -66,7 +67,7 @@ def login(request):
       if user is not None:
         auth.login(request,user)
         messages.success(request, "You have successfully logged in")
-        return redirect(User.get_absolute_url(request.user))
+        return redirect('homepage')
       else:
         form.add_error(None, "Your email or password was not recognised")
   else:
@@ -115,6 +116,7 @@ def dashboard(request):
 
 @login_required
 def logout(request):
+  """ logout user """
   # destroy user session with .logout method
   auth.logout(request)
   messages.success(request, 'You have successfully logged out')
@@ -123,8 +125,9 @@ def logout(request):
 @login_required
 def update_profile(request):
   """
-  Update User profile details. Uses an instance of user data to fill in
-  the form fields with current data.
+  Update User profile details.
+  Uses an instance of user data to fill in the form fields with current
+  data.
   """
   if request.method == 'POST':
     form = UserEditForm(data=request.POST, instance=request.user)
