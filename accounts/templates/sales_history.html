@@ -5,9 +5,6 @@
 {% load product_tags %}
 
 {# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/accounts.js' %}"></script>
-{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
@@ -48,33 +45,33 @@
       <div class="col">
           <h2 class="mb-3">All of Your Sales</h2>
           {% if owned_assets %}
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Product Name</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Buyer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for asset in owned_assets %}
-                <tr>
-                  <th scope="row">{{ forloop.counter }}</th>
-                  {# product link to latest file version else last available #}
-                  <td>{{ asset.product_name }}</td>
-                  <td>&euro;{{ asset.product_price }}</td>
-                  <td>{{ asset.purchase_date }}</td>
-                  <td>{{ asset.buyer_id }}</td>
-
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Order</th>
+                    <th scope="col">Buyer</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for asset in owned_assets %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ asset.product_name }}</td>
+                    <td>&euro;{{ asset.product_price }}</td>
+                    <td>{{ asset.purchase_date }}</td>
+                    <td>#{{ asset.order_id }}</td>
+                    <td>{{ asset.order.buyer.username }}</td>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           {% else %}
-          <p>You haven't sold any products yet.</p>
+            <p>You haven't sold any products yet.</p>
           {% endif %}
 				</div>
 			</div>

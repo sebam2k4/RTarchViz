@@ -6,8 +6,7 @@
 
 {# Load required js and css #}
 {% block body_js %}
-<script src="{% static 'js/accounts.js' %}"></script>
-<script src="{% static 'js/products.js' %}"></script>
+<script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
@@ -43,18 +42,17 @@
 			</div>
 		</div>
 	</header>
-	{# /.Homepage Header #}
+	{# /.Profile Header #}
 
 	{# Profile User Bio #}
 	<section class="user-profile container">
 			<div class="row">
 				<div class="col">
-					
 					<h2 class="mb-3">Bio</h2>
 					{% if user.bio %}
-					<p>{{ user.bio }}</p>
+						<p>{{ user.bio }}</p>
 					{% else %}
-					<p>Real-Time ArchViz Enthusiast</p>
+						<p>Real-Time ArchViz Enthusiast</>
 					{% endif %}
 				</div>
 			</div>
@@ -66,7 +64,7 @@
 	<section class="user-profile-products container">
 		<div class="user-profile-product-cards">
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
-		{% user_product_list user md='6' lg='4' %}
+		{% user_product_list user request%}
 		</div>
 	</section>
 	{# /.Profile User Product List #}

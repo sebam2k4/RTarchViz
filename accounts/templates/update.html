@@ -4,10 +4,7 @@
 {# load custom template tags #}
 {% load bootstrap4 %}
 
-{# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/accounts.js' %}"></script>
-{% endblock %}
+{# Load required css #}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
@@ -23,21 +20,20 @@
   <header>
 		<div class="jumbotron jumbotron-fluid bg-dark">
 			<div class="container">
+
+				{# Heading Text #}
 				<div class="page-heading">
-
-					{# Heading Text #}
 					<h1 class="display-4">Update Account Details</h1>
-					{# /.Heading Text #}
-
 				</div>
+				{# /.Heading Text #}
+
+				{# Subheading Text #}
 				<div class="page-subheading text-white">
-					
-					{# Subheading Text #}
 					<hr class="my-4">
 					<p>Make changes to your personal details below</p>
-					{# /.Subheading Text #}
-
 				</div>
+				{# /.Subheading Text #}
+
 			</div>
 		</div>
 	</header>
@@ -52,8 +48,8 @@
 				{% csrf_token %}
 				{% bootstrap_form form %}
 				{% buttons %}
-				<button type="submit" class="btn btn-primary">Submit</button>
-				<a href="{% url 'dashboard' %}" class="btn btn-primary btn-spinner">Cancel</a>
+					<button type="submit" class="btn btn-primary">Submit</button>
+					<a href="{% url 'dashboard' %}" class="btn btn-primary btn-spinner">Cancel</a>
 				{% endbuttons %}
 			</form>
 		</div>

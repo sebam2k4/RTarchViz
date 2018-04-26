@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
-    'pages',
     'homepage',
     'accounts',
     'blog',
@@ -55,7 +54,7 @@ INSTALLED_APPS = [
     'checkout',
     # 3rd party apps:
     'bootstrap4',
-    #'tinymce',
+    'tinymce',
     'disqus',
     'django_social_share',
 ]
@@ -140,129 +139,124 @@ MESSAGE_TAGS = {
 }
 
 
-# getting too many request from TinyMCE for S3 storage
-# TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
-# TINYMCE_DEFAULT_CONFIG = {
-#     'theme': "modern",
-#     'language': 'en_GB',
-#     'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
-#                 anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
-#                 code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
-#                 contextmenu, directionality, emoticons, template, paste, textcolor,     \
-#                 colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
-#                 autosave',
-#     'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
-#                  alignleft aligncenter alignright alignjustify |    \
-#                  bullist numlist outdent indent | link image',  
-#     'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
-#     }
+TINYMCE_JS_URL = 'https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.7.9/tinymce.min.js'
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': "modern",
+    'language': 'en_GB',
+    'plugins': 'advlist, autolink, lists, link, image, charmap, print, preview, hr,     \
+                anchor, pagebreak, searchreplace, wordcount, visualblocks, visualchars, \
+                code, fullscreen, insertdatetime, media, nonbreaking, save, table,      \
+                contextmenu, directionality, emoticons, template, paste, textcolor,     \
+                colorpicker, textpattern, imagetools, codesample, toc, autoresize,      \
+                autosave',
+    'toolbar1': 'undo redo | insert | styleselect | bold italic |   \
+                 alignleft aligncenter alignright alignjustify |    \
+                 bullist numlist outdent indent | link image',  
+    'toolbar2': 'print preview media | forecolor backcolor emoticons | codesample',
+    }
 
-# # The following causes 'Synchronous SMLHttpRequest warning
-# # when set to True and the tinyMCE editor stops working
-# # the compressor is supposed to gzip all js and make the
-# # tinyMCE editor load faster and result in fewer requests
-# # Investigate!
-# TINYMCE_COMPRESSOR = True
+# The following causes 'Synchronous SMLHttpRequest warning
+# when set to True and the tinyMCE editor stops working
+# the compressor is supposed to gzip all js and make the
+# tinyMCE editor load faster and result in fewer requests
+# Investigate!
+TINYMCE_COMPRESSOR = False
 
 # STRIPE Payments settings
 STRIPE_PUBLISHABLE = os.environ.get('STRIPE_PUBLISHABLE')
 STRIPE_SECRET = os.environ.get('STRIPE_SECRET')
 
 # Environment specific settings
-try:
-    if os.environ["ENV"] == 'development':
-        """
-        DEVELOPMENT environment settings
-        use for local development
-        """
-        print "***You are in development mode"
+if os.environ["ENV"] == 'development':
+    """
+    DEVELOPMENT environment settings
+    use for local development
+    """
+    print "***You are in development mode"
 
-        # Turn on django debug mode
-        DEBUG = True
-        print "***debug mode is ON"
+    # Turn on django debug mode
+    DEBUG = True
+    print "***debug mode is ON"
 
-        # Add debug toolbar
-        INSTALLED_APPS.append('debug_toolbar')
-        MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-        INTERNAL_IPS = ('127.0.0.1',)
-        print "***Debug Toolbar is ON"
+    # Add debug toolbar
+    INSTALLED_APPS.append('debug_toolbar')
+    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    INTERNAL_IPS = ('127.0.0.1',)
+    print "***Debug Toolbar is ON"
 
-        # Static files for local development (CSS, JavaScript, Images)
-        STATIC_URL = '/static/'
-        STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
-        STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-        MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-        MEDIA_URL = '/media/'
+    # Static files for local development (CSS, JavaScript, Images)
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
-        if "DATABASE_URL" in os.environ:
-            # Use for testing using production db
-            print "***Using production PostgreSQL dtabase provisioned on Heroku for development"
-            DATABASES = {
-                'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
-            }
-        else:
-            # using the default local sqlite db
-            print "***Using Django's local sqlite db for development"
-            DATABASES = {
-                'default': {
-                    'ENGINE': 'django.db.backends.sqlite3',
-                    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-                }
-            }
-
-    elif os.environ["ENV"] == 'production':
-        """
-        PRODUCTION environment settings
-        """
-
-        DEBUG = False
-        # Log DEBUG information to the console
-        LOGGING = {
-            'version': 1,
-            'disable_existing_loggers': False,
-            'handlers': {
-                'console': {
-                    'class': 'logging.StreamHandler',
-                },
-            },
-            'loggers': {
-                'django': {
-                    'handlers': ['console'],
-                    'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
-                },
-            },
-        }
-
-        # AWS S3 settings for storing and serving static and media files
-        INSTALLED_APPS.append('storages')
-        AWS_S3_OBJECT_PARAMETERS = {
-            'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
-            'CacheControl': 'max-age=94608000',
-        }
-        AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
-        AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
-        AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-        AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-        AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-        STATICFILES_LOCATION = 'static'
-        STATICFILES_STORAGE = 'custom_storages.StaticStorage'
-        MEDIAFILES_LOCATION = 'media'
-        DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
-        MEDIA_URL = '//%s/media/' % AWS_S3_CUSTOM_DOMAIN
-        STATIC_URL = '/static/'
-        
-        # Add whitenoise for deploying app with static files to Heroku 
-        MIDDLEWARE.append('whitenoise.middleware.WhiteNoiseMiddleware')
-
-        # Use production Postgres database provisioned on Heroku
-        if "DATABASE_URL" in os.environ:
-            DATABASES = {
+    if "DATABASE_URL" in os.environ:
+        # Use for testing using production db
+        print "***Using production PostgreSQL dtabase provisioned on Heroku for development"
+        DATABASES = {
             'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
         }
-        else:
-            print "***no production database found. Provision one in Heroku and link to it using env variable 'DATABASE_URL'"
+    else:
+        # using the default local sqlite db
+        print "***Using Django's local sqlite db for development"
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
+        }
 
-except KeyError:
+elif os.environ["ENV"] == 'production':
+    """
+    PRODUCTION environment settings
+    """
+
+    DEBUG = False
+    # Log DEBUG information to the console
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            },
+        },
+    }
+
+    # AWS S3 settings for storing and serving static and media files
+    INSTALLED_APPS.append('storages')
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94608000',
+    }
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME")
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+    MEDIA_URL = '//%s/media/' % AWS_S3_CUSTOM_DOMAIN
+    STATIC_URL = '/static/'
+    
+    # Use production Postgres database provisioned on Heroku
+    if "DATABASE_URL" in os.environ:
+        DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+    else:
+        print "***no production database found. Provision one in Heroku and link to it using env variable 'DATABASE_URL'"
+
+else:
     print "***ENV variable not set. Please set the environment variable 'ENV' to 'development' or 'production'"
 
 # Settings for User Password Recovery

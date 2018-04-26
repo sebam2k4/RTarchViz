@@ -4,20 +4,20 @@
 
 <div class="list-group recent-posts">
   {% for post in recent_posts %}
-  <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action flex-row align-items-start">
-    <div class="d-sm-flex justify-content-start">
-      <div class="">
-        <div class="post-image" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
-      </div>
-      <div class="">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1 text-primary">{{ post.title }}</h5>
-          <small>{{ post.published_date|naturalday }}</small>
+    <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action flex-row align-items-start">
+      <div class="d-sm-flex justify-content-start">
+        <div class="">
+          <div class="post-image" style="background-image: url('{% if post.image %}{{ post.image.url }}{% else %}http://placehold.it/500?text=bkg-img{% endif %}');"></div>
         </div>
-        <p class="mb-1">{{ post.get_short_content|striptags }}</p>
-        <small>Read More</small>
+        <div class="">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1 text-primary">{{ post.title }}</h5>
+            <small>{{ post.published_date|naturalday }}</small>
+          </div>
+          <p class="mb-1">{{ post.get_short_content|striptags }}</p>
+          <small>Read More</small>
+        </div>
       </div>
-    </div>
-  </a>
+    </a>
   {% endfor %}
 </div>

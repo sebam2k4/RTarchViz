@@ -5,10 +5,7 @@
 {% load product_tags %}
 {% load checkout_tags %}
 
-{# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/accounts.js' %}"></script>
-{% endblock %}
+{# Load required css #}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 {% endblock %}
@@ -26,25 +23,25 @@
 	<header>
 		<div class="jumbotron jumbotron-fluid bg-dark mb-0">
 			<div class="container">
+				
+				{# Heading Text #}
 				<div class="page-heading">
-
-					{# Heading Text #}
 					<h1 class="display-4">Your Dashboard</h1>
 					<p class="lead">Manage your account, sales, and purchases</p>
-					{# /.Heading Text #}
-
 				</div>
+				{# /.Heading Text #}
+
+				{# Subheading Text #}
 				<div class="page-subheading text-white">
-					
-					{# Subheading Text #}
 					<hr class="my-4">
 					<p>You are logged in as {{ request.user.username }}</p>
 					<p class="">your email is {{ request.user.email}}</p>
-					{# /.Subheading Text #}
-
 				</div>
+				{# /.Subheading Text #}
+
 			</div>
 		</div>
+		{# /.Dashboard Header #}
 
 		{# Account Balance #}
 		<div class="account-balance text-white bg-indigo text-center text-sm-left pt-5 pb-4 py-sm-3">
@@ -54,7 +51,7 @@
 						<h5 class="text-uppercase font-weight-bold">Account Balance</h5>
 						<div class="euro-balance">
 							&euro;{% get_account_balance request.user %}
-							<!-- Button trigger modal -->
+							<!-- Payout - trigger modal -->
 							<button type="button" class="btn btn-primary active" data-toggle="modal" data-target="#payoutModal">
 								Payout
 							</button>
@@ -74,26 +71,26 @@
 			<div class="col">
 				<h2 class="mb-3">Your Sales</h2>
 				{% if products %}
-				<div class="table-responsive">
-					<table class="table table-hover">
+					<div class="table-responsive">
+						<table class="table table-hover">
 
-						{# Column Titles #}
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Product Name</th>
-								<th scope="col">Edit</th>
-								<th scope="col">Sold</th>
-								<th scope="col">Views</th>
-								<th scope="col">Avg. Rating</th>
-								<th scope="col">Total Earned</th>
-								<th scope="col">Delete</th>
-							</tr>
-						</thead>
-						{# /.Column Titles #}
+							{# Sales Column Titles #}
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Product Name</th>
+									<th scope="col">Edit</th>
+									<th scope="col">Sold</th>
+									<th scope="col">Views</th>
+									<th scope="col">Avg. Rating</th>
+									<th scope="col">Total Earned</th>
+									<th scope="col">Delete</th>
+								</tr>
+							</thead>
+							{# /.Sales Column Titles #}
 
-						{# Rows #}
-						<tbody>
+							{# Sales Rows #}
+							<tbody>
 							{% for product in products %}
 								{% if product.active %}
 									<tr>
@@ -109,26 +106,27 @@
 								{% else %}
 									<tr class="product-inactive">
 										<th scope="row">{{ forloop.counter }}</th>
-										<td>{{ product.name }}</td>
+										<td>{{ product.name }} <strong>(Deleted)</strong></td>
 										<td></td>
 										<td>{{ product.sold_count }}</td>
 										<td>{{ product.view_count }}</td>
 										<td>{% if product|get_review_count != 0 %}{{ product|get_average_rating }} ({{ product|get_review_count }}){% else %}not rated{% endif %}</td>
 										<td>&euro;{% get_total_for_sold_product product %}</td>
-										<td></td>
+										<td><a class="btn btn-success px-3" href="{{ product.get_undelete_product_url }}">Relist</a></td>
 									</tr>
 								{% endif %}
 							{% endfor %}
-						</tbody>
-						{# /.Rows #}
+							</tbody>
+							{# /.Sales Rows #}
 
-					</table>
-				</div>
-				<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">List New Product</a>
-				<a class="btn btn-primary btn-block-xs" href="{% url 'sales_history' %}">View Detailed Sales History</a>
+						</table>
+					</div>
+					{# Sales buttons #}
+					<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">List New Product</a>
+					<a class="btn btn-primary btn-block-xs" href="{% url 'sales_history' %}">View Detailed Sales History</a>
 				{% else %}
-				<p>You have no products listed...</p>
-				<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">Start Selling!</a>
+					<p>You have no products listed...</p>
+					<a class="btn btn-primary btn-block-xs" href="{% url 'new_product' %}">Start Selling!</a>
 				{% endif %}
 			</div>
 		</div>
@@ -141,51 +139,48 @@
 			<div class="col">
 				<h2 class="mb-3">Your Purchases</h2>
 				{% if owned_assets %}
-				<div class="table-responsive">
-					<table class="table table-hover">
+					<div class="table-responsive">
+						<table class="table table-hover">
 
-						{# Column Titles #}
-						<thead>
-							<tr>
-								<th scope="col">#</th>
-								<th scope="col">Product Name</th>
-								<th scope="col">Seller</th>
-								<th scope="col">Download</th>
-							</tr>
-						</thead>
-						{# /.Column Titles #}
+							{# Purchase Column Titles #}
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Product Name</th>
+									<th scope="col">Seller</th>
+									<th scope="col">Download</th>
+								</tr>
+							</thead>
+							{# /.Purchase Column Titles #}
 
-						{# Rows #}
-						<tbody>
-							{% for asset in owned_assets %}
-								{% if asset.active %}
-									<tr>
-										<th scope="row">{{ forloop.counter }}</th>
-										{# product link to latest file version else last available #}
-										<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
-										{# product link to latest file version else last available #}
-										<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
-										<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
-									</tr>
-								{% else %}
-									<tr>
-										<th scope="row">{{ forloop.counter }}</th>
-										{# product link to latest file version else last available #}
-										<td>{{ asset.name }}</td>
-										{# product link to latest file version else last available #}
-										<td>{{ asset.seller.username }}</td>
-										<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
-									</tr>
-								{% endif %}
-							{% endfor %}
-						</tbody>
-						{# /.Rows #}
+							{# Purchase Rows #}
+							<tbody>
+								{% for asset in owned_assets %}
+									{% if asset.active %}
+										<tr>
+											<th scope="row">{{ forloop.counter }}</th>
+											<td><a href="{{asset.get_absolute_url}}">{{ asset.name }}</a></td>
+											<td><a href="{% url 'profile' asset.seller.username %}">{{ asset.seller.username }}</a></td>
+											<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
+										</tr>
+									{% else %}
+										<tr>
+											<th scope="row">{{ forloop.counter }}</th>
+											<td>{{ asset.name }} (Unlisted by User)</td>
+											<td>{{ asset.seller.username }}</td>
+											{# Purchases buttons #}
+											<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>
+										</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+							{# /.Purchase Rows #}
 
-					</table>
-				</div>
-				<a class="btn btn-primary btn-block-xs" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
+						</table>
+					</div>
+					<a class="btn btn-primary btn-block-xs" href="{% url 'purchases_history' %}">View Detailed Purchase History</a>
 				{% else %}
-				<p>You haven't purchased any products yet.</p>
+					<p>You haven't purchased any products yet.</p>
 				{% endif %}
 				
 			</div>
@@ -193,25 +188,43 @@
 	</section>
 	{# /.Purchases Table #}
 
-	{# Personal Details #}
+	{# User Details #}
 	<section class="user-dashboard-details container">
 		<div class="row">
 			<div class="col">
 				<h2 class="mb-3">Your Personal Details</h2>
-				<hr>
-				<p>Name: {{ user.first_name }} {{ user.last_name }}</p>
-				<p>Address{% if user.address2 %}1{% endif %}: {{ user.address1 }}</p>
-				{% if user.address2 %}<p>Address2: {{ user.address2 }}</p>{% endif %}
-				<p>City or Town: {{ user.city_town }}</p>
-				<p>Post Code: {{ user.post_code }}</p>
-				<p>Country: {{ user.country }}</p>
+				<div class="table-responsive">
+					<table class="table table-hover">
+
+						{# User Details Column Titles #}
+						<thead>
+							<tr>
+								<th scope="col"></th>
+								<th scope="col"></th>
+							</tr>
+						</thead>
+						{# /.User Titles #}
+
+						{# User Details Rows #}
+						<tbody>
+							{% for key, value in user_billing.items %}
+								<tr>
+									<th scope="row">{{ key|title }}</th>
+									<td>{{ value|default:"----" }}</a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+						{# /.User Details Rows #}
+
+					</table>
+				</div>
 				{# Dashboard Account Utility Links #}
 				<a class="btn btn-primary btn-block-xs" href="{% url 'update' %}">Update Personal Details</a>
 				<a class="btn btn-primary btn-block-xs" href="{% url 'change_password' %}">Change Password</a>
 			</div>
 		</div>
 	</section>
-	{# /.Personal Details #}
+	{# /.User Details #}
 
 </main>
 

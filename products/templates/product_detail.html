@@ -26,32 +26,10 @@
 {% block content %}
 
 {# Product Detail Carousel #}
-<header class="product-detail-carousel bg-dark">
-  <div id="productCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-      <li data-target="#productCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#productCarousel" data-slide-to="1"></li>
-      <li data-target="#productCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ MEDIA_URL }}{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
-      </div>
-      <div class="carousel-item">
-        <div class="carousel-image" style="background-image: url('{% if product.main_image %}{{ MEDIA_URL }}{{ product.main_image }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide"></div>
-      </div>
+<header class="bg-dark">
+  <div class="container">
+    <div class="product-detail-image" style="background-image: url('{% if product.main_image %}{{ product.main_image.url }}{% else %}http://placehold.it/300x200?text=bkg-img{% endif %}')" alt="First slide">
     </div>
-    <a class="carousel-control-prev" href="#productCarousel" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#productCarousel" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
   </div>
 </header>
 
@@ -88,12 +66,11 @@
             {% endif %}
             <li class="product-price"><strong>{{ product.euro_price }}</strong></li>
           </ul>
-          
           {# /.Product Details #}
 
           {# Product Buttons #}
           {% if request.user.id == product.seller_id %}
-            <a href="#!" class="btn btn-success btn-lg disabled">Your Product</a>
+            <a href="#!" class="btn btn-secondary btn-lg disabled">Your Product</a>
           {% else %}
             {% if product in owned_assets %}
               {% if product.product_file %}
@@ -178,14 +155,14 @@
 
     {# Display ReviewForm #}
     {% if request.user.is_authenticated and not already_reviewed and not product.seller == request.user %}
-    <div class="product-detail-review-form">
-      <h5>Leave a Reveiw</h5>
-      {% if product in owned_assets %}
-      {% include '_review_form_partial.html' %}
-      {% else %}
-      <p>You need to have purchased the product to be able to leave a review.</p>
-      {% endif %}
-    </div>
+      <div class="product-detail-review-form">
+        <h5>Leave a Reveiw</h5>
+        {% if product in owned_assets %}
+          {% include '_review_form_partial.html' %}
+        {% else %}
+          <p>You need to have purchased the product to be able to leave a review.</p>
+        {% endif %}
+      </div>
     {% endif %}
     {# /.Display ReviewForm #}
 

@@ -1,3 +1,4 @@
+/* DASHBOARD */
 .account-balance .euro-balance {
   font-size: 4rem;
 }
@@ -21,6 +22,9 @@
     padding-left: 3.5rem;
   }
 }
-.product-inactive {
+.product-inactive>td {
   opacity: .4;
+}
+.product-inactive td:last-child {
+  opacity: 1;
 }

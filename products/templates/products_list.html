@@ -7,6 +7,7 @@
 {# Load required js and css #}
 {% block body_js %}
 <script src="{% static 'js/products.js' %}"></script>
+<script src="{% static 'js/cart.js' %}"></script>
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
@@ -24,22 +25,22 @@
   <header>
     <div class="jumbotron jumbotron-fluid bg-dark">
       <div class="container">
-        <div class="page-heading">
+        
 
-          {# Heading Text #}
+        {# Heading Text #}
+        <div class="page-heading">
           <h1 class="display-4">Products</h1>
           <p class="lead">Unreal Engine assets for real-time arch viz</p>
-          {# /.Heading Text #}
-
         </div>
+        {# /.Heading Text #}
+
+        {# Subheading Text #}
         <div class="page-subheading text-white">
-          
-          {# Subheading Text #}
           <hr class="my-4">
           <p>Find the best assets for your project</p>
+        </div>
           {# /.Subheading Text #}
 
-        </div>
       </div>
     </div>
   </header>
@@ -85,7 +86,7 @@
   <section class="product-list container">
     <h2>{% if chosen_category %}{{ chosen_category |title }}{% else %}All Products{% endif %}</h2>
     <hr>
-    {% include '_product_list_cards_partial.html' with request=request md="6" lg="4" %}
+    {% include '_product_list_cards_partial.html' %}
   </section>
   {# /.Product List - Cards #}
 
@@ -94,7 +95,7 @@
     <ul class="pagination justify-content-center">
       {% if products.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ products.previous_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Previous">
+          <a class="page-link" href="?page={{ products.previous_page_number }}{% if chosen_category and chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             <span>Previous</span>
           </a>
@@ -105,13 +106,13 @@
           {% if products.number == num %}
             <li class="page-item active"><a class="page-link" href="#">{{ num }}<span class="sr-only">(current)</span></a></li>
           {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}">{{ num }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ num }}{% if chosen_category and chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}">{{ num }}</a></li>
           {% endif %}
         {% endfor %}
       {% endif %}
       {% if products.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ products.next_page_number }}{% if chosen_category or chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Next">
+          <a class="page-link" href="?page={{ products.next_page_number }}{% if chosen_category and chosen_sort %}&amp;product-category-select={{ chosen_category }}&amp;product-sort-select={{ chosen_sort }}{% endif %}" aria-label="Next">
             <span>Next</span>
             <span aria-hidden="true">&raquo;</span>
           </a>

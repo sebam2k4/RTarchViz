@@ -8,9 +8,12 @@ from .models import User
 
 class AccountsUserAdmin(admin.ModelAdmin):
 
-  list_display = ("email", "username", "last_login", "first_name", "last_name", "is_staff")
-  list_filter = ("is_staff", "is_superuser")
-  search_fields = ("email", "username", "first_name", "last_name")
-  ordering = ('-last_login',)
+    list_display = (
+        "email", "username", "last_login",
+        "first_name", "last_name", "is_staff"
+    )
+    list_filter = ("is_staff", "is_superuser")
+    search_fields = ("email", "username", "first_name", "last_name")
+    ordering = ('-last_login',)
 
 admin.site.register(User, AccountsUserAdmin)
