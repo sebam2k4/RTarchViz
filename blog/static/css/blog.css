@@ -1,9 +1,19 @@
 /* BLOG - DETAIL */
 .post-detail-image {
-  height: 30em;
+  height: 16em;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+@media (min-width: 576px) {
+  .post-detail-image {
+    height: 23em;
+  }
+}
+@media (min-width: 768px) {
+  .post-detail-image {
+    height: 30em;
+  }
 }
 .post-detail-content p:first-child::first-letter {
   font-size: 1.75em;

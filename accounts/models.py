@@ -50,8 +50,7 @@ class AccountUserManager(UserManager):
 class User(AbstractUser):
     """
     User inherits from Django's AbstractUser class.
-    Now that we've abstracted this class we can add any
-    number of custom attributes to our own User class
+    Adding custom attributes for billing address and stripe payments
     """
 
     # DATABASE FIELDS:
@@ -75,7 +74,7 @@ class User(AbstractUser):
     # TO STRING METHOD:
     def __unicode__(self):
         """ specify string representation for a user in admin pages """
-        return self.email
+        return self.username
 
     def get_absolute_url(self):
         return reverse('profile', args=[self.username])

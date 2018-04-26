@@ -10,9 +10,20 @@
 .nav-underline .nav-link:focus {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
+.navbar-expand-sm .navbar-nav .nav-link {
+  padding-left: .3rem;
+  padding-right: .3rem;
+}
+@media (min-width: 768px) {
+  .navbar-expand-sm .navbar-nav .nav-link {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
 
 /* GLOBAL - SERVER MESSAGES */
-.auth-messages {
+.flash-messages,
+.ajax-messages {
   display: inline-block;
   z-index: 101;
   position: fixed;
@@ -20,17 +31,20 @@
   margin-bottom: 0;
   width: 100%;
 }
-.auth-messages li {
+.flash-messages li,
+.ajax-messages li {
   margin-bottom: 0;
 }
 @media (min-width: 576px) {
-  .auth-messages {
+  .flash-messages,
+  .ajax-messages {
     margin: 2rem;
     width: auto
   }
-.auth-messages li {
-  padding: 2rem !important;
-}
+  .flash-messages li,
+  .ajax-messages li {
+    padding: 2rem !important;
+  }
 }
 
 .spinner {
@@ -235,6 +249,9 @@ a {
   border-color: #555;
 }
 
-.custom-select.is-invalid, .form-control.is-invalid, .was-validated .custom-select:invalid, .was-validated .form-control:invalid {
+.custom-select.is-invalid,
+.form-control.is-invalid,
+.was-validated .custom-select:invalid,
+.was-validated .form-control:invalid {
   background-color: #ffeded
 }

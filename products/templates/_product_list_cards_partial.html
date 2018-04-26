@@ -14,7 +14,7 @@
   <div class="product-list-cards">
     <div class="row">
       {% for product in products %}
-        <div class="col-md-{{ md }} col-lg-{{ lg }}">
+        <div class="col-md-6 col-lg-4">
           <div class="card mb-5">
 
             {# Product Image #}
@@ -70,13 +70,19 @@
               {# Product Card Buttons #}
               <a href="{{ product.get_absolute_url }}" class="btn btn-outline-primary btn-lg btn-block">More Details</a>
               {% if product in owned_assets %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-success btn-lg btn-block disabled">Owned</a>
+                <a href="#" class="btn btn-secondary btn-lg btn-block disabled">Owned</a>
               {% elif product in cart_items %}
                 <a href="#" class="btn btn-primary btn-lg btn-block disabled">Already in Cart</a>
               {% elif request.user.id == product.seller_id %}
-                <a href="#" class="btn btn-success btn-lg btn-block disabled">Your Product</a>
+                <a href="#" class="btn btn-secondary btn-lg btn-block disabled">Your Product</a>
               {% else %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+              <form class="add-to-cart-ajax" action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <div class="submit-button mt-2">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Add to Cart</button>
+                </div>
+              </form>
               {% endif %}
               {# /.Product Card Buttons #}
 

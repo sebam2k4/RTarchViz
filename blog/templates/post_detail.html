@@ -4,10 +4,7 @@
 {# load custom template tags #}
 {% load social_share %}
 
-{# Load required js and css #}
-{% block body_js %}
-<script src="{% static 'js/blog.js' %}"></script>
-{% endblock %}
+{# Load required css #}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 {% endblock %}
@@ -34,14 +31,14 @@
 
     {# Full Blog Post Content #}
     <div class="post-detail-content">
-        {% autoescape off %}{{ post.content }}{% endautoescape %}
+      {% autoescape off %}{{ post.content }}{% endautoescape %}
     </div>
 
     {# Blog Post Updated Date #}
     {% if post.updated_date %}
-    <div class="post-detail-updated mt-5">
-      <p class="font-italic" >Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
-    </div>
+      <div class="post-detail-updated mt-5">
+        <p class="font-italic" >Last updated: {{ post.updated_date|date:"N d, Y" }}</p>
+      </div>
     {% endif %}
 
     {# Social Share #}
@@ -58,7 +55,7 @@
           {% post_to_gplus post "Share on Google+" %}
         </li>
         <li class="list-inline-item">
-            {% post_to_linkedin post.title post "Share on LinkedIn" %}
+          {% post_to_linkedin post.title post "Share on LinkedIn" %}
         </li>
         <li class="list-inline-item">
           {% send_email post.title "I found this awesome {{post.category}} on RTarchViz: {{product.name}}. Check it out!" post "Share via email" %}
@@ -70,31 +67,29 @@
     {# Blog Post Detail Next/Prev Navigation #}
     <nav class="post-detail-nav mt-5">
       <ul class="pagination justify-content-center">
-        {% if prev_post %}
+      {% if prev_post %}
         <li class="page-item">
           <a class="page-link" href="{% url 'post_detail' prev_post.published_date.year prev_post.published_date.month prev_post.slug %}">
             <span aria-hidden="true">&laquo;</span>
             <span class="font-italic">{{prev_post.title}}</span>
           </a>
         </li>
-        {% endif %}
-        <li class="page-item text-center posts-list-btn">
-          <a class="page-link" href="{% url 'posts_list' %}">
-            Back To Blog
-          </a>
-        </li>
-        {% if next_post %}
+      {% endif %}
+      <li class="page-item text-center posts-list-btn">
+        <a class="page-link" href="{% url 'posts_list' %}">
+          Back To Blog
+        </a>
+      </li>
+      {% if next_post %}
         <li class="page-item">
           <a class="page-link" href="{% url 'post_detail' next_post.published_date.year next_post.published_date.month next_post.slug %}">
             <span class="font-italic">{{next_post.title}}
             </span><span aria-hidden="true">&raquo;</span>
           </a>
         </li>
-        {% endif %}
+      {% endif %}
       </ul>
-      
     </nav>
-
   </article>
 
   {# DISQUS Comments #}

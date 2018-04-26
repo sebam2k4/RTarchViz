@@ -43,14 +43,16 @@
   </header>
   {# /.Cart Header #}
 
-
-  
   <section class="cart-items container">
 
     {# Clear Cart Button #}
     {% if cart_items %}
-      <div class="d-flex flex-row-reverse">
-        <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
+      <div class="d-flex justify-content-between">
+        <p>You have {{ product_count }} item{{ product_count|pluralize:"s"}} in your cart</p>
+        <div>
+          <a href="{% url 'clear_cart' %}" class="btn btn-danger mb-5">Remove All Items</a>
+        </div>
+        
       </div>
     {% endif %}
     {# /.Clear Cart Button #}
@@ -79,15 +81,11 @@
         </div>
         {# /.Cart items #}
 
-      {% empty %}
-
       {# Empty Cart Message #}
-      <p>You haven't added any items to your cart</p>
-      {# /.Empty Cart Message #}
-
+      {% empty %}
+        <p>You haven't added any items to your cart</p>
       {% endfor %}
       
-
   </section>
   <section class="cart-summary container d-flex justify-content-between">
 
