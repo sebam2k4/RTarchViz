@@ -10,6 +10,16 @@
 .nav-underline .nav-link:focus {
   border-bottom-color: rgba(255, 255, 255, .25);
 }
+.navbar-expand-sm .navbar-nav .nav-link {
+  padding-left: .3rem;
+  padding-right: .3rem;
+}
+@media (min-width: 768px) {
+  .navbar-expand-sm .navbar-nav .nav-link {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
 
 /* GLOBAL - SERVER MESSAGES */
 .flash-messages,
