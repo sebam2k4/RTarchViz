@@ -114,7 +114,7 @@ class Post(models.Model):
 
 
 class PostViewCount(models.Model):
-    """Defining PostViewCount model"""
+    """Defining PostViewCount model - keeps count of post views"""
 
     # use one-to-one field to link it to specific blog post
     post = models.OneToOneField(Post)
@@ -130,6 +130,9 @@ class PostViewCount(models.Model):
 # SIGNALS
 @receiver(post_save, sender=Post)
 def create_post_view_count(sender, instance, created, **kwargs):
-    """ create PostViewCount instance when a Post instance is saved """
+    """ 
+    When creating Post model instance also create PostViewCount
+    model instance for keeping post view counts
+    """
     if created:
         PostViewCount.objects.create(post=instance)

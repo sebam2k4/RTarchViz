@@ -10,7 +10,8 @@ from .models import Post, PostViewCount
 
 def posts_list(request):
     """
-    This view does three things:
+    Reders paginated list of product objects & provides filtering and
+    sorting options
 
     1. Provides filtering and ordering choices to user through a
     select field in the template: When user selects an option, a get
@@ -67,7 +68,7 @@ def posts_list(request):
 
 def post_detail(request, year, month, slug):
     """
-    This view does two things:
+    return a Post object and links to next and previous posts
 
     1. Returns a single Post object based
     on the post's published year, month, and slug and renders

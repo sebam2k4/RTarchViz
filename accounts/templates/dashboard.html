@@ -166,7 +166,7 @@
 									{% else %}
 										<tr>
 											<th scope="row">{{ forloop.counter }}</th>
-											<td>{{ asset.name }}</td>
+											<td>{{ asset.name }} (Unlisted by User)</td>
 											<td>{{ asset.seller.username }}</td>
 											{# Purchases buttons #}
 											<td><a class="btn btn-success px-3 mx-3" href="{% if asset.product.product_file.url %}{{ asset.product.product_file.url }}{% else %}{{ asset.product_file.url }}{% endif %}"><i class="fas fa-download"></i></td>

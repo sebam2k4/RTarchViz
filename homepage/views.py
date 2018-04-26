@@ -31,6 +31,6 @@ def newsletter_signup(request):
         from_email = settings.EMAIL_HOST_USER
         print from_email
         send_mail(subject, message, from_email, recipient_list,)
-        messages.success(request,
-                        'Thank You! You\'ve signed up to our Newsletter. Check Your Email')
+        message = 'Thank You! You\'ve signed up to our Newsletter. Check Your Email'
+        messages.success(request, message)
     return redirect(previous_page)
