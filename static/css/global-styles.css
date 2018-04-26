@@ -12,7 +12,8 @@
 }
 
 /* GLOBAL - SERVER MESSAGES */
-.auth-messages {
+.flash-messages,
+.ajax-messages {
   display: inline-block;
   z-index: 101;
   position: fixed;
@@ -20,15 +21,18 @@
   margin-bottom: 0;
   width: 100%;
 }
-.auth-messages li {
+.flash-messages li,
+.ajax-messages li {
   margin-bottom: 0;
 }
 @media (min-width: 576px) {
-  .auth-messages {
+  .flash-messages,
+  .ajax-messages {
     margin: 2rem;
     width: auto
   }
-  .auth-messages li {
+  .flash-messages li,
+  .ajax-messages li {
     padding: 2rem !important;
   }
 }

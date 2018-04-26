@@ -44,7 +44,7 @@ def recent_products(context, request, num):
 
 
 @register.inclusion_tag('_product_list_cards_partial.html', takes_context=True)
-def user_product_list(context, user):
+def user_product_list(context, user, request):
     """
     Return the specified number or all user products in a reusable partial
     template.
@@ -57,5 +57,6 @@ def user_product_list(context, user):
     """
     products = Product.objects.filter(seller_id=user.id).filter(
         active=True).order_by('-added_date')
-    return {'products': products, 'request': context['request'],
-            'cart_items': context['cart_items']}
+    user_owned_products = Order.objects.purchased_products(request.user)
+    return {'products': products, 'owned_assets': user_owned_products,
+            'request': context['request'], 'cart_items': context['cart_items']}

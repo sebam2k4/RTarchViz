@@ -7,8 +7,7 @@ from products.models import Product
 from checkout.models import Order
 from django.contrib import messages
 from django.template import RequestContext
-
-# Create your views here.
+from django.http import JsonResponse
 
 
 def view_cart(request):
@@ -19,7 +18,7 @@ def view_cart(request):
 
 def add_to_cart(request, product_id):
     """ Add product to cart """
-
+    
     product = get_object_or_404(Product, pk=product_id)
     # retrieve session key for cart and its contents in a dictionary
     cart = request.session.get('cart', {})
@@ -34,26 +33,44 @@ def add_to_cart(request, product_id):
     user_owned_products = Order.objects.purchased_products(request.user)
 
     if product_id in cart:
-        messages.error(request, 'Item already in cart')
-        return redirect(previous_page)
+        message = 'Item already in cart'
+        if not request.is_ajax():
+            messages.error(request, message)
+        product_added = False
 
     elif product.seller == request.user:
-        messages.error(request, 'Nice try! You can\'t buy your own product...')
-        return redirect(previous_page)
+        message = 'Nice try! You can\'t buy your own product...'
+        if not request.is_ajax():
+            messages.error(request, message)
+        product_added = False
 
     # check if you already own this product
     elif product in user_owned_products:
-        messages.error(request, 'You already own this product!')
-        return redirect(previous_page)
-
+        message = 'You already own this product!'
+        if not request.is_ajax():
+            messages.error(request, message)
+        product_added = False
     else:
         # add product to cart session
         cart[product_id] = cart.get(product_id, product.slug)
-        messages.success(request, 'Added \'{0}\' to your cart'.format(
-            product.name))
+        product_added = True
+        message = 'Added \'{0}\' to your cart'.format(product.name)
+        if not request.is_ajax():
+            messages.success(request, message)
         # save session with new cart contents
         request.session['cart'] = cart
-        return redirect(previous_page)
+    
+    if request.is_ajax():
+        json_data = {
+            "added": product_added,
+            "cartItemsCount": len(cart),
+            "message": message
+
+        }
+        return JsonResponse(json_data)
+
+    # return previous page when js disabled
+    return redirect(previous_page)
 
 
 def clear_cart(request):

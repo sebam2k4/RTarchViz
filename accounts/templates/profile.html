@@ -4,7 +4,10 @@
 {# load custom template tags #}
 {% load product_tags %}
 
-{# Load required css #}
+{# Load required js and css #}
+{% block body_js %}
+<script src="{% static 'js/cart.js' %}"></script>
+{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/accounts.css' %}">
 <link rel="stylesheet" href="{% static 'css/products.css' %}">
@@ -61,7 +64,7 @@
 	<section class="user-profile-products container">
 		<div class="user-profile-product-cards">
 		<h2 class="mb-3">{{ user.username }}'s Products</h2>
-		{% user_product_list user %}
+		{% user_product_list user request%}
 		</div>
 	</section>
 	{# /.Profile User Product List #}

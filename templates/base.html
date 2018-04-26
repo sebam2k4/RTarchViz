@@ -33,50 +33,46 @@
 
           {# Navigation Links #}
           <ul class="navbar-nav">
-              <li class="nav-item {% if request.path == '/' %}active{% endif %}">
-                <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            <li class="nav-item {% if request.path == '/' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'homepage' %}">Home</a>
+            </li>
+            <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
+              <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+            </li>
+            <li class="nav-item {% if 'blog' in request.path %}active{% endif %}">
+              <a class="nav-link" href="{% url 'posts_list' %}">News</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+              <li class="nav-item {% if 'login' in request.path %}active{% endif %}">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
               </li>
-              <li class="nav-item {% if 'products' in request.path %}active{% endif %}">
-                <a class="nav-link" href="{% url 'products_list' %}">Shop</a>
+              <li class="nav-item {% if 'register' in request.path %}active{% endif %}">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
               </li>
-              <li class="nav-item {% if 'blog' in request.path %}active{% endif %}">
-                <a class="nav-link" href="{% url 'posts_list' %}">News</a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+              <li class="nav-item dropdown {% if 'accounts' in request.path %}active{% endif %}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item {% if 'dashboard' in request.path %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+                  <a class="dropdown-item {% if 'profile' in request.path %}active{% endif %}" href="{{ user.get_absolute_url }}">Profile</a>
+                  <a class="dropdown-item {% if '/products/new/' == request.path %}active{% endif %}" href="{% url 'new_product'%}">List a Product</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
               </li>
-              {% if not request.user.is_authenticated %}
-                <li class="nav-item {% if 'login' in request.path %}active{% endif %}">
-                  <a class="nav-link" href="{% url 'login' %}">Login</a>
-                </li>
-                <li class="nav-item {% if 'register' in request.path %}active{% endif %}">
-                  <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-              {% endif %}
-              {% if request.user.is_authenticated %}
-                <li class="nav-item dropdown {% if 'accounts' in request.path %}active{% endif %}">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item {% if 'dashboard' in request.path %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
-                    <a class="dropdown-item {% if 'profile' in request.path %}active{% endif %}" href="{{ user.get_absolute_url }}">Profile</a>
-                    <a class="dropdown-item {% if '/products/new/' == request.path %}active{% endif %}" href="{% url 'new_product'%}">List a Product</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                  </div>
-                </li>
-              {% endif %}
-                <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
-                  <a class="nav-link" href="{% url 'view_cart' %}">
-                    <i class="fas fa-shopping-cart"></i>
-                    {% if product_count != 0 %}
-                      {{ product_count }}
-                    {% endif %}
-                  </a>
-                </li>
-                {% if product_count != 0 %}
-                <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
-                  <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
-                </li>
-              {% endif %}
+            {% endif %}
+            <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'view_cart' %}">
+                <i class="fas fa-shopping-cart"></i>
+                  <span class="navbar-cart-count">{{ product_count }}</span>
+              </a>
+            </li>
+            <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
+            </li>
           </ul>
           {# /.Navigation Links#}
           
@@ -88,15 +84,20 @@
     {% block header%}
     {% endblock %}
 
-    {# Flash Messages #}
+    {# Flash Messages from server#}
     {% if messages %}
-      <ul class="auth-messages list-unstyled alert-link">
+    <div class="flash-messages">
+      <ul class="list-unstyled alert-link">
         {% for message in messages %}
           <li class="alert {{message.tags}} py-4">{{ message }}</li>
         {% endfor %}
       </ul>
+    </div>
     {% endif %}
     {# /.Flash Messages #}
+
+    <!-- Ajax Messages -->
+    <div class="ajax-messages"></div>
 
     {# Main Content#}
     {% block content %}
@@ -220,12 +221,12 @@
     </footer>  
     {# /.Footer #}                  
 
-    {% if product_count != 0 %}
+    
     <!-- Sticky Cart Icon -->
     <a class="btn btn-primary" id="sticky-cart" href="{% url 'view_cart' %}">
-      <i class="fas fa-shopping-cart"></i>{{ product_count }}
+      <i class="fas fa-shopping-cart"></i>
+      <span class="sticky-cart-count">{{ product_count }}</span>
     </a>
-    {% endif %}
     
     <!-- Bootstrap 4.0 JS and its dependencies: -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

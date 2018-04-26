@@ -76,7 +76,13 @@
               {% elif request.user.id == product.seller_id %}
                 <a href="#" class="btn btn-secondary btn-lg btn-block disabled">Your Product</a>
               {% else %}
-                <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary btn-lg btn-block">Add to Cart</a>
+              <form class="add-to-cart-ajax" action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <div class="submit-button mt-2">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Add to Cart</button>
+                </div>
+              </form>
               {% endif %}
               {# /.Product Card Buttons #}
 
