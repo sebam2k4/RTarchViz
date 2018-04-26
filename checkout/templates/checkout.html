@@ -48,20 +48,25 @@
 
   {# Payment Form #}
   <section class="checkout-form container">
-    <form role="form" method="POST" name="payment_form" id="paymentForm" action="{% url 'checkout' %}">
 
-      {# Stripe errors #}
-      <div class="alert alert-danger" id="credit-card-errors" role="alert" style="display:none;">
-        <span id="stripe-error-message"></span>
-      </div>
-      {# /.Stripe errors #}
-      
-        {% csrf_token %}
-        {% bootstrap_form payment_form %}
-        {% buttons %}
-          <button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
-        {% endbuttons %}
-		</form>
+    {% if cart_items %}
+      <form role="form" method="POST" name="payment_form" id="paymentForm" action="{% url 'checkout' %}">
+
+        {# Stripe errors #}
+        <div class="alert alert-danger" id="credit-card-errors" role="alert" style="display:none;">
+          <span id="stripe-error-message"></span>
+        </div>
+        {# /.Stripe errors #}
+        
+          {% csrf_token %}
+          {% bootstrap_form payment_form %}
+          {% buttons %}
+            <button type="submit" id="validate_card_btn" class="btn btn-primary">Make Payment</button>
+          {% endbuttons %}
+      </form>
+    {% else %}
+      <p>You cannot Checkout as you have no items in your cart</p>
+    {% endif %}
   </section>
   {# /.Payment Form #}
 
