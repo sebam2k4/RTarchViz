@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from collections import OrderedDict
 from django.contrib import messages, auth
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -66,8 +67,27 @@ def login(request):
             user = auth.authenticate(email=request.POST.get('email').lower(),
                                      password=request.POST.get('password'))
             if user is not None:
+                # login the user
                 auth.login(request, user)
                 messages.success(request, "You have successfully logged in")
+
+                # check cart contents from anonymous session for user
+                #  owned/purchase products and remove them from cart.
+                cart = request.session.get('cart', {})
+                # get user owned/listed products
+                user_products = Product.objects.filter(seller_id=user.id)
+                # convert the list of objects into list of string ids
+                user_product_ids = [str(obj.id) for obj in user_products]
+                # get user purchased products
+                user_owned_products = Order.objects.purchased_products(
+                    request.user)
+                # convert the list of objects into list of string ids
+                user_owned_product_ids = [str(obj.id) for obj in user_owned_products]
+                # remove any owned or purchase items from cart
+                for product_id, product in cart.items():
+                    if product_id in user_owned_product_ids or product_id in user_product_ids:
+                        cart.pop(product_id)
+                
                 return redirect('homepage')
             else:
                 form.add_error(
@@ -110,17 +130,17 @@ def dashboard(request):
     products, editing user personal details, and changing user password.
     """
     user = User.objects.get(email=request.user.email)
-    # define user billing address dictionary
-    user_billing = {
-        'first name': user.first_name,
-        'last name': user.last_name,
-        'address1': user.address1,
-        'address2': user.address2,
-        'city or town': user.city_town,
-        'post code': user.post_code,
-        'country': user.country
-    }
-
+    # define user billing address in an ordered dictionary
+    user_billing = OrderedDict([
+        ('first name', user.first_name),
+        ('last name', user.last_name),
+        ('address1', user.address1),
+        ('address2', user.address2),
+        ('city or town', user.city_town),
+        ('post code', user.post_code),
+        ('country', user.country)
+    ])
+ 
     # get products user has listed for sale
     user_products = Product.objects.filter(
         seller_id=user.id).order_by('-added_date')
