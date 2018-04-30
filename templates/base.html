@@ -16,7 +16,7 @@
     <!-- App/page specific CSS: -->
     {% block css %}{% endblock %}
     <!-- Scripts that need to laod First -->
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- App/page specific JS: -->
     {% block head_js %}{% endblock head_js %}
   </head>
@@ -64,14 +64,14 @@
                 </div>
               </li>
             {% endif %}
-            <li class="nav-item {% if url_name == 'view_cart' %}active{% endif %}">
+            <li class="nav-item {% if 'cart' in request.path %}active{% endif %}">
               <a class="nav-link" href="{% url 'view_cart' %}">
                 <i class="fas fa-shopping-cart"></i>
                   <span class="navbar-cart-count">{{ product_count }}</span>
               </a>
             </li>
             {% if product_count != 0 %}
-              <li class="nav-item {% if url_name == 'checkout' %}active{% endif %}">
+              <li class="nav-item {% if 'checkout' in request.path %}active{% endif %}">
                 <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
               </li>
             {% endif %}

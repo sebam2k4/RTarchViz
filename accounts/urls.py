@@ -12,7 +12,6 @@ urlpatterns = [
     url(r'password/', include(url_reset)),
     url(r'^profile/user/(?P<username>[\w.@+-]+)/?$', views.profile, name='profile'),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
-    url(r'^profile/user/$', views.user_list, name='user_list'),
     url(r'^dashboard/purchases_history/$', views.purchases_history, name='purchases_history'),
     url(r'^dashboard/sales_history/$', views.sales_history, name='sales_history'),
 ]

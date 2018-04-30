@@ -19,25 +19,25 @@ class MakePaymentForm(forms.Form):
     # extra form fields (not part of the model so not saved in db)
     credit_card_number = forms.CharField(
         label='Credit Card Number',
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': 'Long number from the front of your card'})
         )
 
     cvv = forms.CharField(
         label="Security Code (CVV)",
-        required=True,
+        required=False,
         widget=forms.TextInput(
             attrs={'placeholder': '3 digit security number from the back'})
         )
 
     expiry_month = forms.ChoiceField(
-        label="Expiration Month",
+        label="Card Expiration Month",
         choices=MONTH_CHOICES,
-        required=True)
+        required=False)
 
     expiry_year = forms.ChoiceField(
-        label=" Expiration Year",
-        choices=YEAR_CHOICES, required=True)
+        label="Card Expiration Year",
+        choices=YEAR_CHOICES, required=False)
         
     stripe_id = forms.CharField(widget=forms.HiddenInput)

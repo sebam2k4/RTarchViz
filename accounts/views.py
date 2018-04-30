@@ -112,16 +112,6 @@ def profile(request, username):
     return render(request, 'profile.html', context)
 
 
-def user_list(request):
-    """
-    A view for listing all registered users (for testing)
-    """
-    users = User.objects.all()
-
-    context = {'users': users}
-    return render(request, 'users_list.html', context)
-
-
 @login_required
 def dashboard(request):
     """

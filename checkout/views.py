@@ -79,11 +79,12 @@ def checkout(request):
                 messages.error(request, "Unable to take payment")
 
         else:
-            print(payment_form.errors)
             messages.error(
                 request, "We were unable to take a payment with that card!")
     else:
-        payment_form = MakePaymentForm()
+        # initialze payment form with curent month selected for expiry date
+        current_month = timezone.now().month
+        payment_form = MakePaymentForm(initial={'expiry_month': current_month})
 
     context = {'payment_form': payment_form,
                'publishable': settings.STRIPE_PUBLISHABLE}
