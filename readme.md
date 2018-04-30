@@ -69,7 +69,9 @@ Each release and its notes can be accessed on [Github](https://github.com/sebam2
 The project takes advantage of Django Admin for some of its features and as such requires a user to be a 'staff' member to access it. The following are login details for a 'staff' user that can be used to access the admin:
 
 email: jon_snow@gmail.com
+
 username: jon_SnOw
+
 password: testtest1
 
 ## APPS
@@ -130,13 +132,13 @@ Products app for displaying listed products as well as providing means for users
 
 - Products list uses django's Paginator to split product listings across multiple pages. A handy navigation is provided on the bottom of each page that user can use to navigate to the next or previous page as well as choosing specific page number. Also product filtering by category and sorting by newset, oldest, most popular, highest rating, a-z, and z-a is possible through the template.
 
-- There are two checks done to validate product file uploads on a model level. First, the product file is checked if it is a .zip file size is 2.5MB max.
+- There are two checks done to validate product file uploads on a model level. First, the product file is checked if it is a .zip file and size allowed is 2.5MB max.
 
 - The product file and image filenames are generated using a custom method to include the product's slug value and palce the files into user's product folder. A user with username 'John' who lists a product names 'Kitchet Assets' will have their product file and image renamed and uploaded to something similar to: /media/products/seller_id_3/product_name_kitchen_assets.zip and .jpg
 
 - User can only review products they have purchased. 1 review per product allowed.
 
-One important security feature implemented is to prevent users trying to delete or edit a product or review that does not belong to them (by typing the url in the address bar) by returning a 403 forbidden page. I believe this prevents most if not all such exploits from being possible.
+- One important security feature implemented is to prevent users trying to delete or edit a product or review that does not belong to them (by typing the url in the address bar) by returning a 403 forbidden page. I believe this prevents most if not all such exploits from being possible.
 
 - Implemented star rating for average product rating on card list and detail product views.
 
