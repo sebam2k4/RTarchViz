@@ -110,6 +110,9 @@ class UserRegistrationForm(UserCreationForm):
             'post_code': TextInput(
                 attrs={'placeholder': 'ex. F23 A111'}
             ),
+            'country': TextInput(
+                attrs={'placeholder': 'ex. Ireland'}
+            ),
         }
 
     def clean_email(self):
