@@ -31,7 +31,7 @@ The following is a list of documents and aids I've prepared as initial planning 
 
 ## TECH USED
 
-The project is built using Python 2.7.14 and [Django 1.11](https://www.djangoproject.com/). Django is a high-level Python full-stack web framework.
+The project is built using Python 2.7.14 and [Django 1.11](https://www.djangoproject.com/). Django is a high-level full-stack web framework running on Python.
 
 ### Front End Libraries
 
@@ -60,21 +60,11 @@ The project is built using Python 2.7.14 and [Django 1.11](https://www.djangopro
 
 The project uses git for version control and follows the gitflow branching model. This means that the master branch is always the production branch. Then there is a develop branch from which new feature branches are made from. When the feature is completed, the feature branch is then merged back into develop. At this point a release branch is made from develop with the new feature in it and is named, for example release-0.4.0. The release branch is the used to fix bugs and make minor tweaks to finish up the release. Once it's ready, it is then merged with master and develop. I like to use the --no-ff (no fastforward) flag when merging to master as it always creates a new commit with the release version in it. This avoids losing information about the historical existance of a feature branch and groups together all commits that together added the feature.
 
-The current and final release version for assessment of the project is v0.13.1
-
 Each release and its notes can be accessed on [Github](https://github.com/sebam2k4/RTarchViz/releases)
 
-## Note to Assessor
+## OVERVIEW OF PROJECT'S APPS
 
-The project takes advantage of Django Admin for some of its features and as such requires a user to be a 'staff' member to access it. The following are login details for a 'staff' user that can be used to access the admin:
-
-email: jon_snow@gmail.com
-
-username: jon_SnOw
-
-password: testtest1
-
-## APPS
+Django framework encourages splitting project's functionality into seperate "apps" - self-contained, reusable, and plug-able pieces of code. The following is an overview of each created app and their functionality.
 
 ### Account App
 
@@ -363,7 +353,3 @@ Travis Continous Integrations is used to run automated test before the project i
 - Currently when setting `required=True` for the 'credit_card_number' and 'cvv' form fields of the checkout's MakePaymentForm, validation errors ('This field is required') for these fields are returned when submitting the form. This prevents users from making purchases. I'm not sure why this is happening and it requires further investigation. For now I've set required=False for a temporary fix.
 
 - The links to access the Checkout view do not render in templates when no products are in cart, however, checkout is still accessible if typed in url
-
-## CONTRIBUTING
-
-As this is a graded project for a course, no contributions are accepted at this moment :) I suppose after it's been graded then it can be opened to contributions. However, feel free to download the project and experiment!
