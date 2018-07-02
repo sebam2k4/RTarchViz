@@ -21,6 +21,12 @@ Registered have the ability to buy and list their own digital products as well a
 
 The primary users of my applications would be architects, interior designers, graphic designers, 3d modelers, archviz enthusiasts, and Unreal Engine enthusiasts.
 
+### Live Demo
+
+[https://rtarchviz.herokuapp.com/](https://rtarchviz.herokuapp.com/)
+
+**NOTE:** Project is deployed to a free dyno and it may go to sleep. Please be patient on initial load.
+
 ## INITIAL PLANNING
 
 The following is a list of documents and aids I've prepared as initial planning of the project before starting any development:
@@ -331,10 +337,6 @@ Stripe payments need authentication details obtained from your stipe account. Re
 The email environment variables are needed for emailing password recovery links to users. May require tweaks to email settings in settings.py as well as changing security settings in your email client. If these are not set, then password recovery links will be printed to console instead.
 
 Disqus api key and website short name are needed for setting up post comments. It requires setting up an account with Disqus and registering the application. Refer to [Disqus API docs](https://disqus.com/api/docs/)
-
-### Live Demo
-
-[https://rtarchviz.herokuapp.com/](https://rtarchviz.herokuapp.com/)
 
 ### Packages
 
