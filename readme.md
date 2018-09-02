@@ -3,6 +3,38 @@
 [![Build Status](https://travis-ci.org/sebam2k4/RTarchViz.svg?branch=master)](https://travis-ci.org/sebam2k4/RTarchViz)
 ![Test Coverage](./coverage.svg)
 
+## Table of Contents
+
+- [RTarchViz](#rtarchviz)
+  * [OVERVIEW](#overview)
+    + [Introduction](#introduction)
+    + [How Does It Work](#how-does-it-work)
+    + [Target Audience](#target-audience)
+    + [Live Demo](#live-demo)
+  * [INITIAL PLANNING](#initial-planning)
+  * [TECH USED](#tech-used)
+    + [Front End Libraries](#front-end-libraries)
+    + [Back End Libraries and Modules](#back-end-libraries-and-modules)
+  * [VERSION CONTROL](#version-control)
+  * [OVERVIEW OF PROJECT APPS](#overview-of-project-apps)
+    + [Account App](#account-app)
+    + [Homepage App](#homepage-app)
+    + [Blog App](#blog-app)
+    + [Products App](#products-app)
+    + [Cart App](#cart-app)
+    + [Checkout App](#checkout-app)
+  * [TESTING](#testing)
+    + [Automated Tests](#automated-tests)
+    + [Travis CI](#travis-ci)
+    + [Coverage](#coverage)
+    + [Manual Tests](#manual-tests)
+  * [LOCAL DEVELOPMENT SETUP](#local-development-setup)
+  * [DEPLOYMENT](#deployment)
+    + [Environment Variables](#environment-variables)
+    + [Packages](#packages)
+    + [Travis CI](#travis-ci-1)
+  * [BUGS](#bugs)
+
 ## OVERVIEW
 
 ### Introduction
@@ -50,7 +82,7 @@ The project is built using Python 2.7.14 and [Django 1.11](https://www.djangopro
 - **[FontAwesome 5.0.8](https://fontawesome.com/)**
   - To add awesome icons throughout the website, like cart, rating stars, and social icons.
 
-### 3rd party Django modules (Back-End)
+### Back End Libraries and Modules
 
 - **[django-bootstrap4 0.0.6](http://django-bootstrap4.readthedocs.io/en/latest/index.html)**
   - Used for easy styling of form elements
@@ -60,7 +92,7 @@ The project is built using Python 2.7.14 and [Django 1.11](https://www.djangopro
   - Provides a WYSIWYG text editor for writing blog posts by staff members in the admin site.
 - **[django-social-share 1.1.2](https://pypi.org/project/django-social-share/)**
   - Provides template tags for sharing object data on popular social media networks.
-  - I've overriden the templates to implement font-awesome 5 icons and to fit the style of my website.
+  - I've overriden the templates to implement font-awesome 5 icons and to fit the style of the site.
 
 ## VERSION CONTROL
 
@@ -68,7 +100,7 @@ The project uses git for version control and follows the gitflow branching model
 
 Each release and its notes can be accessed on [Github](https://github.com/sebam2k4/RTarchViz/releases)
 
-## OVERVIEW OF PROJECT'S APPS
+## OVERVIEW OF PROJECT APPS
 
 Django framework encourages splitting project's functionality into seperate "apps" - self-contained, reusable, and plug-able pieces of code. The following is an overview of each created app and their functionality.
 

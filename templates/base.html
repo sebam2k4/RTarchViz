@@ -17,6 +17,7 @@
     {% block css %}{% endblock %}
     <!-- Scripts that need to laod First -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.2.0/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
     <!-- App/page specific JS: -->
     {% block head_js %}{% endblock head_js %}
   </head>
@@ -83,10 +84,10 @@
     </nav>
     {# /.Navigation #}
     
-    {% block header%}
+    {% block header %}
     {% endblock %}
 
-    {# Flash Messages from server#}
+    {# Flash Messages from server #}
     {% if messages %}
     <div class="flash-messages">
       <ul class="list-unstyled alert-link">
@@ -116,9 +117,9 @@
             <div class="col-md-6 col-lg-5 text-center text-md-left mb-0">
               <p class="white-text h6 mb-0">
                 {% if not request.user.is_authenticated %}
-                  <a href="{% url 'register' %}">Register, and start selling your assets for free <i class="fas fa-angle-double-right"></i></a>
+                  <a href="{% url 'register' %}">Register, and start selling your assets for free <i class="fas fas-angle-double-right"></i></a>
                 {% else %}
-                  <a href="{% url 'dashboard' %}">List your next asset. It's as easy as 1-2-3 <i class="fas fa-angle-double-right"></i></a>
+                  <a href="{% url 'dashboard' %}">List your next asset. It's as easy as 1-2-3 <i class="fas fas-angle-double-right"></i></a>
                 {% endif %}
               </p>
             </div>
@@ -234,7 +235,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Font Awesome 5 JS:-->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.10/js/all.js" integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous"></script>
+    
     <!-- Global JS:  -->
     <script src="{% static 'js/global-scripts.js' %}"></script>
     <!-- App/page specific JS: -->
